@@ -1,0 +1,163 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "QSS3URL": {
+            "Description": "Encapsulate variation in s3 root url for commercial or gov-cloud",
+            "Type": "String",
+            "Default": "s3.amazonaws.com",
+            "AllowedValues": [ "s3.amazonaws.com", "s3-us-gov-west-1.amazonaws.com" ]
+        },
+        "QSS3BucketName": {
+            "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).",
+            "Description": "S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).",
+            "Default":"quickstart-datalake-agilisium-snaplogic/",
+			"Type": "String"
+        },
+        "QSS3KeyPrefix": {
+            "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+            "Default": "",
+            "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+            "Type": "String"
+        },
+		"SnaplexconfS3KeyPrefix": {
+			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+			"Default": "",
+			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+			"Type": "String"
+		},
+		 "InstanceRole": {
+            "Description": "Talend Server EC2 IAM Role",
+            "Type": "String"
+        },
+        "InstanceProfile": {
+            "Description": "Talend Server EC2 Instance Profile",
+            "Type": "String"
+},
+        "PublicSubnetId1": {
+        	"Description": "Public Subnet 1",
+        	"Type": "AWS::EC2::Subnet::Id"
+        },
+        "PublicSubnetId2": {
+        	"Description": "Public Subnet 2",
+        	"Type": "AWS::EC2::Subnet::Id"
+        },
+        "PrivateSubnetId1": {
+        	"Description": "Private Subnet 1",
+        	"Type": "AWS::EC2::Subnet::Id"
+        },
+        "PrivateSubnetId2": {
+        	"Description": "Private Subnet 2",
+        	"Type": "AWS::EC2::Subnet::Id"
+        },
+        "CloudplexserverSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup::Id",
+            "Description": "Cloudplexserver Security Group"
+        },
+        "CloudplexserverAutoscaleMinSize": {
+            "Description": "Snaplogic Cloudplexserver autoscale minimum size",
+            "Type": "Number",
+            "MinValue": "1",
+            "MaxValue": "10",
+            "Default": "1"
+        },
+        "CloudplexserverAutoscaleMaxSize": {
+            "Description": "Snaplogic Cloudplexserver autoscale maximum size",
+            "Type": "Number",
+            "MinValue": "1",
+            "MaxValue": "10",
+            "Default": "5"
+        },
+        "CloudplexserverAutoscaleDesiredCapacity": {
+            "Description": "Snaplogic Cloudplexserver autoscale maximum size",
+            "Type": "Number",
+            "MinValue": "1",
+            "MaxValue": "10",
+            "Default": "2"
+        },
+        "CloudplexserverInstanceType": {
+            "Description": "Cloudplexserver EC2 instance type",
+            "Type": "String",
+            "Default": "t2.large",
+            "AllowedValues": [
+                "t2.medium",
+                "t2.large",
+                "t2.xlarge",
+                "t2.2xlarge",
+                "m4.large",
+                "m4.xlarge",
+                "m4.2xlarge",
+                "m4.4xlarge",
+                "m4.10xlarge",
+                "m4.16xlarge",
+                "c4.large",
+                "c4.xlarge",
+                "c4.2xlarge",
+                "c4.4xlarge",
+                "c4.8xlarge",
+                "x1.16xlarge",
+                "x1.32xlarge",
+                "x1e.32xlarge",
+                "r4.large",
+                "r4.xlarge",
+                "r4.2xlarge",
+                "r4.4xlarge",
+                "r4.8xlarge",
+                "r4.16xlarge",
+                "d2.xlarge",
+                "d2.2xlarge",
+                "d2.4xlarge",
+                "d2.8xlarge",
+                "i3.large",
+                "i3.xlarge",
+                "i3.2xlarge",
+                "i3.4xlarge",
+                "i3.8xlarge",
+                "i3.16xlarge"
+            ],
+            "ConstraintDescription": "must be a valid EC2 instance type."
+        },
+        "KeyName": {
+            "Description": "Name of an EC2 KeyPair to enable SSH access to the TAC instance.",
+            "Type": "AWS::EC2::KeyPair::KeyName",
+            "ConstraintDescription": "must be the name of an existing EC2 KeyPair.",
+            "Default": "eost-aws-quickstart"
+        }
+    },
+ 
+    "Resources": {
+		"CloudplexserverAutoscaleStack": {
+			"Type" : "AWS::CloudFormation::Stack",
+			"Properties" : {
+                "TemplateURL":  {
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-cloudplexserver-autoscale.template"
+				},
+				"Parameters" : {
+				    "QSS3BucketName": { "Ref": "QSS3BucketName" },
+					"QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
+					"SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
+					 "InstanceRole": { "Ref": "InstanceRole" },
+                     "InstanceProfile": { "Ref": "InstanceProfile" },
+					"InstanceType": { "Ref": "CloudplexserverInstanceType" },
+					"KeyName": { "Ref": "KeyName" },
+					"SubnetId1": { "Ref": "PrivateSubnetId1" },
+					"SubnetId2": { "Ref": "PrivateSubnetId2" },
+                    "PrivateSubnet": "private",
+					"SecurityGroupIds": { "Ref": "CloudplexserverSecurityGroup" },
+                    "CloudplexserverAutoscaleMinSize": { "Ref": "CloudplexserverAutoscaleMinSize" },
+                    "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
+                    "CloudplexserverAutoscaleDesiredCapacity": { "Ref": "CloudplexserverAutoscaleDesiredCapacity" }
+				},
+				"TimeoutInMinutes" : "10"
+			}
+		}
+    },
+    "Outputs": {
+        "CloudplexserverAutoscaleStack": {
+            "Value": { "Ref": "CloudplexserverAutoscaleStack" },
+            "Description": "Nested CloudplexserverAutoscale stack",
+			"Export": {
+				"Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverAutoscale" } 
+			}
+        }
+    }
+}

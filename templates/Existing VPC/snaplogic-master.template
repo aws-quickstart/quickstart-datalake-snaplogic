@@ -1,0 +1,397 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "This template uses the Snaplogic Snaplex Server templates with the AWS VPC quickstart.  The AWS VPC creates a multi-AZ, multi-subnet VPC infrastructure with managed NAT gateways in the public subnet for each Availability Zone. The Snaplogic servers are deployed to the public subnet with the exception of the Cloudplexservers which are deployed to the private subnet. **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhnf)",
+    "Metadata": {
+        "AWS::CloudFormation::Interface": {
+            "ParameterGroups": [
+                {
+                    "Label": {
+                        "default": "Network configuration"
+                    },
+                    "Parameters": [
+                       	"AvailabilityZones",
+						"VPCCIDR",
+                        "PublicSubnet1CIDR",
+                        "PublicSubnet2CIDR",
+                        "PrivateSubnet1CIDR",
+                        "PrivateSubnet2CIDR",
+                        "RemoteAccessCIDR"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "EC2 Auto Scaling configuration"
+                    },
+                    "Parameters": [
+                        "CloudplexserverAutoscaleDesiredCapacity",
+                        "CloudplexserverAutoscaleMaxSize",
+                        "DistantRunAutoscaleDesiredCapacity",
+                        "DistantRunAutoscaleMaxSize"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "Amazon Redshift configuration"
+                    },
+                    "Parameters": [
+                        "RedshiftHost",
+                        "RedshiftUsername",
+                        "RedshiftPassword",
+                        "RedshiftDbName"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "Snaplogic configuration"
+                    },
+                    "Parameters": [
+                        "SnaplogicResourceBucket",
+                        "SnaplogicLicenseBucket"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "Sizing configuration"
+                    },
+                    "Parameters": [
+                        "KeyPairName",
+                        "CloudplexserverInstanceType",
+						"BastionInstanceType",
+						"NumBastionHosts",
+						"RedshiftNodeType",
+						"RedshiftNumberOfNodes"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "Quick Start Configuration"
+                    },
+                    "Parameters": [
+                        "QSS3BucketName",
+                        "QSS3KeyPrefix"
+                    ]
+                }
+            ],
+            "ParameterLabels": {
+                "QSS3BucketName": {
+                    "default": "Quick Start S3 Bucket"
+                },
+                "QSS3KeyPrefix": {
+                    "default": "Quick Start S3 Key Prefix (optional)"
+                },
+                "AvailabilityZones": {
+                    "default": "Availability Zones"
+                },
+                "VPCCIDR": {
+                    "default": "VPC CIDR"
+                },
+                "PublicSubnet1CIDR": {
+                    "default": "Public Subnet1 CIDR"
+                },
+                "PublicSubnet2CIDR": {
+                    "default": "Public Subnet2 CIDR"
+                },
+                "PrivateSubnet1CIDR": {
+                    "default": "Private Subnet1 CIDR"
+                },
+                "PrivateSubnet2CIDR": {
+                    "default": "Private Subnet2 CIDR"
+                },
+                "RemoteAccessCIDR": {
+                    "default": "Remote Access CIDR"
+                },
+                "KeyPairName": {
+                    "default": "Key Pair Name"
+                },
+                "CloudplexserverAutoscaleDesiredCapacity": {
+                    "default": "Cloudplexserver Autoscale Desired Capacity"
+                },
+                "CloudplexserverAutoscaleMaxSize": {
+                    "default": "Cloudplexserver Autoscale Maximum Capacity"
+                },
+                "RedshiftHost": {
+                    "default": "Amazon Redshift Host (optional)"
+                },
+                "RedshiftDbName": {
+                    "default": "Amazon Redshift Database Name"
+                },
+                "RedshiftUsername": {
+                    "default": "Amazon Redshift Username"
+                },
+                "RedshiftPassword": {
+                    "default": "Amazon Redshift Password"
+                },
+                "BastionInstanceType": {
+                    "default": "Bastion Instance Type"
+                },
+                "NumBastionHosts": {
+                    "default": "Number of Bastion Hosts"
+                },
+                "RedshiftNodeType": {
+                    "default": "Amazon Redshift Node Type"
+                },
+                "RedshiftNumberOfNodes": {
+                    "default": "Number of Amazon Redshift Nodes"
+                }
+            }
+        }
+    },
+    "Parameters": {
+        "QSS3BucketName": {
+            "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.).",
+            "Default": "snaplex",
+            "Description": "S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.).",
+            "Type": "String"
+        },
+        "QSS3KeyPrefix": {
+            
+            "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+            "Description": "The S3 key name prefix used to simulate a folder for your copy of Quick Start assets, if you decide to customize or extend the Quick Start for your own use. This prefix can include numbers, lowercase letters, uppercase letters, hyphens, and forward slashes",
+            "Default":"quickstart-datalake-agilisium-snaplogic/",
+			"Type": "String"
+        },
+		"SnaplexconfS3KeyPrefix": {
+			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+			"Default": "",
+			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+			"Type": "String"
+		},
+        "CloudplexserverInstanceType": {
+            "Description": "EC2 Instance type for Snaplogic Cloudplexservers",
+            "Type": "String",
+            "Default": "t2.large",
+            "AllowedValues": [
+                "t2.medium",
+                "t2.large",
+                "t2.xlarge",
+                "t2.2xlarge",
+                "m4.large",
+                "m4.xlarge",
+                "m4.2xlarge",
+                "m4.4xlarge",
+                "m4.10xlarge",
+                "m4.16xlarge",
+                "c4.large",
+                "c4.xlarge",
+                "c4.2xlarge",
+                "c4.4xlarge",
+                "c4.8xlarge",
+                "x1.16xlarge",
+                "x1.32xlarge",
+                "x1e.32xlarge",
+                "r4.large",
+                "r4.xlarge",
+                "r4.2xlarge",
+                "r4.4xlarge",
+                "r4.8xlarge",
+                "r4.16xlarge",
+                "d2.xlarge",
+                "d2.2xlarge",
+                "d2.4xlarge",
+                "d2.8xlarge",
+                "i3.large",
+                "i3.xlarge",
+                "i3.2xlarge",
+                "i3.4xlarge",
+                "i3.8xlarge",
+                "i3.16xlarge"
+            ],
+            "ConstraintDescription": "must be a valid EC2 instance type."
+        },
+        "BastionInstanceType": {
+            "Description": "EC2 Instance type for Bastion host",
+            "Type": "String",
+            "Default": "t2.micro",
+            "AllowedValues": [
+                "t2.nano",
+                "t2.micro",
+                "t2.small",
+                "t2.medium",
+                "t2.large",
+                "m3.large",
+                "m3.xlarge",
+                "m3.2xlarge",
+                "m4.large",
+                "m4.xlarge",
+                "m4.2xlarge",
+                "m4.4xlarge"
+            ]
+        },
+        "RedshiftHost": {
+            "Description": "DNS Name or IP address of the master node of an existing Redshift cluster which you intend to use for the Snaplogic sample jobs. Leave this blank to create a new Redshift cluster.",
+            "Type": "String",
+            "Default": ""
+        },
+		"RedshiftUsername": {
+            "Description": "User name for Redshift database",
+            "Type": "String",
+            "Default": "tadmin"
+        },
+        "RedshiftPassword": {
+            "Description": "Password for Redshift. Can only contain alphanumeric characters or the following special characters!^*-_+",
+            "NoEcho": true,
+            "Type": "String",
+			"MinLength": 8,
+            "MaxLength": 28,
+            "AllowedPattern": "[a-zA-Z0-9!^*\\-_+]*"
+        },
+		"RedshiftDbName": {
+            "Description": "Database name for Redshift",
+            "Type": "String",
+            "Default": ""
+        },
+		"RedshiftNodeType": {
+            "Type": "String",
+            "Default": "dc2.large",
+            "Description": "EC2 instance type for the Redshift cluster nodes",
+            "ConstraintDescription": "must be a valid RedShift node type.",
+            "AllowedValues": [
+                "dc2.large",
+                "dc2.8xlarge",
+                "ds2.xlarge",
+                "ds2.8xlarge"
+            ]
+        },
+		"RedshiftNumberOfNodes": {
+            "Description": "The number of nodes in the Redshift cluster.",
+            "Type": "Number",
+            "Default": "1"
+        },
+        "CloudplexserverAutoscaleMaxSize": {
+            "Description": "Maximum no. of EC2 instances for Snaplogic Cloudplexserver autoscale group",
+            "Type": "Number",
+            "MinValue": "1",
+            "MaxValue": "10",
+            "Default": "5"
+        },
+        "CloudplexserverAutoscaleDesiredCapacity": {
+            "Description": "Desired no. of EC2 instances for Snaplogic Cloudplexserver autoscale group",
+            "Type": "Number",
+            "MinValue": "1",
+            "MaxValue": "10",
+            "Default": "1"
+        },
+        "NumBastionHosts": {
+            "AllowedValues": [ "0", "1", "2" ],
+            "Default": "1",
+            "Description": "The number of Linux bastion hosts to run. Auto Scaling will ensure that you always have this number of bastion hosts running.",
+            "Type": "String"
+        },
+        "AvailabilityZones": {
+            "Description": "Select two Availability Zones that will be used to deploy the CloudFormation stacks. The Quick Start preserves the logical order you specify.",
+            "Type": "List<AWS::EC2::AvailabilityZone::Name>"
+        },
+        "KeyPairName": {
+            "Description": "Public/private key pair, which allows you to connect securely to your instance after it launches. When you created an AWS account, this is the key pair you created in your preferred region.",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "PrivateSubnet1CIDR": {
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
+            "Type": "AWS::EC2::Subnet::Id",
+            "Description": "CIDR block for private subnet 1 located in Availability Zone 1."
+            
+        },
+        "PrivateSubnet2CIDR": {
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
+            "Type": "AWS::EC2::Subnet::Id",
+            "Description": "CIDR block for private subnet 2 located in Availability Zone 2."
+           
+        },
+        "PublicSubnet1CIDR": {
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
+           "Type": "AWS::EC2::Subnet::Id",
+            "Description": "CIDR Block for the public DMZ subnet 1 located in Availability Zone 1"  
+        },
+        "PublicSubnet2CIDR": {
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
+            "Description": "CIDR Block for the public DMZ subnet 2 located in Availability Zone 2",
+           "Type": "AWS::EC2::Subnet::Id"
+        },
+        "RemoteAccessCIDR": {
+            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
+            "Description": "The CIDR IP range that is permitted to access the VPC. We recommend that you use a constrained CIDR range to reduce the potential of inbound attacks from unknown IP addresses. For example, if your IPv4 address is 203.0.113.25, specify 203.0.113.25/32 to list this single IPv4 address in CIDR notation. If your company allocates addresses from a range, specify the entire range, such as 203.0.113.0/24. For details, see VPCs and Subnets in the AWS documentation.",
+            "Type": "String"
+        },
+        "VPCCIDR": {
+            "ConstraintDescription": "CIDR block for the VPC. When you create a VPC, you must specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block. You can also optionally assign an IPv6 CIDR block to your VPC, and assign IPv6 CIDR blocks to your subnets.",
+            "Type": "AWS::EC2::VPC::Id",
+            "Description": "CIDR Block for the VPC"   
+        }
+    },
+    "Mappings": {
+        "Snaplogic": {
+            "flags": {
+                "SaveCredentialsEnabled": "true"
+            }
+        }
+    },
+    "Conditions": {
+        "CreateRedshiftCondition": {
+            "Fn::Equals": [ "", { "Ref": "RedshiftHost" } ]
+        },
+        "CreateBastionCondition": {
+            "Fn::Not": [
+                { "Fn::Equals": [ { "Ref": "NumBastionHosts" }, "0" ] }
+            ]
+        }
+    },
+    "Resources": {
+        "OodleStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL":{
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/oodle.template"
+				},
+                "Parameters": {
+                    "QSS3BucketName": { "Ref": "QSS3BucketName" },
+                    "QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
+					"SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
+                    "KeyPairName": { "Ref": "KeyPairName" },
+                    "VpcId": { "Ref": "VPCCIDR" },
+                    "PublicSubnetId1": { "Ref": "PublicSubnet1CIDR" },
+                    "PublicSubnetId2": { "Ref": "PublicSubnet2CIDR" },
+                    "PrivateSubnetId1": { "Ref": "PrivateSubnet1CIDR" },
+                    "PrivateSubnetId2": { "Ref": "PrivateSubnet2CIDR" },
+                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
+                    "CloudplexserverInstanceType": { "Ref": "CloudplexserverInstanceType" },
+                    "BastionInstanceType": { "Ref": "BastionInstanceType" },
+                    "RedshiftHost": { "Ref": "RedshiftHost" },
+                    "RedshiftUsername": { "Ref": "RedshiftUsername" },
+                    "RedshiftPassword": { "Ref": "RedshiftPassword" },
+                    "RedshiftDbName": { "Ref": "RedshiftDbName" },
+                    "RedshiftNodeType": { "Ref": "RedshiftNodeType" },
+                    "RedshiftNumberOfNodes": { "Ref": "RedshiftNumberOfNodes" },
+                    "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
+                    "CloudplexserverAutoscaleDesiredCapacity": { "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
+                    "NumBastionHosts": { "Ref": "NumBastionHosts"  }
+                }
+            }
+        }
+    },
+    "Outputs": {
+        "OodleStack": {
+            "Value": { "Ref": "OodleStack" },
+            "Description": "Nested Oodle stack",
+			"Export": {
+				"Name": { "Fn::Sub": "${AWS::StackName}:OodleStack" } 
+				} 
+        },
+        "RedshiftJDBC": {
+            "Condition": "CreateRedshiftCondition",		
+            "Value": { "Fn::GetAtt": [ "OodleStack", "Outputs.RedshiftJDBC"] },
+            "Description": "Redshift JDBC Url",
+			"Export": {
+				"Name": { "Fn::Sub": "${AWS::StackName}:RedshiftJDBC" } 
+			}
+        },
+		"RedshiftEndpoint": {
+            "Condition": "CreateRedshiftCondition",		
+            "Value": { "Fn::GetAtt": [ "OodleStack", "Outputs.RedshiftEndpoint"] },
+            "Description": "Redshift Endpoint",
+			"Export": {
+				"Name": { "Fn::Sub": "${AWS::StackName}:RedshiftEndpoint" } 
+			}
+        }	
+    }
+}

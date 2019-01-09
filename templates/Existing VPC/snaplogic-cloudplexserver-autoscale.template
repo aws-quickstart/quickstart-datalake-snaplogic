@@ -1,0 +1,322 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "This template will deploy a Cloudplexserver instance into an existing VPC subnet.  **WARNING** This template creates Amazon EC2 instance and related resources. You will be billed for the AWS resources used if you create a stack from this template. QS(9999)",
+	"Parameters": {
+		"QSS3BucketName": {
+			"ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).",
+			"Description": "S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).",
+			"Type": "String"
+		},
+		"QSS3KeyPrefix": {
+			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+			"Default": "quickstart-datalake-agilisium-snaplogic/",
+			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+			"Type": "String"
+		},
+		"SnaplexconfS3KeyPrefix": {
+			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+			"Default": "",
+			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+			"Type": "String"
+		},
+		"InstanceRole": {
+			"Description": "Talend Server EC2 IAM Role",
+			"Type": "String"
+		},
+		"InstanceProfile": {
+			"Description": "Talend Server EC2 Instance Profile",
+			"Type": "String"
+		},
+		"CloudplexserverAutoscaleMinSize": {
+			"Description": "Snaplogic Cloudplexserver autoscale minimum size",
+			"Type": "Number",
+			"MinValue": "1",
+			"MaxValue": "10",
+			"Default": "1"
+		},
+		"CloudplexserverAutoscaleMaxSize": {
+			"Description": "Snaplogic Cloudplexserver autoscale maximum size",
+			"Type": "Number",
+			"MinValue": "1",
+			"MaxValue": "10",
+			"Default": "5"
+		},
+		"CloudplexserverAutoscaleDesiredCapacity": {
+			"Description": "Snaplogic Cloudplexserver autoscale maximum size",
+			"Type": "Number",
+			"MinValue": "1",
+			"MaxValue": "10",
+			"Default": "1"
+		},
+		"InstanceType": {
+			"Description": "Snaplogic Server EC2 instance type",
+			"Type": "String",
+			"Default": "t2.large",
+			"AllowedValues": [
+				"t2.medium",
+				"t2.large",
+				"t2.xlarge",
+				"t2.2xlarge",
+				"m4.large",
+				"m4.xlarge",
+				"m4.2xlarge",
+				"m4.4xlarge",
+				"m4.10xlarge",
+				"m4.16xlarge",
+				"c4.large",
+				"c4.xlarge",
+				"c4.2xlarge",
+				"c4.4xlarge",
+				"c4.8xlarge",
+				"x1.16xlarge",
+				"x1.32xlarge",
+				"x1e.32xlarge",
+				"r4.large",
+				"r4.xlarge",
+				"r4.2xlarge",
+				"r4.4xlarge",
+				"r4.8xlarge",
+				"r4.16xlarge",
+				"d2.xlarge",
+				"d2.2xlarge",
+				"d2.4xlarge",
+				"d2.8xlarge",
+				"i3.large",
+				"i3.xlarge",
+				"i3.2xlarge",
+				"i3.4xlarge",
+				"i3.8xlarge",
+				"i3.16xlarge"
+			],
+			"ConstraintDescription": "must be a valid EC2 instance type."
+		},
+		"KeyName": {
+			"Description": "Name of an EC2 KeyPair to enable SSH access to the Snaplogic Server instance.",
+			"Type": "AWS::EC2::KeyPair::KeyName",
+			"ConstraintDescription": "must be the name of an existing EC2 KeyPair."
+		},
+		"SubnetId1": {
+			"Description": "Snaplogic Server subnet id 1.",
+			"Type": "AWS::EC2::Subnet::Id"
+		},
+		"SubnetId2": {
+			"Description": "Snaplogic Server subnet id 2.",
+			"Type": "AWS::EC2::Subnet::Id"
+		},
+		"PrivateSubnet": {
+			"Description": "Is this is a private subnet.",
+			"Type": "String",
+			"Default": "private",
+			"AllowedValues": ["private", "public"]
+		},
+		"SecurityGroupIds": {
+			"Description": "Snaplogic Server Security Group.",
+			"Type": "CommaDelimitedList"
+		}
+	},
+	"Mappings": {
+		"AWSRegionArch2AMI": {
+			"us-gov-west-1": {
+				"HVM64": "ami-8c1be5f6"
+			},
+			"us-east-1": {
+				"HVM64": "ami-8c1be5f6"
+			},
+			"us-east-2": {
+				"HVM64": "ami-c5062ba0"
+			},
+			"us-west-1": {
+				"HVM64": "ami-02eada62"
+			},
+			"us-west-2": {
+				"HVM64": "ami-e689729e"
+			},
+			"ca-central-1": {
+				"HVM64": "ami-fd55ec99"
+			},
+			"sa-east-1": {
+				"HVM64": "ami-f1344b9d"
+			},
+			"eu-west-1": {
+				"HVM64": "ami-acd005d5"
+			},
+			"eu-west-2": {
+				"HVM64": "ami-1a7f6d7e"
+			},
+			"eu-central-1": {
+				"HVM64": "ami-c7ee5ca8"
+			},
+			"ap-northeast-1": {
+				"HVM64": "ami-2a69be4c"
+			},
+			"ap-northeast-2": {
+				"HVM64": "ami-9bec36f5"
+			},
+			"ap-south-1": {
+				"HVM64": "ami-4fc58420"
+			},
+			"ap-southeast-1": {
+				"HVM64": "ami-0797ea64"
+			},
+			"ap-southeast-2": {
+				"HVM64": "ami-8536d6e7"
+			},
+			"cn-north-1": {
+				"HVM64": "ami-f239abcb"
+			}
+		}
+	},
+	"Resources": {
+		"CloudplexserverAutoscaling": {
+			"Type": "AWS::AutoScaling::AutoScalingGroup",
+			"Properties": {
+				"LaunchConfigurationName": {
+					"Ref": "CloudplexserverLaunchConfig"
+				},
+				"MinSize": {
+					"Ref": "CloudplexserverAutoscaleMinSize"
+				},
+				"MaxSize": {
+					"Ref": "CloudplexserverAutoscaleMaxSize"
+				},
+				"DesiredCapacity": {
+					"Ref": "CloudplexserverAutoscaleDesiredCapacity"
+				},
+				"Tags": [{
+					"Key": "Name",
+					"Value": "CloudplexServer",
+					"PropagateAtLaunch": "true"
+				}],
+				"HealthCheckGracePeriod": "120",
+				"VPCZoneIdentifier": [{
+					"Ref": "SubnetId1"
+				}, {
+					"Ref": "SubnetId2"
+				}]
+			}
+		},
+		"CloudplexserverLaunchConfig": {
+			"Type": "AWS::AutoScaling::LaunchConfiguration",
+			"Properties": {
+				"InstanceType": {
+					"Ref": "InstanceType"
+				},
+				"ImageId": {
+					"Fn::FindInMap": [
+						"AWSRegionArch2AMI",
+						{
+							"Ref": "AWS::Region"
+						},
+						"HVM64"
+					]
+				},
+				"KeyName": {
+					"Ref": "KeyName"
+				},
+				"SecurityGroups": {
+					"Ref": "SecurityGroupIds"
+				},
+				"IamInstanceProfile": {
+					"Ref": "InstanceProfile"
+				},
+				"BlockDeviceMappings": [{
+					"DeviceName": "/dev/xvda",
+					"Ebs": {
+						"VolumeSize": "100"
+					}
+				}],
+				"UserData": {
+					"Fn::Base64": {
+						"Fn::Join": [
+							"",
+							[
+								"#!/bin/bash -xe\n",
+								"sudo -i\n",
+								"cd /tmp/",
+								"\n",
+								"wget https://snaplogic-uxpod-sldb.s3.amazonaws.com/pkgs/snaplogic-sidekick-4.master-4403-x86_64.rpm\n",
+								"rpm -ivh snaplogic-sidekick-4.master-4403-x86_64.rpm\n",
+								{ "Fn::Join": [ "", [ "aws s3 cp s3://", { "Ref" : "QSS3BucketName" },"/",{ "Ref" : "SnaplexconfS3KeyPrefix" },"  /opt/snaplogic/etc" ]]},
+								"\n",
+								"sudo chown snapuser:snapuser /opt/snaplogic/etc/agilisiumonprem.slpropz\n",
+								"sudo chmod 600 /opt/snaplogic/etc/agilisiumonprem.slpropz\n",
+								"sudo /opt/snaplogic/bin/jcc.sh start\n",
+								"yum -y update\n",
+                                "while ! yum install -y aws-cfn-bootstrap ; do sleep 10; done\n",
+								"#fix ec2 hostname resolution\n",
+								"\n",
+                                "wget https://s3-ap-southeast-1.amazonaws.com/snaplex/scripts/bootstrap/ec2-metadata",                              
+                                "\n",
+								"chmod +x ec2-metadata\n",
+                                "wget https://s3-ap-southeast-1.amazonaws.com/snaplex/scripts/bootstrap/update_hosts.sh",
+                                "\n",
+								"chmod +x update_hosts.sh\n",
+                                "./update_hosts.sh\n",
+                                "# Install the files and packages from the metadata\n",
+                                "/opt/aws/bin/cfn-init -v ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource CloudplexserverLaunchConfig ",
+                                "         --configsets All ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n",
+                                "# Signal the status from cfn-init\n",
+                                "/opt/aws/bin/cfn-signal -e $? ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource CloudplexserverLaunchConfig ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n"
+							]
+						]
+					}
+				}
+			}
+		}
+	},
+	 "Metadata": {
+					"AWS::CloudFormation::Authentication": {
+						"S3AccessCreds": {
+							"type": "S3",
+							"roleName": {
+								"Ref": "InstanceRole"
+							}
+						}
+					}
+
+				},
+	"Outputs": {
+		"CloudplexserverAutoscaling": {
+			"Value": {
+				"Ref": "CloudplexserverAutoscaling"
+			},
+			"Description": "Cloudplexserver Autoscaling resource Id",
+			"Export": {
+				"Name": {
+					"Fn::Sub": "${AWS::StackName}:CloudplexserverAutoscaling"
+				}
+			}
+		},
+		"CloudplexserverLaunchConfig": {
+			"Value": {
+				"Ref": "CloudplexserverLaunchConfig"
+			},
+			"Description": "Cloudplexserver Launch Configuration resource Id",
+			"Export": {
+				"Name": {
+					"Fn::Sub": "${AWS::StackName}:CloudplexserverLaunchConfig"
+				}
+			}
+		}
+	}
+}
