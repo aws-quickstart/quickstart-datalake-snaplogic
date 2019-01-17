@@ -1,0 +1,78 @@
+"Parameters": [
+    {
+        "ParameterValue": "10.0.32.0/19",
+        "ParameterKey": "PrivateSubnet2CIDR"
+    },
+    {
+        "ParameterValue": "10.0.0.0/16",
+        "ParameterKey": "VPCCIDR"
+    },
+    {
+        "ParameterValue": "10.0.128.0/20",
+        "ParameterKey": "PublicSubnet1CIDR"
+    },
+    {
+        "ParameterValue": "0.0.0.0/0",
+        "ParameterKey": "RemoteAccessCIDR"
+    },
+    {
+        "ParameterValue": "10.0.144.0/20",
+        "ParameterKey": "PublicSubnet2CIDR"
+    },
+    {
+        "ParameterValue": "repo-quickstart-talend",
+        "ParameterKey": "TalendResourceBucket"
+    },
+    {
+        "ParameterValue": "t2.micro",
+        "ParameterKey": "JobserverInstanceType"
+    },
+    {
+        "ParameterValue": "$[alfred_getkeypair]",
+        "ParameterKey": "KeyPairName"
+    },
+    {
+        "ParameterValue": "$[alfred_getaz_2]",
+        "ParameterKey": "AvailabilityZones"
+    },
+    {
+        "ParameterValue": "10.0.0.0/19",
+        "ParameterKey": "PrivateSubnet1CIDR"
+    },
+    {
+        "ParameterValue": "True",
+        "ParameterKey": "CreateJobserverAutoscaleStack"
+    },
+    {
+        "ParameterValue": "2",
+        "ParameterKey": "JobserverAutoscaleDesiredCapacity"
+    },
+    {
+        "ParameterValue": "5",
+        "ParameterKey": "JobserverAutoscaleMaxSize"
+    },	
+    {
+        "ParameterValue": "1",
+        "ParameterKey": "JobserverAutoscaleMinSize"
+    },	
+    {
+        "ParameterValue": "rsdatabase",
+        "ParameterKey": "RedshiftDbName"
+    },		
+    {
+        "ParameterValue": "$[alfred_genpass_12]",
+        "ParameterKey": "RedshiftPassword"
+    },		
+    {
+        "ParameterValue": "",
+        "ParameterKey": "RedshiftHost"
+    },	
+    {
+        "ParameterValue": "5439",
+        "ParameterKey": "RedshiftPort"
+    },		
+    {
+        "ParameterValue": "tadmin",
+        "ParameterKey": "RedshiftUsername"
+    }
+]

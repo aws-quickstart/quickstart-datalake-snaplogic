@@ -1,0 +1,58 @@
+[
+  {
+      "ParameterKey": "TalendLicenseBucket",
+      "ParameterValue": "license.quickstart.talend"
+  },
+  {
+      "ParameterKey": "NexusAdminPassword",
+      "ParameterValue": "$[taskcat_genpass_16]"
+  },
+  {
+      "ParameterKey": "TacPassword",
+      "ParameterValue": "$[taskcat_genpass_16]"
+  },
+  {
+      "ParameterKey": "MasterDbPassword",
+      "ParameterValue": "$[taskcat_genpass_16]"
+  },
+  {
+      "ParameterKey": "TacDbPassword",
+      "ParameterValue": "$[taskcat_genpass_16]"
+  },
+  {
+      "ParameterKey": "AmcDbPassword",
+      "ParameterValue": "$[taskcat_genpass_16]"
+  },
+  {
+      "ParameterKey": "RedshiftPassword",
+      "ParameterValue": "$[taskcat_genpass_16]"
+  },
+  {
+      "ParameterKey": "GitAdminPassword",
+      "ParameterValue": "$[taskcat_genpass_16]"
+  },
+  {
+      "ParameterKey": "GitTacPassword",
+      "ParameterValue": "$[taskcat_genpass_16]"
+  },
+  {
+      "ParameterKey": "AvailabilityZones",
+      "ParameterValue": "$[taskcat_genaz_2]"
+  },
+  {
+      "ParameterKey": "KeyPairName",
+      "ParameterValue": "$[alfred_getkeypair]"
+  },
+  {
+      "ParameterKey": "RemoteAccessCIDR",
+      "ParameterValue": "10.0.0.0/16"
+  },
+  {
+      "ParameterKey": "RedshiftNodeType",
+      "ParameterValue": "ds2.xlarge"
+  },
+  {
+      "ParameterKey": "QSS3BucketName",
+      "ParameterValue": "$[taskcat_autobucket]"
+  }
+]
