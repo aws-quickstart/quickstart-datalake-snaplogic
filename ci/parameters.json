@@ -28,7 +28,7 @@
         "ParameterKey": "KeyPairName"
     },
     {
-        "ParameterValue": "$[alfred_getaz_2]",
+        "ParameterValue": "ap-southeast-1a, ap-southeast-1b",
         "ParameterKey": "AvailabilityZones"
     },
     {
@@ -70,5 +70,9 @@
     {
         "ParameterValue": "tadmin",
         "ParameterKey": "RedshiftUsername"
-    }
+    },
+{
+      "ParameterKey": "QSS3KeyPrefix",
+      "ParameterValue": "quickstart-datalake-agilisium-snaplogic/"
+  }
 ]
