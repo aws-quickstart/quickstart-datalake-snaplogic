@@ -23,4 +23,4 @@ tests:
     parameter_input: input.json
     template_file: snaplogic-master.template
     regions:
-      - us-east-1
+      - ap-southeast-1
