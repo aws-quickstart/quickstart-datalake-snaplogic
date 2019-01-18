@@ -9,7 +9,7 @@
   },
   {
       "ParameterKey": "KeyPairName",
-      "ParameterValue": "mykey"
+      "ParameterValue": "snaplex"
   },
   {
       "ParameterKey": "RemoteAccessCIDR",
