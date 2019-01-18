@@ -24,6 +24,10 @@
         "ParameterKey": "CloudplexserverInstanceType"
     },
     {
+        "ParameterValue": "mykey",
+        "ParameterKey": "KeyPairName"
+    },
+    {
         "ParameterValue": "$[alfred_getaz_2]",
         "ParameterKey": "AvailabilityZones"
     },
