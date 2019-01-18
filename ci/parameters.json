@@ -24,7 +24,7 @@
         "ParameterKey": "CloudplexserverInstanceType"
     },
     {
-        "ParameterValue": "snaplex",
+        "ParameterValue": "Snaplex",
         "ParameterKey": "KeyPairName"
     },
     {
