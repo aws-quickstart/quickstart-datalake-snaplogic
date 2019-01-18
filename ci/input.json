@@ -8,10 +8,6 @@
       "ParameterValue": "$[taskcat_genaz_2]"
   },
   {
-      "ParameterKey": "KeyPairName",
-      "ParameterValue": "$[alfred_getkeypair]"
-  },
-  {
       "ParameterKey": "RemoteAccessCIDR",
       "ParameterValue": "10.0.0.0/16"
   },
