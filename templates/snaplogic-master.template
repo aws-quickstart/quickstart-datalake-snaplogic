@@ -348,7 +348,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/aws-vpc.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/bastion/submodules/quickstart-aws-vpc/templates/aws-vpc.template"
                },
 			   "Parameters": {
                     "AvailabilityZones": {

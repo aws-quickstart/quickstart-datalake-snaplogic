@@ -24,7 +24,7 @@
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
                 "VpcId": { "Ref": "VpcId" },
-                "GroupDescription": "Allow access to Cloudplexserver from TAC on 8000 (command), 8001 (file), and 8888 (monitoring), and ssh from remote access",
+                "GroupDescription": "Allow access to Cloudplexserver, and ssh from remote access",
                 "SecurityGroupIngress": [
                     {
                         "IpProtocol": "tcp",

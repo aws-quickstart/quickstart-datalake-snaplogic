@@ -288,7 +288,7 @@
             "Default": "1"
         },
         "NumBastionHosts": {
-            "AllowedValues": [ "0", "1", "2", "3", "4" ],
+            "AllowedValues": [ "0", "1", "2"],
             "Default": "1",
             "Description": "The number of Linux bastion hosts to run. Auto Scaling will ensure that you always have this number of bastion hosts running. The maximum is 4 bastion hosts.",
             "Type": "String"
@@ -344,7 +344,7 @@
 			"Type" : "AWS::CloudFormation::Stack",
 			"Properties" : {
                 "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-iam.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/snaplogic/templates/snaplogic-iam.template"
 				},
 				"Parameters" : {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
@@ -356,7 +356,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/linux-bastion-securitygroups.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/bastion/templates/linux-bastion-securitygroups.template"
 				},
                 "Parameters": {
                     "VPCID": { "Ref": "VpcId" },
@@ -369,7 +369,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/snaplogic/templates/snaplogic-securitygroups.template"
 				},
                 "Parameters": {
                     "VpcId": { "Ref": "VpcId" },
@@ -381,7 +381,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/datasource-securitygroups.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/datasource/templates/datasource-securitygroups.template"
 				},
                 "Parameters": {
                     "VpcId": { "Ref": "VpcId" },
@@ -431,7 +431,7 @@
             "Condition": "CreateBastionCondition",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/linux-bastion.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/bastion/templates/linux-bastion.template"
 				},
                 "Parameters": {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
@@ -459,7 +459,7 @@
             "Condition": "CreateRedshiftCondition",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/datasource-redshift.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/datasource/templates/datasource-redshift.template"
 				},
                 "TimeoutInMinutes": 30,
                 "Parameters": {
@@ -479,7 +479,7 @@
 			"Type" : "AWS::CloudFormation::Stack",
 			"Properties" : {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-servers.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/snaplogic/templates/snaplogic-servers.template"
 				},
 				"TimeoutInMinutes" : "10",
 				"Parameters" : {

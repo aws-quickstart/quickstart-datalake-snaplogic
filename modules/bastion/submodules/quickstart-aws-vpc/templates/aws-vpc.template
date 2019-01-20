@@ -2048,8 +2048,8 @@
                         "AWSAMIRegionMap",
                         {
                             "Ref": "AWS::Region"
-   },
- "AWSNATHVM"
+                        },
+                        "AWSNATHVM"
                     ]
                 },
                 "InstanceType": {

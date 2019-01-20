@@ -70,9 +70,5 @@
     {
         "ParameterValue": "tadmin",
         "ParameterKey": "RedshiftUsername"
-    },
-{
-      "ParameterKey": "QSS3KeyPrefix",
-      "ParameterValue": "quickstart-datalake-agilisium-snaplogic/"
-  }
+    }
 ]

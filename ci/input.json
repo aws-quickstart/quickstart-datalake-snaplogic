@@ -5,7 +5,7 @@
   },
   {
       "ParameterKey": "AvailabilityZones",
-      "ParameterValue": "ap-southeast-1a, ap-southeast-1b"
+      "ParameterValue": "$[taskcat_genaz_2]"
   },
   {
       "ParameterKey": "KeyPairName",
@@ -21,11 +21,6 @@
   },
   {
       "ParameterKey": "QSS3BucketName",
-      "ParameterValue": "snaplex"
-  },
-{
-      "ParameterKey": "QSS3KeyPrefix",
-      "ParameterValue": "quickstart-datalake-agilisium-snaplogic/"
+      "ParameterValue": "$[taskcat_autobucket]"
   }
-
 ]

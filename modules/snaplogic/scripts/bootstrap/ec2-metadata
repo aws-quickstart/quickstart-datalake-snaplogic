@@ -20,6 +20,7 @@ e.g. to retrieve instance id: ec2-metadata -i
 		 to get help: ec2-metadata --help
 For more information on Amazon EC2 instance meta-data, refer to the documentation at
 http://docs.amazonwebservices.com/AWSEC2/2008-05-05/DeveloperGuide/AESDG-chapter-instancedata.html
+
 Usage: ec2-metadata <option>
 Options:
 --all                     Show all metadata information for this host (also default).
@@ -185,5 +186,4 @@ while [ "$1" != "" ]; do
 								 exit 1
 	esac
 	shift
-done
 done
