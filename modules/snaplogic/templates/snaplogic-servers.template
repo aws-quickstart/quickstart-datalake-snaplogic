@@ -129,7 +129,7 @@
 			"Type" : "AWS::CloudFormation::Stack",
 			"Properties" : {
                 "TemplateURL":  {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-cloudplexserver-autoscale.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/snaplogic/templates/snaplogic-cloudplexserver-autoscale.template"
 				},
 				"Parameters" : {
 				    "QSS3BucketName": { "Ref": "QSS3BucketName" },
