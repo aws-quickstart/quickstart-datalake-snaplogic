@@ -22,5 +22,4 @@ tests:
   quickstart-datalake-agilisium-snaplogic1:
     parameter_input: input.json
     template_file: oodle-master.template
-    regions:
-      - ap-southeast-1
+    
