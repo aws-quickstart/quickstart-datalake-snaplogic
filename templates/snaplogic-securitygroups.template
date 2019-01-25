@@ -102,6 +102,17 @@
                 ]
             }
         },
+        "CloudplexserverIngressBastionSsh": {
+            "Type": "AWS::EC2::SecurityGroupIngress",
+            "Condition": "BastionCloudplexserverCondition",
+            "Properties": {
+                "GroupId": { "Ref": "CloudplexserverSecurityGroupID" },
+                "SourceSecurityGroupId": { "Ref": "BastionSecurityGroupID" },
+                "IpProtocol": "tcp",
+                "FromPort": "22",
+                "ToPort": "22"
+            }
+        },
 		"RedshiftSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
@@ -117,17 +128,6 @@
                         }
                     }
                 ]
-            }
-        },
-        "CloudplexserverIngressBastionSsh": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "Condition": "BastionCloudplexserverCondition",
-            "Properties": {
-                "GroupId": { "Ref": "CloudplexserverSecurityGroupID" },
-                "SourceSecurityGroupId": { "Ref": "BastionSecurityGroupID" },
-                "IpProtocol": "tcp",
-                "FromPort": "22",
-                "ToPort": "22"
             }
         },
         "RedshiftIngressBastion": {
