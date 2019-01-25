@@ -89,6 +89,7 @@
         },
 	 "CloudplexserverSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
+			"DependsOn": "BastionSecurityGroup",
             "Properties": {
                 "VpcId": { "Ref": "VpcId" },
                 "GroupDescription": "Allow access to Cloudplexserver from TAC on 8000 (command), 8001 (file), and 8888 (monitoring), and ssh from remote access",
@@ -136,6 +137,8 @@
         },
         "CloudplexserverIngressBastionSsh": {
             "Type": "AWS::EC2::SecurityGroupIngress",
+			"DependsOn": "CloudplexserverSecurityGroup",
+			"DependsOn": "BastionSecurityGroup",
             "Condition": "BastionCloudplexserverCondition",
             "Properties": {
                 "GroupId": { "Ref": "CloudplexserverSecurityGroup" },
@@ -179,6 +182,7 @@
         },
         "RedshiftIngressCloudplexserver": {
             "Type": "AWS::EC2::SecurityGroupIngress",
+			"DependsOn": "CloudplexserverSecurityGroup",
             "Condition": "CloudplexserverRedshiftCondition",
             "Properties": {
                 "GroupId": {
