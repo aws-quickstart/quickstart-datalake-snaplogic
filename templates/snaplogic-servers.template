@@ -2,6 +2,12 @@
 	"AWSTemplateFormatVersion": "2010-09-09",
 	"Description": "This template will deploy a Cloudplexserver instance into an existing VPC subnet.  **WARNING** This template creates Amazon EC2 instance and related resources. You will be billed for the AWS resources used if you create a stack from this template. QS(9999)",
 	"Parameters": {
+	   "QSS3URL": {
+            "Description": "Encapsulate variation in s3 root url for commercial or gov-cloud",
+            "Type": "String",
+            "Default": "s3.amazonaws.com",
+            "AllowedValues": [ "s3.amazonaws.com", "s3-us-gov-west-1.amazonaws.com" ]
+        },
 		"QSS3BucketName": {
 			"ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).",
 			"Description": "S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-).",
@@ -48,7 +54,7 @@
 			"MaxValue": "10",
 			"Default": "1"
 		},
-		"InstanceType": {
+		"CloudplexserverInstanceType": {
 			"Description": "Snaplogic Server EC2 instance type",
 			"Type": "String",
 			"Default": "t2.large",
@@ -95,11 +101,11 @@
 			"Type": "AWS::EC2::KeyPair::KeyName",
 			"ConstraintDescription": "must be the name of an existing EC2 KeyPair."
 		},
-		"SubnetId1": {
+		"PrivateSubnetId1": {
 			"Description": "Snaplogic Server subnet id 1.",
 			"Type": "AWS::EC2::Subnet::Id"
 		},
-		"SubnetId2": {
+		"PrivateSubnetId2": {
 			"Description": "Snaplogic Server subnet id 2.",
 			"Type": "AWS::EC2::Subnet::Id"
 		},
@@ -109,7 +115,7 @@
 			"Default": "private",
 			"AllowedValues": ["private", "public"]
 		},
-		"SecurityGroupIds": {
+		"CloudplexserverSecurityGroup": {
 			"Description": "Snaplogic Server Security Group.",
 			"Type": "CommaDelimitedList"
 		}
@@ -189,17 +195,17 @@
 				}],
 				"HealthCheckGracePeriod": "120",
 				"VPCZoneIdentifier": [{
-					"Ref": "SubnetId1"
+					"Ref": "PrivateSubnetId1"
 				}, {
-					"Ref": "SubnetId2"
+					"Ref": "PrivateSubnetId2"
 				}]
 			}
 		},
 		"CloudplexserverLaunchConfig": {
 			"Type": "AWS::AutoScaling::LaunchConfiguration",
 			"Properties": {
-				"InstanceType": {
-					"Ref": "InstanceType"
+				"CloudplexserverInstanceType": {
+					"Ref": "CloudplexserverInstanceType"
 				},
 				"ImageId": {
 					"Fn::FindInMap": [
@@ -214,7 +220,7 @@
 					"Ref": "KeyName"
 				},
 				"SecurityGroups": {
-					"Ref": "SecurityGroupIds"
+					"Ref": "CloudplexserverSecurityGroup"
 				},
 				"IamInstanceProfile": {
 					"Ref": "InstanceProfile"

@@ -348,7 +348,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}modules/bastion/submodules/quickstart-aws-vpc/templates/aws-vpc.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
                },
 			   "Parameters": {
                     "AvailabilityZones": {
@@ -365,11 +365,11 @@
             }
         },
 
-        "OodleStack": {
+        "SnaplogicStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/oodle.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic.template"
 				},
                 "Parameters": {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
@@ -405,16 +405,16 @@
 				"Name": { "Fn::Sub": "${AWS::StackName}:VpcStack" } 
 				} 
         },
-        "OodleStack": {
-            "Value": { "Ref": "OodleStack" },
-            "Description": "Nested Oodle stack",
+        "SnaplogicStack": {
+            "Value": { "Ref": "SnaplogicStack" },
+            "Description": "Nested Snaplogic stack",
 			"Export": {
-				"Name": { "Fn::Sub": "${AWS::StackName}:OodleStack" } 
+				"Name": { "Fn::Sub": "${AWS::StackName}:SnaplogicStack" } 
 				} 
         },
         "RedshiftJDBC": {
             "Condition": "CreateRedshiftCondition",		
-            "Value": { "Fn::GetAtt": [ "OodleStack", "Outputs.RedshiftJDBC"] },
+            "Value": { "Fn::GetAtt": [ "SnaplogicStack", "Outputs.RedshiftJDBC"] },
             "Description": "Redshift JDBC Url",
 			"Export": {
 				"Name": { "Fn::Sub": "${AWS::StackName}:RedshiftJDBC" } 
@@ -422,7 +422,7 @@
         },
 		"RedshiftEndpoint": {
             "Condition": "CreateRedshiftCondition",		
-            "Value": { "Fn::GetAtt": [ "OodleStack", "Outputs.RedshiftEndpoint"] },
+            "Value": { "Fn::GetAtt": [ "SnaplogicStack", "Outputs.RedshiftEndpoint"] },
             "Description": "Redshift Endpoint",
 			"Export": {
 				"Name": { "Fn::Sub": "${AWS::StackName}:RedshiftEndpoint" } 

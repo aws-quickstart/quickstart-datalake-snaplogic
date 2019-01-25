@@ -1,7 +1,26 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Create Oodle Security Groups (qs-1nrlpbhnk)",
+    "Description": "Create Snaplogic Security Groups (qs-1nrlpbhnk)",
     "Parameters": {
+	 "VPCID": {
+            "Description": "ID of the VPC (e.g., vpc-0343606e)",
+            "Type": "AWS::EC2::VPC::Id"
+        },
+        "RemoteAccessCIDR": {
+            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
+            "Description": "Allowed CIDR block for external SSH access to the bastions",
+            "Type": "String"
+        },
+		 "CreateRedshift": {
+            "Description": "Create Redshift.",
+            "Type": "String",
+            "Default": "false",
+            "AllowedValues": [
+                "true",
+                "false"
+            ]
+        },
 		"BastionSecurityGroupID": {
             "Description": "Bastion Server Security Group.",
             "Type": "String"
@@ -12,7 +31,8 @@
         },
         "RedshiftPort": {
             "Description": "RedShift Port",
-            "Type": "String"
+            "Type": "String",
+			"Default": "5439"
         },
         "CloudplexserverSecurityGroupID": {
             "Description": "Cloudplexserver Security Group.",
@@ -57,6 +77,48 @@
         }
     },
     "Resources": {
+	 "BastionSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Enables SSH Access to Bastion Hosts",
+                "VpcId": { "Ref": "VPCID" },
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": {
+                            "Ref": "RemoteAccessCIDR"
+                        }
+                    },
+                    {
+                        "IpProtocol": "icmp",
+                        "FromPort": "-1",
+                        "ToPort": "-1",
+                        "CidrIp": {
+                            "Ref": "RemoteAccessCIDR"
+                        }
+                    }
+                ]
+            }
+        },
+		"RedshiftSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "VpcId": { "Ref": "VpcId" },
+                "GroupDescription": "Allow access to Redshift from Studio, Bastion, and external CIDR on RedshiftPort (5439).",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": { "Ref": "RedshiftPort" },
+                        "ToPort": { "Ref": "RedshiftPort" },
+                        "CidrIp": {
+                            "Ref": "RemoteAccessCIDR"
+                        }
+                    }
+                ]
+            }
+        },
         "CloudplexserverIngressBastionSsh": {
             "Type": "AWS::EC2::SecurityGroupIngress",
             "Condition": "BastionCloudplexserverCondition",
@@ -100,5 +162,13 @@
         }
     },
     "Outputs": {
+	"BastionSecurityGroupID": {
+            "Value": { "Ref": "BastionSecurityGroup" },
+            "Description": "Bastion Security Group ID"
+        },
+		"RedshiftSecurityGroupID": {
+            "Value": { "Fn::GetAtt": [ "RedshiftSecurityGroup", "GroupId" ] },
+            "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:RedshiftSecurityGroupID" } }
+        }
     }
 }
