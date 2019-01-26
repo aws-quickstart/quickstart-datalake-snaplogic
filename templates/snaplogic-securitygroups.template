@@ -122,7 +122,7 @@
         },
         "CloudplexserverIngressCloudplexserverICMP": {
             "Type": "AWS::EC2::SecurityGroupIngress",
-            "DependsOn": "CloudplexserverSecurityGroup",
+            "DependsOn": "CloudplexserverIngressCloudplexserver",
             "Properties": {
                 "GroupId": {
                     "Ref": "CloudplexserverSecurityGroup"
@@ -135,20 +135,9 @@
                 }
             }
         },
-        "CloudplexserverIngressBastionSsh": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-			"DependsOn": "CloudplexserverSecurityGroup",
-            "Condition": "BastionCloudplexserverCondition",
-            "Properties": {
-                "GroupId": { "Ref": "CloudplexserverSecurityGroup" },
-                "SourceSecurityGroupId": { "Ref": "BastionSecurityGroup" },
-                "IpProtocol": "tcp",
-                "FromPort": "22",
-                "ToPort": "22"
-            }
-        },
 		"RedshiftSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
+			"DependsOn": "BastionSecurityGroup",
             "Properties": {
                 "VpcId": { "Ref": "VpcId" },
                 "GroupDescription": "Allow access to Redshift from Studio, Bastion, and external CIDR on RedshiftPort (5439).",
@@ -164,8 +153,21 @@
                 ]
             }
         },
+        "CloudplexserverIngressBastionSsh": {
+            "Type": "AWS::EC2::SecurityGroupIngress",
+			"DependsOn": "RedshiftSecurityGroup",
+            "Condition": "BastionCloudplexserverCondition",
+            "Properties": {
+                "GroupId": { "Ref": "CloudplexserverSecurityGroup" },
+                "SourceSecurityGroupId": { "Ref": "BastionSecurityGroup" },
+                "IpProtocol": "tcp",
+                "FromPort": "22",
+                "ToPort": "22"
+            }
+        },
         "RedshiftIngressBastion": {
             "Type": "AWS::EC2::SecurityGroupIngress",
+			"DependsOn": "RedshiftSecurityGroup",
             "Condition": "BastionRedshiftCondition",
             "Properties": {
                 "GroupId": {
