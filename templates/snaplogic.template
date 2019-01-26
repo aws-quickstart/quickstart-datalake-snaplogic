@@ -477,6 +477,7 @@
         },
 		 "SnaplogicServersStack": {
 			"Type" : "AWS::CloudFormation::Stack",
+			"DependsOn": "SnaplogicSecurityGroupsStack",
 			"Properties" : {
                 "TemplateURL":{
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-servers.template"
