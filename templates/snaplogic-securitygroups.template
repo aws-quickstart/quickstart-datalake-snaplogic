@@ -39,28 +39,6 @@
             "Type": "String"
         }
     },
-    "Mappings": {
-    },
-    "Conditions": {
-        "BastionCloudplexserverCondition": {
-            "Fn::And": [
-                { "Condition": "BastionCondition" },
-                { "Condition": "CloudplexserverCondition" }
-            ]
-        },
-        "CloudplexserverRedshiftCondition": {
-            "Fn::And": [
-                { "Condition": "CloudplexserverCondition" },
-                { "Condition": "RedshiftCondition" }
-            ]
-        },
-        "BastionRedshiftCondition": {
-            "Fn::And": [
-                { "Condition": "BastionCondition" },
-                { "Condition": "RedshiftCondition" }
-            ]
-        }
-    },
     "Resources": {
 	"BastionSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
@@ -89,7 +67,6 @@
         },
 	 "CloudplexserverSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
-			"DependsOn": "BastionSecurityGroup",
             "Properties": {
                 "VpcId": { "Ref": "VpcId" },
                 "GroupDescription": "Allow access to Cloudplexserver from TAC on 8000 (command), 8001 (file), and 8888 (monitoring), and ssh from remote access",
@@ -122,7 +99,7 @@
         },
         "CloudplexserverIngressCloudplexserverICMP": {
             "Type": "AWS::EC2::SecurityGroupIngress",
-            "DependsOn": "CloudplexserverIngressCloudplexserver",
+            "DependsOn": "CloudplexserverSecurityGroup",
             "Properties": {
                 "GroupId": {
                     "Ref": "CloudplexserverSecurityGroup"
@@ -137,7 +114,6 @@
         },
 		"RedshiftSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
-			"DependsOn": "BastionSecurityGroup",
             "Properties": {
                 "VpcId": { "Ref": "VpcId" },
                 "GroupDescription": "Allow access to Redshift from Studio, Bastion, and external CIDR on RedshiftPort (5439).",
@@ -152,50 +128,6 @@
                     }
                 ]
             }
-        },
-        "CloudplexserverIngressBastionSsh": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-			"DependsOn": "RedshiftSecurityGroup",
-            "Condition": "BastionCloudplexserverCondition",
-            "Properties": {
-                "GroupId": { "Ref": "CloudplexserverSecurityGroup" },
-                "SourceSecurityGroupId": { "Ref": "BastionSecurityGroup" },
-                "IpProtocol": "tcp",
-                "FromPort": "22",
-                "ToPort": "22"
-            }
-        },
-        "RedshiftIngressBastion": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-			"DependsOn": "RedshiftSecurityGroup",
-            "Condition": "BastionRedshiftCondition",
-            "Properties": {
-                "GroupId": {
-                    "Ref": "RedshiftSecurityGroup"
-                },
-                "IpProtocol": "tcp",
-                "FromPort": { "Ref": "RedshiftPort" },
-                "ToPort": { "Ref": "RedshiftPort" },
-                "SourceSecurityGroupId": {
-                    "Ref": "BastionSecurityGroup"
-                }
-            }
-        },
-        "RedshiftIngressCloudplexserver": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-			"DependsOn": "CloudplexserverSecurityGroup",
-            "Condition": "CloudplexserverRedshiftCondition",
-            "Properties": {
-                "GroupId": {
-                    "Ref": "RedshiftSecurityGroup"
-                },
-                "IpProtocol": "tcp",
-                "FromPort": { "Ref": "RedshiftPort" },
-                "ToPort": { "Ref": "RedshiftPort" },
-                "SourceSecurityGroupId": {
-                    "Ref": "CloudplexserverSecurityGroup"
-                }
-            }
         }
     },
     "Outputs": {
@@ -204,12 +136,13 @@
             "Description": "Bastion Security Group ID"
         },
 		"RedshiftSecurityGroupID": {
-            "Value": { "Ref": "RedshiftSecurityGroup"},
-            "Description": "Redshift Security Group ID"
-        },
+            "Value": { "Fn::GetAtt": [ "RedshiftSecurityGroup", "GroupId" ] },
+            "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:RedshiftSecurityGroupID" } }
+        }
 		 "CloudplexserverSecurityGroupID": {
             "Description": "Cloudplexserver security group.",
-            "Value": { "Ref": "Cloudplexserver Security Group ID" }
+            "Value": { "Ref": "CloudplexserverSecurityGroup" },
+            "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverSecurityGroupID" } }
         }
     }
 }

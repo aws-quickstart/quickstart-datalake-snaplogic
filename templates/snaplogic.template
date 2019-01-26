@@ -401,7 +401,7 @@
 			"DependsOn": "DataSourceSecurityGroupsStack",
             "Properties": {
                 "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/oodle-securitygroups.template"
 				},
                 "Parameters": {
                     "BastionSecurityGroupID": { 
