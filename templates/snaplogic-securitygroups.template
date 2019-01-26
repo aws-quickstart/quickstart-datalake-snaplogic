@@ -138,7 +138,6 @@
         "CloudplexserverIngressBastionSsh": {
             "Type": "AWS::EC2::SecurityGroupIngress",
 			"DependsOn": "CloudplexserverSecurityGroup",
-			"DependsOn": "BastionSecurityGroup",
             "Condition": "BastionCloudplexserverCondition",
             "Properties": {
                 "GroupId": { "Ref": "CloudplexserverSecurityGroup" },

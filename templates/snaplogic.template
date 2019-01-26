@@ -354,6 +354,7 @@
 },
         "BastionSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "IamStack",
             "Properties": {
                 "TemplateURL": {
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
@@ -367,6 +368,7 @@
 
         "SnaplogicSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "BastionSecurityGroupsStack",
             "Properties": {
                 "TemplateURL": {
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
@@ -379,6 +381,7 @@
         },  
         "DataSourceSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "SnaplogicSecurityGroupsStack",
             "Properties": {
                 "TemplateURL": {
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
@@ -395,6 +398,7 @@
 		
         "SnaplogicSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "DataSourceSecurityGroupsStack",
             "Properties": {
                 "TemplateURL": {
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
@@ -428,6 +432,7 @@
 
         "BastionStack": {
             "Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "SnaplogicSecurityGroupsStack",
             "Condition": "CreateBastionCondition",
             "Properties": {
                 "TemplateURL":{
@@ -456,6 +461,7 @@
 
         "RedshiftStack": {
             "Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "BastionStack",
             "Condition": "CreateRedshiftCondition",
             "Properties": {
                 "TemplateURL":{
@@ -477,6 +483,7 @@
         },
 		 "SnaplogicServersStack": {
 			"Type" : "AWS::CloudFormation::Stack",
+			"DependsOn": "RedshiftStack",
 			"Properties" : {
                 "TemplateURL":{
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-servers.template"
