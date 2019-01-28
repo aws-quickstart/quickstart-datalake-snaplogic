@@ -289,7 +289,7 @@
         },
         "NumBastionHosts": {
             "AllowedValues": [ "0", "1", "2"],
-            "Default": "1",
+            "Default": "2",
             "Description": "The number of Linux bastion hosts to run. Auto Scaling will ensure that you always have this number of bastion hosts running. The maximum is 4 bastion hosts.",
             "Type": "String"
         }
