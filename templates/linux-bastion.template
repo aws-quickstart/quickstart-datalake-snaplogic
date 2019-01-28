@@ -778,16 +778,10 @@
         }
     },
     "Outputs": {
-        "BastionAutoScalingGroup": {
+        "BastionSecurityGroupID": {
             "Description": "Auto Scaling Group Reference ID",
-            "Value": {
-                "Ref": "BastionAutoScalingGroup"
-            },
-			"Export": {
-                "Name": {
-                    "Fn::Sub": "${AWS::StackName}-BastionAutoScalingGroup"
-                }
-            }
+			 "Value": { "Fn::GetAtt": [ "BastionSecurityGroup", "GroupId" ] },
+            "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:BastionSecurityGroupID" } }
         },
         "EIP1": {
             "Description": "Elastic IP 1 for Bastion",
