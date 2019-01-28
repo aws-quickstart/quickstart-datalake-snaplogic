@@ -258,7 +258,7 @@
 		},
 		"CloudplexserverLaunchConfig": {
 			"Type": "AWS::AutoScaling::LaunchConfiguration",
-			
+			"DependsOn": "CloudplexserverSecurityGroup",
 			"Properties": {
 				"InstanceType": {
 					"Ref": "InstanceType"
@@ -275,7 +275,9 @@
 				"KeyName": {
 					"Ref": "KeyName"
 				},
-				"SecurityGroups": [],
+				"SecurityGroups": {
+					"Ref": "CloudplexserverSecurityGroup"
+				},
 				"IamInstanceProfile": {
 					"Ref": "InstanceProfile"
 				},
