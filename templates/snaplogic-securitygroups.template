@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "Create Oodle Security Groups (qs-1nrlpbhnk)",
+    "Description": "Create Snaplogic Security Groups (qs-1nrlpbhnk)",
     "Parameters": {
 		"BastionSecurityGroupID": {
             "Description": "Bastion Server Security Group.",

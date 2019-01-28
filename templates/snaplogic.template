@@ -396,7 +396,6 @@
 		
         "SnaplogicSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
-			"DependsOn": "OodleSecurityGroupsStack",
             "Properties": {
                 "TemplateURL": {
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
