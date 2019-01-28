@@ -52,10 +52,6 @@
             "Description": "Redshift subnet B",
             "Type": "AWS::EC2::Subnet::Id"
         },
-        "RedshiftSecurityGroup": {
-            "Description": "Redshift security group",
-            "Type": "String"
-        },
         "RedshiftUsername": {
             "Description": "RedShift Username",
             "Type": "String"
