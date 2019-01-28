@@ -275,9 +275,7 @@
 				"KeyName": {
 					"Ref": "KeyName"
 				},
-				"SecurityGroups": {
-					"Ref": "CloudplexserverSecurityGroup"
-				},
+				"SecurityGroups": [],
 				"IamInstanceProfile": {
 					"Ref": "InstanceProfile"
 				},
