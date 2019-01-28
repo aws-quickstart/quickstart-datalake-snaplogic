@@ -199,10 +199,6 @@
             "Description": "Allowed CIDR block for external SSH access to the bastions",
             "Type": "String"
         },
-		"BastionSecurityGroup": {
-            "Description": "Bastion Server Security Group.",
-            "Type": "String"
-		},
         "VPCID": {
             "Description": "ID of the VPC (e.g., vpc-0343606e)",
             "Type": "AWS::EC2::VPC::Id"
@@ -670,11 +666,6 @@
                         }
                     ]
                 },
-                "SecurityGroups": [
-                    {
-                        "Ref": "BastionSecurityGroup"
-                    }
-                ],
                 "InstanceType": {
                     "Ref": "BastionInstanceType"
                 },
@@ -757,9 +748,8 @@
                     }
                 }
             }
-        }
-    },
-	 "BastionSecurityGroup": {
+        },
+		"BastionSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
                 "GroupDescription": "Enables SSH Access to Bastion Hosts",
@@ -786,20 +776,19 @@
                 ]
             }
         }
-},
+    },
     "Outputs": {
         "BastionAutoScalingGroup": {
             "Description": "Auto Scaling Group Reference ID",
             "Value": {
                 "Ref": "BastionAutoScalingGroup"
-            }
-        },
-		"Export": {
+            },
+			"Export": {
                 "Name": {
                     "Fn::Sub": "${AWS::StackName}-BastionAutoScalingGroup"
                 }
             }
-},
+        },
         "EIP1": {
             "Description": "Elastic IP 1 for Bastion",
             "Value": {
