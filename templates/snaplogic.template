@@ -351,20 +351,7 @@
                     "StackRoot": { "Fn::Sub": "${AWS::StackName}" }
                 }
             }
-},
-        "BastionSecurityGroupsStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-                "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/linux-bastion-securitygroups.template"
-				},
-                "Parameters": {
-                    "VPCID": { "Ref": "VpcId" },
-                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" }
-                }
-            }
-        },   
-
+},   
         "CloudplexSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
 			"DependsOn": "BastionSecurityGroupsStack",
@@ -521,16 +508,6 @@
 			"Export": {
 				"Name": { "Fn::Sub": "${AWS::StackName}:SecurityGroupsStack" } 
 				}   
-        },
-        "BastionStack": {
-            "Condition": "CreateBastionCondition",
-            "Value": { "Ref": "BastionStack" },
-            "Description": "Nested Bastion stack",
-			"Export": {
-				"Name": {
-					"Fn::Sub": "${AWS::StackName}:BastionStack"
-				} 
-			}
         },  
 		  "SnaplogicServersStack": {
             "Value": { "Ref": "SnaplogicServersStack" },
