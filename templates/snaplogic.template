@@ -489,8 +489,6 @@
                     "KeyName": { "Ref": "KeyPairName" },
                     "InstanceRole": { "Fn::GetAtt": [ "IamStack", "Outputs.InstanceRole" ] },
                     "InstanceProfile": { "Fn::GetAtt": [ "IamStack", "Outputs.InstanceProfile" ] },
-                    "PublicSubnetId1": { "Ref": "PublicSubnetId1" },
-                    "PublicSubnetId2": { "Ref": "PublicSubnetId2" },
                     "PrivateSubnetId1": { "Ref": "PrivateSubnetId1" },
                     "PrivateSubnetId2": { "Ref": "PrivateSubnetId2" },
 
