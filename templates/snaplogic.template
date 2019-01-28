@@ -288,7 +288,7 @@
             "Default": "1"
         },
         "NumBastionHosts": {
-            "AllowedValues": [ "0", "1", "2", "3", "4" ],
+            "AllowedValues": [ "0", "1", "2"],
             "Default": "1",
             "Description": "The number of Linux bastion hosts to run. Auto Scaling will ensure that you always have this number of bastion hosts running. The maximum is 4 bastion hosts.",
             "Type": "String"
@@ -367,6 +367,7 @@
 
         "CloudplexSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "BastionSecurityGroupsStack",
             "Properties": {
                 "TemplateURL": {
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudplex-securitygroups.template"
@@ -377,7 +378,7 @@
                 }
             }
         },  
-        "DataSourceSecurityGroupsStack": {
+        "RedshiftSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
@@ -391,8 +392,11 @@
                 }
             }
         },           
+
+		
         "SnaplogicSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "OodleSecurityGroupsStack",
             "Properties": {
                 "TemplateURL": {
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
@@ -408,7 +412,7 @@
                     "RedshiftSecurityGroupID": { 
                         "Fn::If": [ 
                             "CreateRedshiftCondition", 
-                            { "Fn::GetAtt": [ "DataSourceSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
+                            { "Fn::GetAtt": [ "RedshiftSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
                             "" 
                         ]
                     },
@@ -423,6 +427,7 @@
                 }
             }
         },  
+
         "BastionStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Condition": "CreateBastionCondition",
@@ -462,7 +467,7 @@
                 "Parameters": {
                     "RedshiftSubnetA": { "Ref": "PrivateSubnetId1" },
                     "RedshiftSubnetB": { "Ref": "PrivateSubnetId2" },
-                    "RedshiftSecurityGroup": { "Fn::GetAtt": [ "DataSourceSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
+                    "RedshiftSecurityGroup": { "Fn::GetAtt": [ "RedshiftSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
                     "RedshiftUsername": { "Ref": "RedshiftUsername" },
                     "RedshiftPassword": { "Ref": "RedshiftPassword" },
                     "RedshiftDbName": { "Ref": "RedshiftDbName" },
