@@ -54,7 +54,7 @@
 			"MaxValue": "10",
 			"Default": "1"
 		},
-		"CloudplexserverInstanceType": {
+		"InstanceType": {
 			"Description": "Snaplogic Server EC2 instance type",
 			"Type": "String",
 			"Default": "t2.large",
@@ -204,8 +204,8 @@
 		"CloudplexserverLaunchConfig": {
 			"Type": "AWS::AutoScaling::LaunchConfiguration",
 			"Properties": {
-				"CloudplexserverInstanceType": {
-					"Ref": "CloudplexserverInstanceType"
+				"InstanceType": {
+					"Ref": "InstanceType"
 				},
 				"ImageId": {
 					"Fn::FindInMap": [
