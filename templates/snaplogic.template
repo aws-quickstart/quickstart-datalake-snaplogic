@@ -352,35 +352,6 @@
                 }
             }
 },   
-        "CloudplexSecurityGroupsStack": {
-            "Type": "AWS::CloudFormation::Stack",
-			"DependsOn": "BastionSecurityGroupsStack",
-            "Properties": {
-                "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudplex-securitygroups.template"
-				},
-                "Parameters": {
-                    "VpcId": { "Ref": "VpcId" },
-                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" }
-                }
-            }
-        },  
-        "RedshiftSecurityGroupsStack": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-                "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/datasource-securitygroups.template"
-				},
-                "Parameters": {
-                    "VpcId": { "Ref": "VpcId" },
-                    "RedshiftPort": { "Fn::FindInMap": [ "Datasource", "Redshift", "port" ] },
-                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
-                    "CreateRedshift": { "Fn::If": [ "CreateRedshiftCondition", "true", "false" ] }
-                }
-            }
-        },           
-
-		
         "SnaplogicSecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
@@ -398,7 +369,7 @@
                     "RedshiftSecurityGroupID": { 
                         "Fn::If": [ 
                             "CreateRedshiftCondition", 
-                            { "Fn::GetAtt": [ "RedshiftSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
+                            { "Fn::GetAtt": [ "RedshiftStack", "Outputs.RedshiftSecurityGroupID"] },
                             "" 
                         ]
                     },
@@ -409,7 +380,7 @@
                             "" 
                         ]
                     },
-                    "CloudplexserverSecurityGroupID": { "Fn::GetAtt": [ "CloudplexSecurityGroupsStack", "Outputs.CloudplexserverSecurityGroupID" ] }
+                    "CloudplexserverSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicServersStack", "Outputs.CloudplexserverSecurityGroupID" ] }
                 }
             }
         },  
@@ -450,6 +421,9 @@
 				},
                 "TimeoutInMinutes": 30,
                 "Parameters": {
+				    "VpcId": { "Ref": "VpcId" },
+                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
+                    "CreateRedshift": { "Fn::If": [ "CreateRedshiftCondition", "true", "false" ] },
                     "RedshiftSubnetA": { "Ref": "PrivateSubnetId1" },
                     "RedshiftSubnetB": { "Ref": "PrivateSubnetId2" },
                     "RedshiftSecurityGroup": { "Fn::GetAtt": [ "RedshiftSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
@@ -473,6 +447,8 @@
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
 					"QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
 					"SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
+					 "VpcId": { "Ref": "VpcId" },
+                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
                     "KeyName": { "Ref": "KeyPairName" },
                     "InstanceRole": { "Fn::GetAtt": [ "IamStack", "Outputs.InstanceRole" ] },
                     "InstanceProfile": { "Fn::GetAtt": [ "IamStack", "Outputs.InstanceProfile" ] },
@@ -501,14 +477,7 @@
 					"Fn::Sub": "${AWS::StackName}:IamStack"
 				} 
 			}
-},
-        "CloudplexSecurityGroupsStack": {
-            "Value": { "Ref": "CloudplexSecurityGroupsStack" },
-            "Description": "Nested Snaplogic Security Group stack",
-			"Export": {
-				"Name": { "Fn::Sub": "${AWS::StackName}:SecurityGroupsStack" } 
-				}   
-        },  
+}, 
 		  "SnaplogicServersStack": {
             "Value": { "Ref": "SnaplogicServersStack" },
             "Description": "Nested Snaplogic Servers stack",

@@ -23,6 +23,27 @@
         }
     },
     "Parameters": {
+	"VpcId": {
+            "Description": "VPC to which security groups belong",
+            "Type": "AWS::EC2::VPC::Id"
+        },
+        "RemoteAccessCIDR": {
+            "Description": "The IP address range that can be used to access the DataSources.",
+            "Type": "String",
+            "MinLength": "9",
+            "MaxLength": "18",
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+            "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+        },
+        "CreateRedshift": {
+            "Description": "Create Redshift.",
+            "Type": "String",
+            "Default": "false",
+            "AllowedValues": [
+                "true",
+                "false"
+            ]
+        },
         "RedshiftSubnetA": {
             "Description": "Redshift subnet A",
             "Type": "AWS::EC2::Subnet::Id"
@@ -81,6 +102,23 @@
         }
     },
     "Resources": {
+	"RedshiftSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "VpcId": { "Ref": "VpcId" },
+                "GroupDescription": "Allow access to Redshift from Studio, Bastion, and external CIDR on RedshiftPort (5439).",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": { "Ref": "RedshiftPort" },
+                        "ToPort": { "Ref": "RedshiftPort" },
+                        "CidrIp": {
+                            "Ref": "RemoteAccessCIDR"
+                        }
+                    }
+                ]
+            }
+        },
         "RedshiftSubnetGroup": {
             "Type": "AWS::Redshift::ClusterSubnetGroup",
             "Properties": {
@@ -126,6 +164,10 @@
         
     },
     "Outputs": {
+	 "RedshiftSecurityGroupID": {
+            "Value": { "Fn::GetAtt": [ "RedshiftSecurityGroup", "GroupId" ] },
+            "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:RedshiftSecurityGroupID" } }
+        },
         "RedshiftClusterId": {
             "Value": { "Ref": "RedshiftInstance" },
             "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:RedshiftClusterId" } }
