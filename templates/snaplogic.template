@@ -367,6 +367,38 @@
                 }
             }
         },  
+		 "SecurityGroupsStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL": {
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
+				},
+                "Parameters": {
+                    "BastionSecurityGroupID": { 
+                        "Fn::If": [ 
+                            "CreateBastionCondition", 
+                            { "Fn::GetAtt": [ "BastionSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
+                            "" 
+                        ]
+                    },
+                    "RedshiftSecurityGroupID": { 
+                        "Fn::If": [ 
+                            "CreateRedshiftCondition", 
+                            { "Fn::GetAtt": [ "DataSourceSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
+                            "" 
+                        ]
+                    },
+                    "RedshiftPort": { 
+                        "Fn::If": [ 
+                            "CreateRedshiftCondition", 
+                            { "Fn::FindInMap": [ "Datasource", "Redshift", "port"] },
+                            "" 
+                        ]
+                    },
+                    "CloudplexserverSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.CloudplexserverSecurityGroupID" ] }
+                }
+            }
+        },
         "BastionStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Condition": "CreateBastionCondition",
