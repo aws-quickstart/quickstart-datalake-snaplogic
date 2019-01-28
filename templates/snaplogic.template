@@ -426,7 +426,6 @@
                     "CreateRedshift": { "Fn::If": [ "CreateRedshiftCondition", "true", "false" ] },
                     "RedshiftSubnetA": { "Ref": "PrivateSubnetId1" },
                     "RedshiftSubnetB": { "Ref": "PrivateSubnetId2" },
-                    "RedshiftSecurityGroup": { "Fn::GetAtt": [ "RedshiftSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
                     "RedshiftUsername": { "Ref": "RedshiftUsername" },
                     "RedshiftPassword": { "Ref": "RedshiftPassword" },
                     "RedshiftDbName": { "Ref": "RedshiftDbName" },
@@ -459,10 +458,7 @@
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
                     "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
                    
-                    "InstanceType": { "Ref": "InstanceType" },
-
-                   
-                    "CloudplexserverSecurityGroup": { "Fn::GetAtt": [ "CloudplexSecurityGroupsStack", "Outputs.CloudplexserverSecurityGroupID" ] }
+                    "InstanceType": { "Ref": "InstanceType" }
                 }
             }
         }
