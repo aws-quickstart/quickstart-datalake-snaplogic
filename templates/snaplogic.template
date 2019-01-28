@@ -381,7 +381,6 @@
                     "PublicSubnet2ID": { "Ref": "PublicSubnetId2" },
                     "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
                     "KeyPairName": { "Ref": "KeyPairName" },
-                    "BastionSecurityGroup": { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
                     "NumBastionHosts": { "Ref": "NumBastionHosts" },
                     "BastionAMIOS": "Amazon-Linux-HVM",
                     "BastionInstanceType": { "Ref": "BastionInstanceType" },
@@ -406,7 +405,6 @@
                 "Parameters": {
                     "RedshiftSubnetA": { "Ref": "PrivateSubnetId1" },
                     "RedshiftSubnetB": { "Ref": "PrivateSubnetId2" },
-                    "RedshiftSecurityGroup": { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
                     "RedshiftUsername": { "Ref": "RedshiftUsername" },
                     "RedshiftPassword": { "Ref": "RedshiftPassword" },
                     "RedshiftDbName": { "Ref": "RedshiftDbName" },
@@ -439,10 +437,7 @@
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
                     "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
                    
-                    "CloudplexserverInstanceType": { "Ref": "CloudplexserverInstanceType" },
-
-                   
-                    "CloudplexserverSecurityGroup": { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.CloudplexserverSecurityGroupID" ] }
+                    "CloudplexserverInstanceType": { "Ref": "CloudplexserverInstanceType" }
                 }
             }
         }
