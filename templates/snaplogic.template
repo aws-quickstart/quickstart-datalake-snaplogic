@@ -288,7 +288,7 @@
             "Default": "1"
         },
         "NumBastionHosts": {
-            "AllowedValues": [ "0", "1", "2"],
+            "AllowedValues": [ "0", "1", "2", "3", "4" ],
             "Default": "1",
             "Description": "The number of Linux bastion hosts to run. Auto Scaling will ensure that you always have this number of bastion hosts running. The maximum is 4 bastion hosts.",
             "Type": "String"
@@ -352,27 +352,86 @@
                 }
             }
 },
-    
+        "BastionSecurityGroupsStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL": {
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/linux-bastion-securitygroups.template"
+				},
+                "Parameters": {
+                    "VPCID": { "Ref": "VpcId" },
+                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" }
+                }
+            }
+        },   
+
         "SnaplogicSecurityGroupsStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL": {
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudplex-securitygroups.template"
+				},
+                "Parameters": {
+                    "VpcId": { "Ref": "VpcId" },
+                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" }
+                }
+            }
+        },  
+        "DataSourceSecurityGroupsStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL": {
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/datasource-securitygroups.template"
+				},
+                "Parameters": {
+                    "VpcId": { "Ref": "VpcId" },
+                    "RedshiftPort": { "Fn::FindInMap": [ "Datasource", "Redshift", "port" ] },
+                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
+                    "CreateRedshift": { "Fn::If": [ "CreateRedshiftCondition", "true", "false" ] }
+                }
+            }
+        },           
+
+		
+        "Snaplogic-SecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
 				},
                 "Parameters": {
-                    "VpcId": { "Ref": "VpcId" },
-                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
-					"RedshiftPort": { "Fn::FindInMap": [ "Datasource", "Redshift", "port" ] },
-					"CreateRedshift": { "Fn::If": [ "CreateRedshiftCondition", "true", "false" ] }
+                    "BastionSecurityGroupID": { 
+                        "Fn::If": [ 
+                            "CreateBastionCondition", 
+                            { "Fn::GetAtt": [ "BastionSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
+                            "" 
+                        ]
+                    },
+                    "RedshiftSecurityGroupID": { 
+                        "Fn::If": [ 
+                            "CreateRedshiftCondition", 
+                            { "Fn::GetAtt": [ "DataSourceSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
+                            "" 
+                        ]
+                    },
+                    "RedshiftPort": { 
+                        "Fn::If": [ 
+                            "CreateRedshiftCondition", 
+                            { "Fn::FindInMap": [ "Datasource", "Redshift", "port"] },
+                            "" 
+                        ]
+                    },
+                    "CloudplexserverSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.CloudplexserverSecurityGroupID" ] }
                 }
             }
         },  
+
         "BastionStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Condition": "CreateBastionCondition",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/linux-bastion.template"
 				},
                 "Parameters": {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
@@ -381,6 +440,7 @@
                     "PublicSubnet2ID": { "Ref": "PublicSubnetId2" },
                     "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
                     "KeyPairName": { "Ref": "KeyPairName" },
+                    "BastionSecurityGroup": { "Fn::GetAtt": [ "BastionSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
                     "NumBastionHosts": { "Ref": "NumBastionHosts" },
                     "BastionAMIOS": "Amazon-Linux-HVM",
                     "BastionInstanceType": { "Ref": "BastionInstanceType" },
@@ -405,6 +465,7 @@
                 "Parameters": {
                     "RedshiftSubnetA": { "Ref": "PrivateSubnetId1" },
                     "RedshiftSubnetB": { "Ref": "PrivateSubnetId2" },
+                    "RedshiftSecurityGroup": { "Fn::GetAtt": [ "DataSourceSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
                     "RedshiftUsername": { "Ref": "RedshiftUsername" },
                     "RedshiftPassword": { "Ref": "RedshiftPassword" },
                     "RedshiftDbName": { "Ref": "RedshiftDbName" },
@@ -437,7 +498,10 @@
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
                     "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
                    
-                    "CloudplexserverInstanceType": { "Ref": "CloudplexserverInstanceType" }
+                    "CloudplexserverInstanceType": { "Ref": "CloudplexserverInstanceType" },
+
+                   
+                    "CloudplexserverSecurityGroup": { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.CloudplexserverSecurityGroupID" ] }
                 }
             }
         }
@@ -457,9 +521,19 @@
             "Value": { "Ref": "SnaplogicSecurityGroupsStack" },
             "Description": "Nested Snaplogic Security Group stack",
 			"Export": {
-				"Name": { "Fn::Sub": "${AWS::StackName}:SnaplogicSecurityGroupsStack" } 
+				"Name": { "Fn::Sub": "${AWS::StackName}:SecurityGroupsStack" } 
 				}   
-        }, 
+        },
+        "BastionStack": {
+            "Condition": "CreateBastionCondition",
+            "Value": { "Ref": "BastionStack" },
+            "Description": "Nested Bastion stack",
+			"Export": {
+				"Name": {
+					"Fn::Sub": "${AWS::StackName}:BastionStack"
+				} 
+			}
+        },  
 		  "SnaplogicServersStack": {
             "Value": { "Ref": "SnaplogicServersStack" },
             "Description": "Nested Snaplogic Servers stack",
