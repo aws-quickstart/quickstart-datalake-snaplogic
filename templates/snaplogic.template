@@ -23,7 +23,7 @@
                     },
                     "Parameters": [
                         "KeyPairName",
-                        "CloudplexserverInstanceType",         
+                        "InstanceType",         
 						"BastionInstanceType",
 						"RedshiftNodeType",
 						"NumBastionHosts",
@@ -88,7 +88,7 @@
                 "KeyPairName": {
                     "default": "Key Pair Name"
                 },
-                "CloudplexserverInstanceType": {
+                "InstanceType": {
                     "default": "Cloudplexserver Instance Type"
                 },
                 "BastionInstanceType": {
@@ -172,7 +172,7 @@
             "Description": "The CIDR IP range that is permitted to access the VPC. We recommend that you use a constrained CIDR range to reduce the potential of inbound attacks from unknown IP addresses. For example, if your IPv4 address is 203.0.113.25, specify 203.0.113.25/32 to list this single IPv4 address in CIDR notation. If your company allocates addresses from a range, specify the entire range, such as 203.0.113.0/24. For details, see VPCs and Subnets in the AWS documentation.",
             "Type": "String"
         },
-        "CloudplexserverInstanceType": {
+        "InstanceType": {
             "Description": "EC2 Instance type for Snaplogic Cloudplexservers",
             "Type": "String",
             "Default": "t2.large",
@@ -496,7 +496,7 @@
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
                     "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
                    
-                    "CloudplexserverInstanceType": { "Ref": "CloudplexserverInstanceType" },
+                    "InstanceType": { "Ref": "InstanceType" },
 
                    
                     "CloudplexserverSecurityGroup": { "Fn::GetAtt": [ "CloudplexSecurityGroupsStack", "Outputs.CloudplexserverSecurityGroupID" ] }

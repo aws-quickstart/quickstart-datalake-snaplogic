@@ -55,7 +55,7 @@
                     },
                     "Parameters": [
                         "KeyPairName",
-                        "CloudplexserverInstanceType",
+                        "InstanceType",
 						"BastionInstanceType",
 						"NumBastionHosts",
 						"RedshiftNodeType",
@@ -155,7 +155,7 @@
 			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
 			"Type": "String"
 		},
-        "CloudplexserverInstanceType": {
+        "InstanceType": {
             "Description": "EC2 Instance type for Snaplogic Cloudplexservers",
             "Type": "String",
             "Default": "t2.large",
@@ -382,7 +382,7 @@
                     "PrivateSubnetId1": { "Fn::GetAtt": [ "VpcStack", "Outputs.PrivateSubnet1AID"] },
                     "PrivateSubnetId2": { "Fn::GetAtt": [ "VpcStack", "Outputs.PrivateSubnet2AID"] },
                     "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
-                    "CloudplexserverInstanceType": { "Ref": "CloudplexserverInstanceType" },
+                    "InstanceType": { "Ref": "InstanceType" },
                     "BastionInstanceType": { "Ref": "BastionInstanceType" },
                     "RedshiftHost": { "Ref": "RedshiftHost" },
                     "RedshiftUsername": { "Ref": "RedshiftUsername" },
