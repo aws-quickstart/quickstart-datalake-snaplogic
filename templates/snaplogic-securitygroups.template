@@ -100,5 +100,21 @@
         }
     },
     "Outputs": {
+<<<<<<< HEAD
+=======
+	"BastionSecurityGroupID": {
+            "Value": { "Ref": "BastionSecurityGroup" },
+            "Description": "Bastion Security Group ID"
+        },
+		"RedshiftSecurityGroupID": {
+            "Value": { "Fn::GetAtt": [ "RedshiftSecurityGroup", "GroupId" ] },
+            "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:RedshiftSecurityGroupID" } }
+        },
+		 "CloudplexserverSecurityGroupID": {
+            "Description": "Cloudplexserver security group.",
+            "Value": { "Ref": "CloudplexserverSecurityGroup" },
+            "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverSecurityGroupID" } }
+        }
+>>>>>>> 031fbe0f35097d38a1fd43d0d293424ca6753878
     }
 }

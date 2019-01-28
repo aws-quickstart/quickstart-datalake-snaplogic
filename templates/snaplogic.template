@@ -425,7 +425,42 @@
                 }
             }
         },  
+<<<<<<< HEAD
 
+=======
+		 "SecurityGroupsStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "TemplateURL": {
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
+				},
+                "Parameters": {
+                    "BastionSecurityGroupID": { 
+                        "Fn::If": [ 
+                            "CreateBastionCondition", 
+                            { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
+                            "" 
+                        ]
+                    },
+                    "RedshiftSecurityGroupID": { 
+                        "Fn::If": [ 
+                            "CreateRedshiftCondition", 
+                            { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
+                            "" 
+                        ]
+                    },
+                    "RedshiftPort": { 
+                        "Fn::If": [ 
+                            "CreateRedshiftCondition", 
+                            { "Fn::FindInMap": [ "Datasource", "Redshift", "port"] },
+                            "" 
+                        ]
+                    },
+                    "CloudplexserverSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.CloudplexserverSecurityGroupID" ] }
+                }
+            }
+        },
+>>>>>>> 031fbe0f35097d38a1fd43d0d293424ca6753878
         "BastionStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Condition": "CreateBastionCondition",
@@ -440,7 +475,11 @@
                     "PublicSubnet2ID": { "Ref": "PublicSubnetId2" },
                     "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
                     "KeyPairName": { "Ref": "KeyPairName" },
+<<<<<<< HEAD
                     "BastionSecurityGroup": { "Fn::GetAtt": [ "BastionSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
+=======
+                    "BastionSecurityGroup": { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
+>>>>>>> 031fbe0f35097d38a1fd43d0d293424ca6753878
                     "NumBastionHosts": { "Ref": "NumBastionHosts" },
                     "BastionAMIOS": "Amazon-Linux-HVM",
                     "BastionInstanceType": { "Ref": "BastionInstanceType" },
@@ -465,7 +504,11 @@
                 "Parameters": {
                     "RedshiftSubnetA": { "Ref": "PrivateSubnetId1" },
                     "RedshiftSubnetB": { "Ref": "PrivateSubnetId2" },
+<<<<<<< HEAD
                     "RedshiftSecurityGroup": { "Fn::GetAtt": [ "DataSourceSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
+=======
+                    "RedshiftSecurityGroup": { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
+>>>>>>> 031fbe0f35097d38a1fd43d0d293424ca6753878
                     "RedshiftUsername": { "Ref": "RedshiftUsername" },
                     "RedshiftPassword": { "Ref": "RedshiftPassword" },
                     "RedshiftDbName": { "Ref": "RedshiftDbName" },
