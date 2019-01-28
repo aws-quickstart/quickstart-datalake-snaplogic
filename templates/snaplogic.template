@@ -377,14 +377,14 @@
                     "BastionSecurityGroupID": { 
                         "Fn::If": [ 
                             "CreateBastionCondition", 
-                            { "Fn::GetAtt": [ "BastionSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
+                            { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
                             "" 
                         ]
                     },
                     "RedshiftSecurityGroupID": { 
                         "Fn::If": [ 
                             "CreateRedshiftCondition", 
-                            { "Fn::GetAtt": [ "DataSourceSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
+                            { "Fn::GetAtt": [ "SnaplogicSecurityGroupsStack", "Outputs.RedshiftSecurityGroupID"] },
                             "" 
                         ]
                     },
