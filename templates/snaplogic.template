@@ -391,7 +391,7 @@
                     "BastionSecurityGroupID": { 
                         "Fn::If": [ 
                             "CreateBastionCondition", 
-                            { "Fn::GetAtt": [ "BastionSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
+                            { "Fn::GetAtt": [ "BastionStack", "Outputs.BastionSecurityGroupID"] },
                             "" 
                         ]
                     },
