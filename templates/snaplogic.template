@@ -390,7 +390,7 @@
             "Condition": "CreateBastionCondition",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/linux-bastion.template"
 				},
                 "Parameters": {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
