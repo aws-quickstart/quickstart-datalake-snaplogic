@@ -126,10 +126,6 @@
 			"Type": "String",
 			"Default": "private",
 			"AllowedValues": ["private", "public"]
-		},
-		"CloudplexserverSecurityGroup": {
-			"Description": "Snaplogic Server Security Group.",
-			"Type": "CommaDelimitedList"
 		}
 	},
 	"Mappings": {
@@ -231,8 +227,7 @@
                     "Ref": "CloudplexserverSecurityGroup"
                 }
             }
-        }
-    },
+        },
 		"CloudplexserverAutoscaling": {
 			"Type": "AWS::AutoScaling::AutoScalingGroup",
 			"Properties": {
