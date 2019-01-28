@@ -138,7 +138,7 @@
 		"RedshiftSecurityGroupID": {
             "Value": { "Fn::GetAtt": [ "RedshiftSecurityGroup", "GroupId" ] },
             "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:RedshiftSecurityGroupID" } }
-        }
+        },
 		 "CloudplexserverSecurityGroupID": {
             "Description": "Cloudplexserver security group.",
             "Value": { "Ref": "CloudplexserverSecurityGroup" },
