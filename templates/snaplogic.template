@@ -329,7 +329,7 @@
 			"Type" : "AWS::CloudFormation::Stack",
 			"Properties" : {
                 "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}snaplogic-iam.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-iam.template"
 				},
 				"Parameters" : {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
@@ -341,7 +341,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}snaplogic-securitygroups.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
 				},
                 "Parameters": {
                     "RedshiftSecurityGroupID": { 
@@ -372,7 +372,7 @@
             "Condition": "CreateRedshiftCondition",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}datasource-redshift.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/datasource-redshift.template"
 				},
                 "TimeoutInMinutes": 30,
                 "Parameters": {
@@ -394,7 +394,7 @@
 			"Type" : "AWS::CloudFormation::Stack",
 			"Properties" : {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}snaplogic-servers.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-servers.template"
 				},
 				"TimeoutInMinutes" : "10",
 				"Parameters" : {
