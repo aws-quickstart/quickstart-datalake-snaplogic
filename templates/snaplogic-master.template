@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template uses the Snaplogic Snaplex Server templates with the AWS VPC quickstart.  The AWS VPC creates a multi-AZ, multi-subnet VPC infrastructure with managed NAT gateways in the public subnet for each Availability Zone. The Snaplogic servers are deployed to the public subnet with the exception of the Cloudplexservers which are deployed to the private subnet. **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhnf)",
+    "Description": "This template uses the Snaplogic Snaplex Server templates with the AWS VPC quickstart.  The AWS VPC creates a multi-AZ, multi-subnet VPC infrastructure with managed NAT gateways in the public subnet for each Availability Zone. The Snaplogic servers are deployed to the public subnet with the exception of the Cloudplexservers which are deployed to the private subnet and Bastion servers to a VPC. **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhnf)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -24,9 +24,7 @@
                     },
                     "Parameters": [
                         "CloudplexserverAutoscaleDesiredCapacity",
-                        "CloudplexserverAutoscaleMaxSize",
-                        "DistantRunAutoscaleDesiredCapacity",
-                        "DistantRunAutoscaleMaxSize"
+                        "CloudplexserverAutoscaleMaxSize"
                     ]
                 },
                 {
@@ -45,8 +43,8 @@
                         "default": "Snaplogic configuration"
                     },
                     "Parameters": [
-                        "SnaplogicResourceBucket",
-                        "SnaplogicLicenseBucket"
+                        "SnaplogicLicenseBucket",
+						"SnaplexconfS3KeyPrefix"
                     ]
                 },
                 {
@@ -78,6 +76,12 @@
                 },
                 "QSS3KeyPrefix": {
                     "default": "Quick Start S3 Key Prefix (optional)"
+                },
+				"SnaplogicLicenseBucket": {
+                    "default": "Snaplogic License Bucket"
+                },
+				 "SnaplexconfS3KeyPrefix": {
+                    "default": "Snaplex S3 Key Prefix (optional)"
                 },
                 "AvailabilityZones": {
                     "default": "Availability Zones"
@@ -148,6 +152,12 @@
             "Description": "The S3 key name prefix used to simulate a folder for your copy of Quick Start assets, if you decide to customize or extend the Quick Start for your own use. This prefix can include numbers, lowercase letters, uppercase letters, hyphens, and forward slashes",
             "Default":"quickstart-datalake-agilisium-snaplogic/",
 			"Type": "String"
+        },
+		"SnaplogicLicenseBucket": {
+            "Description": "Bucket holding Snaplogiclicense",
+            "Type": "String",
+            "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
+            "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
         },
 		"SnaplexconfS3KeyPrefix": {
 			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
@@ -326,13 +336,6 @@
             "Type": "String"
         }
     },
-    "Mappings": {
-        "Snaplogic": {
-            "flags": {
-                "SaveCredentialsEnabled": "true"
-            }
-        }
-    },
     "Conditions": {
         "CreateRedshiftCondition": {
             "Fn::Equals": [ "", { "Ref": "RedshiftHost" } ]
@@ -348,7 +351,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}aws-vpc.template"
                },
 			   "Parameters": {
                     "AvailabilityZones": {
@@ -364,12 +367,39 @@
                 }
             }
         },
+		 "BastionStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Condition": "CreateBastionCondition",
+            "Properties": {
+                "TemplateURL":{
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}linux-bastion.template"
+				},
+                "Parameters": {
+                    "QSS3BucketName": { "Ref": "QSS3BucketName" },
+					 "QSS3KeyPrefix": {
+                        "Ref": "QSS3KeyPrefix"
+                         },
+                    "VPCID": { "Fn::GetAtt": [ "VpcStack", "Outputs.VPCID" ] },
+                      "PublicSubnet1ID": { "Fn::GetAtt": [ "VpcStack", "Outputs.PublicSubnet1ID"] },
+                    "PublicSubnet2ID": { "Fn::GetAtt": [ "VpcStack", "Outputs.PublicSubnet2ID"] },
+                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
+                    "KeyPairName": { "Ref": "KeyPairName" },
+                     "NumBastionHosts": { "Ref": "NumBastionHosts"  },
+                    "BastionAMIOS": "Amazon-Linux-HVM",
+                    "BastionInstanceType": { "Ref": "BastionInstanceType" },
+                    "BastionBanner": "https://aws-quickstart.s3.amazonaws.com/quickstart-linux-bastion/scripts/banner_message.txt",
+                    "EnableBanner": "false",
+                    "EnableTCPForwarding": "true",
+                    "EnableX11Forwarding": "true"
+                }
+            }
+        },
 
         "SnaplogicStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL":{
-				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic.template"
+				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}snaplogic.template"
 				},
                 "Parameters": {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
@@ -377,13 +407,13 @@
 					"SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
                     "KeyPairName": { "Ref": "KeyPairName" },
                     "VpcId": { "Fn::GetAtt": [ "VpcStack", "Outputs.VPCID" ] },
+					"SnaplogicLicenseBucket": { "Ref": "SnaplogicLicenseBucket" },
                     "PublicSubnetId1": { "Fn::GetAtt": [ "VpcStack", "Outputs.PublicSubnet1ID"] },
                     "PublicSubnetId2": { "Fn::GetAtt": [ "VpcStack", "Outputs.PublicSubnet2ID"] },
                     "PrivateSubnetId1": { "Fn::GetAtt": [ "VpcStack", "Outputs.PrivateSubnet1AID"] },
                     "PrivateSubnetId2": { "Fn::GetAtt": [ "VpcStack", "Outputs.PrivateSubnet2AID"] },
                     "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
                     "InstanceType": { "Ref": "InstanceType" },
-                    "BastionInstanceType": { "Ref": "BastionInstanceType" },
                     "RedshiftHost": { "Ref": "RedshiftHost" },
                     "RedshiftUsername": { "Ref": "RedshiftUsername" },
                     "RedshiftPassword": { "Ref": "RedshiftPassword" },
@@ -391,8 +421,7 @@
                     "RedshiftNodeType": { "Ref": "RedshiftNodeType" },
                     "RedshiftNumberOfNodes": { "Ref": "RedshiftNumberOfNodes" },
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
-                    "CloudplexserverAutoscaleDesiredCapacity": { "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
-                    "NumBastionHosts": { "Ref": "NumBastionHosts"  }
+                    "CloudplexserverAutoscaleDesiredCapacity": { "Ref": "CloudplexserverAutoscaleDesiredCapacity" }
                 }
             }
         }
@@ -404,6 +433,16 @@
 			"Export": {
 				"Name": { "Fn::Sub": "${AWS::StackName}:VpcStack" } 
 				} 
+        },
+		 "BastionStack": {
+            "Condition": "CreateBastionCondition",
+            "Value": { "Ref": "BastionStack" },
+            "Description": "Nested Bastion stack",
+			"Export": {
+				"Name": {
+					"Fn::Sub": "${AWS::StackName}:BastionStack"
+				} 
+			}
         },
         "SnaplogicStack": {
             "Value": { "Ref": "SnaplogicStack" },

@@ -22,5 +22,9 @@
   {
       "ParameterKey": "QSS3BucketName",
       "ParameterValue": "$[taskcat_autobucket]"
+  },
+ {
+      "ParameterKey": "SnaplogicLicenseBucket",
+      "ParameterValue": "$[taskcat_autobucket]"
   }
 ]
