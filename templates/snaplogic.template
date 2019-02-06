@@ -334,8 +334,8 @@
                     "StackRoot": { "Fn::Sub": "${AWS::StackName}" }
                 }
             }
-           },   
-      "SecurityGroupsStack": {
+        },   
+    "SecurityGroupsStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
@@ -361,7 +361,7 @@
                 }
             }
         },  
-      "RedshiftStack": {
+    "RedshiftStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Condition": "CreateRedshiftCondition",
             "Properties": {
@@ -383,7 +383,7 @@
                 }
             }
         },
-	  "SnaplogicServersStack": {
+	"SnaplogicServersStack": {
 			"Type" : "AWS::CloudFormation::Stack",
 			"Properties" : {
                 "TemplateURL":{
