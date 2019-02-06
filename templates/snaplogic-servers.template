@@ -293,7 +293,7 @@
 				}
 			}
 		},
-		 "CloudplexserverSecurityGroup": {
+		"CloudplexserverSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
                 "VpcId": { "Ref": "VpcId" },
