@@ -307,9 +307,7 @@
                         "IpProtocol": "tcp",
                         "FromPort": "22",
                         "ToPort": "22",
-                        "CidrIp": {
-                            "Ref": "BastionSecurityGroupID"
-                        }
+                        "CidrIp": "10.0.0.0/8"
                     }
                 ]
             }
