@@ -342,6 +342,7 @@
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
 				},
                 "Parameters": {
+				    "BastionSecurityGroupID": { "Ref": "BastionSecurityGroupID" },
                     "RedshiftSecurityGroupID": { 
                         "Fn::If": [ 
                             "CreateRedshiftCondition", 
@@ -400,7 +401,6 @@
                     "PrivateSubnetId1": { "Ref": "PrivateSubnetId1" },
                     "PrivateSubnetId2": { "Ref": "PrivateSubnetId2" },
                     "VpcId": { "Ref": "VpcId" },
-					"BastionSecurityGroupID": { "Ref": "BastionSecurityGroupID" },
                     "CloudplexserverAutoscaleMinSize": "1",
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
                     "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
