@@ -421,12 +421,10 @@
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
                     "CloudplexserverAutoscaleDesiredCapacity": { "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
 					"BastionSecurityGroupID": { "Fn::GetAtt": [ "BastionStack", "Outputs.BastionSecurityGroupID"] }
-                        ]
                     }
                 }
             }
-        }
-    },
+        },
     "Outputs": {
         "VpcStack": {
             "Value": { "Ref": "VpcStack" },
