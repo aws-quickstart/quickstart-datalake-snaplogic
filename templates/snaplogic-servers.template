@@ -13,6 +13,10 @@
 			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
 			"Type": "String"
 		},
+		"BastionSecurityGroupID": {
+            "Description": "Bastion Server Security Group.",
+            "Type": "String"
+		},
 		 "SnaplogicLicenseBucket": {
             "Description": "Bucket holding Snaplogic license",
             "Type": "String",
