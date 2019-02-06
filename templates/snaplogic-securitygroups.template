@@ -37,12 +37,6 @@
                 { "Fn::Equals": [ "", { "Ref": "CloudplexserverSecurityGroupID" } ] }
             ]
         },
-		"BastionCloudplexserverCondition": {
-            "Fn::And": [
-                { "Condition": "BastionCondition" },
-                { "Condition": "CloudplexserverCondition" }
-            ]
-        },
         "CloudplexserverRedshiftCondition": {
             "Fn::And": [
                 { "Condition": "CloudplexserverCondition" },
@@ -57,16 +51,6 @@
         }
     },
     "Resources": {
-        "CloudplexserverIngressBastionSsh": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "Properties": {
-                "GroupId": { "Ref": "CloudplexserverSecurityGroupID" },
-				"SourceSecurityGroupId": { "Ref": "BastionSecurityGroupID" },
-                "IpProtocol": "tcp",
-                "FromPort": "22",
-                "ToPort": "22"
-            }
-        },
         "RedshiftIngressBastion": {
             "Type": "AWS::EC2::SecurityGroupIngress",
             "Properties": {
