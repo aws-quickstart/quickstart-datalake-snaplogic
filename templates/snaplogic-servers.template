@@ -9,7 +9,7 @@
 		},
 		"QSS3KeyPrefix": {
 			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
-			"Default": "quickstart-datalake-agilisium-snaplogic/",
+			"Default": "quickstart-datalake-snaplogic/",
 			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
 			"Type": "String"
 		},
@@ -22,14 +22,6 @@
 		 "VpcId": {
             "Description": "VPC to which security groups belong",
             "Type": "AWS::EC2::VPC::Id"
-        },
-        "RemoteAccessCIDR": {
-            "Description": "The IP address range that can be used to access the Snaplogic servers using SSH.",
-            "Type": "String",
-            "MinLength": "9",
-            "MaxLength": "18",
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
-            "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
         },
 		"SnaplexconfS3KeyPrefix": {
 			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
@@ -301,23 +293,6 @@
 				}
 			}
 		},
-		 "CloudplexserverSecurityGroup": {
-            "Type": "AWS::EC2::SecurityGroup",
-            "Properties": {
-                "VpcId": { "Ref": "VpcId" },
-                "GroupDescription": "Allow access to Cloudplexserver  and ssh from remote access",
-                "SecurityGroupIngress": [
-                    {
-                        "IpProtocol": "tcp",
-                        "FromPort": "22",
-                        "ToPort": "22",
-                        "CidrIp": {
-                            "Ref": "RemoteAccessCIDR"
-                        }
-                    }
-                ]
-            }
-        },
         "CloudplexserverIngressCloudplexserver": {
             "Type": "AWS::EC2::SecurityGroupIngress",
             "DependsOn": "CloudplexserverSecurityGroup",
@@ -349,19 +324,19 @@
             }
         }
     },
-	 "Metadata": {
-					"AWS::CloudFormation::Authentication": {
-						"S3AccessCreds": {
-							"type": "S3",
-							"roleName": {
-								"Ref": "InstanceRole"
-							}
-						}
-					}
+	"Metadata": {
+			"AWS::CloudFormation::Authentication": {
+			"S3AccessCreds": {
+			"type": "S3",
+			"roleName": {
+			"Ref": "InstanceRole"
+				}
+			}
+		}
 
-				},
+	},
 	"Outputs": {
-	  "CloudplexserverSecurityGroupID": {
+	    "CloudplexserverSecurityGroupID": {
             "Description": "Cloudplexserver security group.",
             "Value": { "Ref": "CloudplexserverSecurityGroup" },
             "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverSecurityGroupID" } }
