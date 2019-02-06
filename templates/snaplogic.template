@@ -399,7 +399,14 @@
                     "CloudplexserverAutoscaleMinSize": "1",
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
                     "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
-                    "InstanceType": { "Ref": "InstanceType" }	 
+                    "InstanceType": { "Ref": "InstanceType" },
+                    "BastionSecurityGroupID": { 
+                        "Fn::If": [ 
+                            "CreateBastionCondition", 
+                            { "Fn::GetAtt": [ "BastionSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
+                            "" 
+                        ]
+                    }					
                 }
             }
         }
