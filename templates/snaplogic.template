@@ -165,6 +165,10 @@
             "Description": "ID of the existing VPC where the AWS resources will be deployed through the CloudFormation templates",
             "Type": "AWS::EC2::VPC::Id"
         },
+		"BastionSecurityGroupID": {
+            "Description": "Bastion Server Security Group.",
+            "Type": "String"
+		},
         "PublicSubnetId1": {
         	"Description": "ID of Public Subnet 1 in the existing VPC",
         	"Type": "AWS::EC2::Subnet::Id"
@@ -396,17 +400,11 @@
                     "PrivateSubnetId1": { "Ref": "PrivateSubnetId1" },
                     "PrivateSubnetId2": { "Ref": "PrivateSubnetId2" },
                     "VpcId": { "Ref": "VpcId" },
+					"BastionSecurityGroupID": { "Ref": "BastionSecurityGroupID" },
                     "CloudplexserverAutoscaleMinSize": "1",
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
                     "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
-                    "InstanceType": { "Ref": "InstanceType" },
-                    "BastionSecurityGroupID": { 
-                        "Fn::If": [ 
-                            "CreateBastionCondition", 
-                            { "Fn::GetAtt": [ "BastionSecurityGroupsStack", "Outputs.BastionSecurityGroupID"] },
-                            "" 
-                        ]
-                    }					
+                    "InstanceType": { "Ref": "InstanceType" }					
                 }
             }
         }

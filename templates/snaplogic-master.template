@@ -419,7 +419,10 @@
                     "RedshiftNodeType": { "Ref": "RedshiftNodeType" },
                     "RedshiftNumberOfNodes": { "Ref": "RedshiftNumberOfNodes" },
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
-                    "CloudplexserverAutoscaleDesiredCapacity": { "Ref": "CloudplexserverAutoscaleDesiredCapacity" }
+                    "CloudplexserverAutoscaleDesiredCapacity": { "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
+					"BastionSecurityGroupID": { "Fn::GetAtt": [ "BastionStack", "Outputs.BastionSecurityGroupID"] }
+                        ]
+                    }
                 }
             }
         }
