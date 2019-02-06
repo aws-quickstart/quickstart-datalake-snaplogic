@@ -27,14 +27,6 @@
             "Description": "VPC to which security groups belong",
             "Type": "AWS::EC2::VPC::Id"
         },
-        "RemoteAccessCIDR": {
-            "Description": "The IP address range that can be used to access the DataSources.",
-            "Type": "String",
-            "MinLength": "9",
-            "MaxLength": "18",
-            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
-            "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
-        },
         "CreateRedshift": {
             "Description": "Create Redshift.",
             "Type": "String",
@@ -107,15 +99,12 @@
                     {
                         "IpProtocol": "tcp",
                         "FromPort": { "Ref": "RedshiftPort" },
-                        "ToPort": { "Ref": "RedshiftPort" },
-                        "CidrIp": {
-                            "Ref": "RemoteAccessCIDR"
-                        }
+                        "ToPort": { "Ref": "RedshiftPort" }
                     }
                 ]
             }
         },
-        "RedshiftSubnetGroup": {
+    "RedshiftSubnetGroup": {
             "Type": "AWS::Redshift::ClusterSubnetGroup",
             "Properties": {
                 "Description": "RedShift Subnet linked to both private database subnets",
@@ -125,7 +114,7 @@
                 ]
             }
         },
-        "RedshiftInstance": {
+    "RedshiftInstance": {
             "Type": "AWS::Redshift::Cluster",
             "DependsOn": [ "RedshiftSubnetGroup" ],
             "Properties": {
@@ -156,11 +145,10 @@
                 "Port": { "Ref": "RedshiftPort" },
                 "PubliclyAccessible": false
             }
-        }
-        
+        }     
     },
     "Outputs": {
-	 "RedshiftSecurityGroupID": {
+	    "RedshiftSecurityGroupID": {
             "Value": { "Fn::GetAtt": [ "RedshiftSecurityGroup", "GroupId" ] },
             "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:RedshiftSecurityGroupID" } }
         },
