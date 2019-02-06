@@ -316,7 +316,7 @@
 	"Conditions": {
         "CreateRedshiftCondition": {
             "Fn::Equals": [ "", { "Ref": "RedshiftHost" } ]
-       },
+    },
     "Resources": {
 	  "IamStack": {
 			"Type" : "AWS::CloudFormation::Stack",
