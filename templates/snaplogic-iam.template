@@ -37,7 +37,6 @@
                     ],
                     "Version": "2012-10-17"
                 },
-                "Path": "/Snaplogic/",
                 "Policies": [
                     {
                         "PolicyName": "QuickstartBucketAccess",
@@ -49,9 +48,7 @@
                                   "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}" } ]
                                 },
                                 {
-                                    "Action": [ "s3:PutObject",
-                                                "s3:GetObject",
-                                                "s3:DeleteObject" ],
+                                    "Action": [ "s3:GetObject" ],
                                     "Effect": "Allow",
                                     "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}/*" } ]
                                 },
