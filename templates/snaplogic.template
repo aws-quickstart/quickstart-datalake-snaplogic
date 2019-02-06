@@ -366,7 +366,6 @@
                 "TimeoutInMinutes": 30,
                 "Parameters": {
 				    "VpcId": { "Ref": "VpcId" },
-                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
                     "CreateRedshift": { "Fn::If": [ "CreateRedshiftCondition", "true", "false" ] },
                     "RedshiftSubnetA": { "Ref": "PrivateSubnetId1" },
                     "RedshiftSubnetB": { "Ref": "PrivateSubnetId2" },
@@ -397,7 +396,6 @@
                     "PrivateSubnetId1": { "Ref": "PrivateSubnetId1" },
                     "PrivateSubnetId2": { "Ref": "PrivateSubnetId2" },
                     "VpcId": { "Ref": "VpcId" },
-                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
                     "CloudplexserverAutoscaleMinSize": "1",
                     "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
                     "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
