@@ -297,90 +297,77 @@
 				}
 			}
 		},
-	"CloudplexserverSecurityGroup": {
-            "Type": "AWS::EC2::SecurityGroup",
-            "Properties": {
-                "VpcId": { "Ref": "VpcId" },
-                "GroupDescription": "Allow access to Cloudplexserver from TAC on 8000 (command), 8001 (file), and 8888 (monitoring), and ssh from remote access",
-                "SecurityGroupIngress": [
-                    {
-                        "IpProtocol": "tcp",
-                        "FromPort": "22",
-                        "ToPort": "22",
-                        "CidrIp":"10.0.0.0/8"
-                    }
-                ]
-            }
-        },
-        "CloudplexserverIngressCloudplexserver": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "DependsOn": "CloudplexserverSecurityGroup",
-            "Properties": {
-                "GroupId": {
-                    "Ref": "CloudplexserverSecurityGroup"
+	        "CloudplexserverSecurityGroup": {
+                     "Type": "AWS::EC2::SecurityGroup",
+                     "Properties": {
+                         "VpcId": { "Ref": "VpcId" },
+                         "GroupDescription": "Allow access to Cloudplexserver from TAC on 8000 (command), 8001 (file), and 8888 (monitoring), and ssh from remote access",
+                         "SecurityGroupIngress": [
+                             {
+                                  "IpProtocol": "tcp",
+                                  "FromPort": "22",
+                                  "ToPort": "22",
+                                  "CidrIp":"10.0.0.0/8"
+                             }
+                          ]
+                       }
                 },
-                "IpProtocol": "tcp",
-                "FromPort": "0",
-                "ToPort": "65535",
-                "SourceSecurityGroupId": {
+                "CloudplexserverIngressCloudplexserver": {
+                     "Type": "AWS::EC2::SecurityGroupIngress",
+                     "DependsOn": "CloudplexserverSecurityGroup",
+                     "Properties": {
+                     "GroupId": {
+                                 "Ref": "CloudplexserverSecurityGroup"
+                                },
+                     "IpProtocol": "tcp",
+                     "FromPort": "0",
+                     "ToPort": "65535",
+                     "SourceSecurityGroupId": {
                     "Ref": "CloudplexserverSecurityGroup"
-                }
-            }
-        },
-        "CloudplexserverIngressCloudplexserverICMP": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "DependsOn": "CloudplexserverSecurityGroup",
-            "Properties": {
-                "GroupId": {
-                    "Ref": "CloudplexserverSecurityGroup"
+                     }
+                  }
+               },
+               "CloudplexserverIngressCloudplexserverICMP": {
+                    "Type": "AWS::EC2::SecurityGroupIngress",
+                    "DependsOn": "CloudplexserverSecurityGroup",
+                    "Properties": {
+                         "GroupId": {
+                              "Ref": "CloudplexserverSecurityGroup"
+                     },
+                   "IpProtocol": "icmp",
+                   "FromPort": "-1",
+                   "ToPort": "-1",
+                   "SourceSecurityGroupId": {
+                       "Ref": "CloudplexserverSecurityGroup"
+                               }
+                         }
+                   }
+              },
+              "Metadata": {
+	          "AWS::CloudFormation::Authentication": {
+	          "S3AccessCreds": {
+	          "type": "S3",
+	          "roleName": {
+	          "Ref": "InstanceRole"
+			}
+		    }
+	        }
+            },
+            "Outputs": {
+                "CloudplexserverSecurityGroupID": {
+                       "Description": "Cloudplexserver security group.",
+                       "Value": { "Ref": "CloudplexserverSecurityGroup" },
+                       "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverSecurityGroupID" } }
                 },
-                "IpProtocol": "icmp",
-                "FromPort": "-1",
-                "ToPort": "-1",
-                "SourceSecurityGroupId": {
-                    "Ref": "CloudplexserverSecurityGroup"
-                }
-            }
-        }
-    },
-"Metadata": {
-	   "AWS::CloudFormation::Authentication": {
-	   "S3AccessCreds": {
-	   "type": "S3",
-	   "roleName": {
-	   "Ref": "InstanceRole"
-				}
-			}
-		}
-
-     },
-"Outputs": {
-"CloudplexserverSecurityGroupID": {
-            "Description": "Cloudplexserver security group.",
-            "Value": { "Ref": "CloudplexserverSecurityGroup" },
-            "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverSecurityGroupID" } }
-        },
-"CloudplexserverAutoscaling": {
-	    "Value": {
-			"Ref": "CloudplexserverAutoscaling"
-		     },
-	    "Description": "Cloudplexserver Autoscaling resource Id",
-			"Export": {
-				"Name": {
-					"Fn::Sub": "${AWS::StackName}:CloudplexserverAutoscaling"
-				}
-			}
-		      },
-	    "CloudplexserverLaunchConfig": {
-			"Value": {
-				"Ref": "CloudplexserverLaunchConfig"
-			},
+                "CloudplexserverAutoscaling": {
+	               "Value": { "Ref": "CloudplexserverAutoscaling" },
+	               "Description": "Cloudplexserver Autoscaling resource Id",
+			"Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverAutoscaling" } }
+	        },
+	        "CloudplexserverLaunchConfig": {
+			"Value": { "Ref": "CloudplexserverLaunchConfig" },
 			"Description": "Cloudplexserver Launch Configuration resource Id",
-			"Export": {
-				"Name": {
-					"Fn::Sub": "${AWS::StackName}:CloudplexserverLaunchConfig"
-				}
-			}
+			"Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverLaunchConfig" } }
 		}
 	}
 }
