@@ -441,7 +441,7 @@
             "Value": { "Fn::GetAtt": [ "RedshiftStack", "Outputs.RedshiftEndpoint"] },
             "Description": "Redshift Endpoint",
 			"Export": {
-				"Name": { "Fn::Sub": "${AWS::StackName}:RedshiftEndpoint" } 
+				"Name": { "Fn::Sub": "${AWS::StackName}:RedshiftEndpoint"} 
 			 } 
         }
     }
