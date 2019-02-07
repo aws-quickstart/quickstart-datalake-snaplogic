@@ -2,10 +2,10 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "Create Snaplogic Security Groups ",
     "Parameters": {
-	    "BastionSecurityGroupID": {
+	"BastionSecurityGroupID": {
             "Description": "Bastion Server Security Group.",
             "Type": "String"
-		},
+	},
         "RedshiftSecurityGroupID": {
             "Description": "Redshift Security Group.",
             "Type": "String"
@@ -22,7 +22,7 @@
     "Mappings": {
     },
     "Conditions": {
-	    "BastionCondition": {
+	"BastionCondition": {
             "Fn::Not": [
                 { "Fn::Equals": [ "", { "Ref": "BastionSecurityGroupID" } ] }
             ]
@@ -37,7 +37,7 @@
                 { "Fn::Equals": [ "", { "Ref": "CloudplexserverSecurityGroupID" } ] }
             ]
         },
-		"BastionCloudplexserverCondition": {
+	"BastionCloudplexserverCondition": {
             "Fn::And": [
                 { "Condition": "BastionCondition" },
                 { "Condition": "CloudplexserverCondition" }
@@ -49,7 +49,7 @@
                 { "Condition": "RedshiftCondition" }
             ]
         },
-		"BastionRedshiftCondition": {
+	"BastionRedshiftCondition": {
             "Fn::And": [
                 { "Condition": "BastionCondition" },
                 { "Condition": "RedshiftCondition" }
@@ -57,7 +57,7 @@
         }
     },
     "Resources": {
-	    "CloudplexserverIngressBastionSsh": {
+	 "CloudplexserverIngressBastionSsh": {
             "Type": "AWS::EC2::SecurityGroupIngress",
             "Condition": "BastionCloudplexserverCondition",
             "Properties": {
