@@ -442,7 +442,7 @@
             "Description": "Redshift Endpoint",
 			"Export": {
 				"Name": { "Fn::Sub": "${AWS::StackName}:RedshiftEndpoint" } 
-			} 
+			 } 
         }
     }
 }
