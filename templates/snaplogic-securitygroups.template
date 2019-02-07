@@ -2,10 +2,6 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "Create Snaplogic Security Groups ",
     "Parameters": {
-	"BastionSecurityGroupID": {
-            "Description": "Bastion Server Security Group.",
-            "Type": "String"
-	},
         "RedshiftSecurityGroupID": {
             "Description": "Redshift Security Group.",
             "Type": "String"
@@ -22,11 +18,6 @@
     "Mappings": {
     },
     "Conditions": {
-	"BastionCondition": {
-            "Fn::Not": [
-                { "Fn::Equals": [ "", { "Ref": "BastionSecurityGroupID" } ] }
-            ]
-        },
         "RedshiftCondition": {
             "Fn::Not": [
                 { "Fn::Equals": [ "", { "Ref": "RedshiftSecurityGroupID" } ] }
@@ -37,51 +28,14 @@
                 { "Fn::Equals": [ "", { "Ref": "CloudplexserverSecurityGroupID" } ] }
             ]
         },
-	"BastionCloudplexserverCondition": {
-            "Fn::And": [
-                { "Condition": "BastionCondition" },
-                { "Condition": "CloudplexserverCondition" }
-            ]
-        },
         "CloudplexserverRedshiftCondition": {
             "Fn::And": [
                 { "Condition": "CloudplexserverCondition" },
                 { "Condition": "RedshiftCondition" }
             ]
-        },
-	"BastionRedshiftCondition": {
-            "Fn::And": [
-                { "Condition": "BastionCondition" },
-                { "Condition": "RedshiftCondition" }
-            ]
         }
     },
     "Resources": {
-	 "CloudplexserverIngressBastionSsh": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "Condition": "BastionCloudplexserverCondition",
-            "Properties": {
-                "GroupId": { "Ref": "CloudplexserverSecurityGroupID" },
-                "SourceSecurityGroupId": { "Ref": "BastionSecurityGroupID" },
-                "IpProtocol": "tcp",
-                "FromPort": "22",
-                "ToPort": "22"
-            }
-        },
-        "RedshiftIngressBastion": {
-            "Type": "AWS::EC2::SecurityGroupIngress",
-            "Properties": {
-                "GroupId": {
-                    "Ref": "RedshiftSecurityGroupID"
-                },
-                "IpProtocol": "tcp",
-                "FromPort": { "Ref": "RedshiftPort" },
-                "ToPort": { "Ref": "RedshiftPort" },
-				"SourceSecurityGroupId": {
-                    "Ref": "BastionSecurityGroupID"
-                }
-            }
-        },
         "RedshiftIngressCloudplexserver": {
             "Type": "AWS::EC2::SecurityGroupIngress",
             "Condition": "CloudplexserverRedshiftCondition",
