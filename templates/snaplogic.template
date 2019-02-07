@@ -10,11 +10,11 @@
                     },
                     "Parameters": [
                         "RemoteAccessCIDR",
-						"VpcId",
-						"PublicSubnetId1",
-						"PublicSubnetId2",
-						"PrivateSubnetId1",
-						"PrivateSubnetId2"
+			"VpcId",
+			"PublicSubnetId1",
+		        "PublicSubnetId2",
+		        "PrivateSubnetId1",
+			"PrivateSubnetId2"
                     ]
                 },
                 {
@@ -24,8 +24,8 @@
                     "Parameters": [
                         "KeyPairName",
                         "InstanceType",         
-						"RedshiftNodeType",
-						"RedshiftNumberOfNodes"
+			"RedshiftNodeType",
+			"RedshiftNumberOfNodes"
                     ]
                 },
                 {
@@ -54,7 +54,7 @@
                     },
                     "Parameters": [
                         "SnaplogicLicenseBucket",
-						"SnaplexconfS3KeyPrefix"
+			"SnaplexconfS3KeyPrefix"
                     ]
                 },
                 {
@@ -74,10 +74,10 @@
                 "QSS3KeyPrefix": {
                     "default": "Quick Start S3 Key Prefix"
                 },
-				"SnaplogicLicenseBucket": {
+		"SnaplogicLicenseBucket": {
                     "default": "Snaplogic License Bucket"
                 },
-				"SnaplexconfS3KeyPrefix": {
+		"SnaplexconfS3KeyPrefix": {
                     "default": "Snaplex S3 Key Prefix"
                 },
                 "VpcId": {
@@ -133,31 +133,31 @@
     },
     "Parameters": {
         "QSS3BucketName": {
-		    "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
+	    "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.).",
             "Description": "S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.).",
             "Type": "String"
         },
         "QSS3KeyPrefix": {
-		    "AllowedPattern": "^[0-9a-zA-Z-/]*$",
+            "AllowedPattern": "^[0-9a-zA-Z-/]*$",
             "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",            
             "Description": "The S3 key name prefix used to simulate a folder for your copy of Quick Start assets, if you decide to customize or extend the Quick Start for your own use. This prefix can include numbers, lowercase letters, uppercase letters, hyphens, and forward slashes",
             "Default":"quickstart-datalake-snaplogic/",
-			"Type": "String"
+	    "Type": "String"
         },
-		"SnaplogicLicenseBucket": {
+	"SnaplogicLicenseBucket": {
             "Description": "Bucket where the Snaplogic license is stored",
             "Type": "String",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
         },
-		"SnaplexconfS3KeyPrefix": {
-		    "AllowedPattern": "^[0-9a-zA-Z-/]*$",
-			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
-			"Default": "",
-			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
-			"Type": "String"
-		},
+	"SnaplexconfS3KeyPrefix": {
+	    "AllowedPattern": "^[0-9a-zA-Z-/]*$",
+	    "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+            "Default": "",
+	    "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+	    "Type": "String"
+	},
         "KeyPairName": {
             "Description": "Public/private key pair, which allows you to connect securely to your instance after it launches. When you created an AWS account, this is the key pair you created in your preferred region.",
             "Type": "AWS::EC2::KeyPair::KeyName"
@@ -166,31 +166,31 @@
             "Description": "ID of the existing VPC where the AWS resources will be deployed through the CloudFormation templates",
             "Type": "AWS::EC2::VPC::Id"
         },
-		"BastionSecurityGroupID": {
+	"BastionSecurityGroupID": {
             "Description": "Bastion Server Security Group.",
             "Type": "String"
-		},
+	},
         "PublicSubnetId1": {
-        	"Description": "ID of Public Subnet 1 in the existing VPC",
-        	"Type": "AWS::EC2::Subnet::Id"
+            "Description": "ID of Public Subnet 1 in the existing VPC",
+            "Type": "AWS::EC2::Subnet::Id"
         },
         "PublicSubnetId2": {
-        	"Description": "ID of Public Subnet 2 in the existing VPC",
-        	"Type": "AWS::EC2::Subnet::Id"
+            "Description": "ID of Public Subnet 2 in the existing VPC",
+            "Type": "AWS::EC2::Subnet::Id"
         },
         "PrivateSubnetId1": {
-        	"Description": "ID of Private Subnet 1 in the existing VPC",
-        	"Type": "AWS::EC2::Subnet::Id"
+            "Description": "ID of Private Subnet 1 in the existing VPC",
+            "Type": "AWS::EC2::Subnet::Id"
         },
         "PrivateSubnetId2": {
-        	"Description": "ID of Private Subnet 2 in the existing VPC",
-        	"Type": "AWS::EC2::Subnet::Id"
+            "Description": "ID of Private Subnet 2 in the existing VPC",
+            "Type": "AWS::EC2::Subnet::Id"
         },
         "RemoteAccessCIDR": {
-            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
-            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
-            "Description": "The CIDR IP range that is permitted to access the VPC. We recommend that you use a constrained CIDR range to reduce the potential of inbound attacks from unknown IP addresses. For example, if your IPv4 address is 203.0.113.25, specify 203.0.113.25/32 to list this single IPv4 address in CIDR notation. If your company allocates addresses from a range, specify the entire range, such as 203.0.113.0/24. For details, see VPCs and Subnets in the AWS documentation.",
-            "Type": "String"
+             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
+             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
+             "Description": "The CIDR IP range that is permitted to access the VPC. We recommend that you use a constrained CIDR range to reduce the potential of inbound attacks from unknown IP addresses. For example, if your IPv4 address is 203.0.113.25, specify 203.0.113.25/32 to list this single IPv4 address in CIDR notation. If your company allocates addresses from a range, specify the entire range, such as 203.0.113.0/24. For details, see VPCs and Subnets in the AWS documentation.",
+             "Type": "String"
         },
         "InstanceType": {
             "Description": "EC2 Instance type for Snaplogic Cloudplexservers",
@@ -239,7 +239,7 @@
             "Type": "String",
             "Default": ""
         },
-		"RedshiftUsername": {
+	"RedshiftUsername": {
             "Description": "User name for Redshift database",
             "Type": "String",
             "Default": "tadmin"
@@ -248,16 +248,16 @@
             "Description": "Password for Redshift. Can only contain alphanumeric characters or the following special characters!^*-_+",
             "NoEcho": true,
             "Type": "String",
-			"MinLength": 8,
+	    "MinLength": 8,
             "MaxLength": 28,
             "AllowedPattern": "[a-zA-Z0-9!^*\\-_+]*"
         },
-		"RedshiftDbName": {
+	"RedshiftDbName": {
             "Description": "Database name for Redshift",
             "Type": "String",
             "Default": ""
         },
-		"RedshiftNodeType": {
+	"RedshiftNodeType": {
             "Type": "String",
             "Default": "dc2.large",
             "Description": "EC2 instance type for the Redshift cluster nodes",
@@ -269,7 +269,7 @@
                 "ds2.8xlarge"
             ]
         },
-		"RedshiftNumberOfNodes": {
+	"RedshiftNumberOfNodes": {
             "Description": "The number of nodes in the redshift cluster.",
             "Type": "Number",
             "Default": "1"
@@ -325,12 +325,12 @@
 	},
     "Resources": {
 	  "IamStack": {
-			"Type" : "AWS::CloudFormation::Stack",
-			"Properties" : {
+		"Type" : "AWS::CloudFormation::Stack",
+		"Properties" : {
                 "TemplateURL": {
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-iam.template"
 				},
-				"Parameters" : {
+		"Parameters" : {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
                     "StackRoot": { "Fn::Sub": "${AWS::StackName}" }
                 }
@@ -344,21 +344,21 @@
 				},
                 "Parameters": {
 				    "BastionSecurityGroupID": { "Ref": "BastionSecurityGroupID" },
-                    "RedshiftSecurityGroupID": { 
+                "RedshiftSecurityGroupID": { 
                         "Fn::If": [ 
                             "CreateRedshiftCondition", 
                             { "Fn::GetAtt": [ "RedshiftStack", "Outputs.RedshiftSecurityGroupID"] },
                             "" 
                         ]
                     },
-                    "RedshiftPort": { 
+                "RedshiftPort": { 
                         "Fn::If": [ 
                             "CreateRedshiftCondition", 
                             { "Fn::FindInMap": [ "Datasource", "Redshift", "port"] },
                             "" 
                         ]
                     },
-                    "CloudplexserverSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicServersStack", "Outputs.CloudplexserverSecurityGroupID" ] }
+                 "CloudplexserverSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicServersStack", "Outputs.CloudplexserverSecurityGroupID" ] }
                 }
             }
         },  
@@ -371,7 +371,7 @@
 				},
                 "TimeoutInMinutes": 30,
                 "Parameters": {
-				    "VpcId": { "Ref": "VpcId" },
+	            "VpcId": { "Ref": "VpcId" },
                     "CreateRedshift": { "Fn::If": [ "CreateRedshiftCondition", "true", "false" ] },
                     "RedshiftSubnetA": { "Ref": "PrivateSubnetId1" },
                     "RedshiftSubnetB": { "Ref": "PrivateSubnetId2" },
@@ -387,7 +387,7 @@
 	"SnaplogicServersStack": {
 			"Type" : "AWS::CloudFormation::Stack",
 			"Properties" : {
-                "TemplateURL":{
+                   "TemplateURL":{
 				"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-servers.template"
 				},
 				"TimeoutInMinutes" : "10",
