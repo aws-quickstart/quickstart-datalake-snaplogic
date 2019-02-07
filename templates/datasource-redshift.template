@@ -23,7 +23,7 @@
         }
     },
     "Parameters": {
-	"VpcId": {
+	    "VpcId": {
             "Description": "VPC to which security groups belong",
             "Type": "AWS::EC2::VPC::Id"
         },
