@@ -165,10 +165,6 @@
             "Description": "ID of the existing VPC where the AWS resources will be deployed through the CloudFormation templates",
             "Type": "AWS::EC2::VPC::Id"
         },
-	"BastionSecurityGroupID": {
-            "Description": "Bastion Server Security Group.",
-            "Type": "String"
-	},
         "PublicSubnetId1": {
             "Description": "ID of Public Subnet 1 in the existing VPC",
             "Type": "AWS::EC2::Subnet::Id"
@@ -342,7 +338,6 @@
 			"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic-securitygroups.template"
 		     },
                 "Parameters": {
-                "BastionSecurityGroupID": { "Ref": "BastionSecurityGroupID" },
                 "RedshiftSecurityGroupID": { 
                         "Fn::If": [ 
                             "CreateRedshiftCondition", 
