@@ -37,7 +37,7 @@
                 { "Fn::Equals": [ "", { "Ref": "CloudplexserverSecurityGroupID" } ] }
             ]
         },
-		 "BastionCloudplexserverCondition": {
+		"BastionCloudplexserverCondition": {
             "Fn::And": [
                 { "Condition": "BastionCondition" },
                 { "Condition": "CloudplexserverCondition" }
