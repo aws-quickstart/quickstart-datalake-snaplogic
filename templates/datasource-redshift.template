@@ -15,15 +15,15 @@
                         "RedshiftPassword",
                         "RedshiftDbName",
                         "RedshiftPort",
-			"RedshiftNodeType",
-			"RedshiftNumberOfNodes"
+						"RedshiftNodeType",
+						"RedshiftNumberOfNodes"
                     ]
                 }
             ]
         }
     },
     "Parameters": {
-	"VpcId": {
+	    "VpcId": {
             "Description": "VPC to which security groups belong",
             "Type": "AWS::EC2::VPC::Id"
         },
@@ -62,7 +62,7 @@
             "Type": "String",
             "Default": "5439"
         },
-	"RedshiftNodeType": {
+		"RedshiftNodeType": {
             "AllowedValues": [
                 "dc2.large",
                 "dc2.8xlarge",
@@ -74,7 +74,7 @@
             "Description": "The node type to for the redshift cluster",
             "Type": "String"
         },
-	"RedshiftNumberOfNodes": {
+		"RedshiftNumberOfNodes": {
             "Default": "1",
             "Description": "The number of nodes in the redshift cluster.",
             "Type": "Number"
@@ -90,7 +90,7 @@
         }
     },
     "Resources": {
-    "RedshiftSecurityGroup": {
+	"RedshiftSecurityGroup": {
             "Type": "AWS::EC2::SecurityGroup",
             "Properties": {
                 "VpcId": { "Ref": "VpcId" },
