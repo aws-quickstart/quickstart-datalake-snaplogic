@@ -80,7 +80,7 @@
 				"SnaplogicLicenseBucket": {
                     "default": "Snaplogic License Bucket"
                 },
-				 "SnaplexconfS3KeyPrefix": {
+				"SnaplexconfS3KeyPrefix": {
                     "default": "Snaplex S3 Key Prefix (optional)"
                 },
                 "AvailabilityZones": {
@@ -162,7 +162,7 @@
 		"SnaplexconfS3KeyPrefix": {
 			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
 			"Default": "",
-			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+			"Description": "S3 key prefix for the Snaplex config assets. Snaplex config key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
 			"Type": "String"
 		},
         "InstanceType": {
@@ -367,7 +367,7 @@
                 }
             }
         },
-		 "BastionStack": {
+		"BastionStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Condition": "CreateBastionCondition",
             "Properties": {
@@ -392,7 +392,6 @@
                 }
             }
         },
-
         "SnaplogicStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
@@ -433,7 +432,7 @@
 				"Name": { "Fn::Sub": "${AWS::StackName}:VpcStack" } 
 				} 
         },
-		 "BastionStack": {
+		"BastionStack": {
             "Condition": "CreateBastionCondition",
             "Value": { "Ref": "BastionStack" },
             "Description": "Nested Bastion stack",
