@@ -50,7 +50,7 @@
                                 {
                                     "Action": [ "s3:GetObject" ],
                                     "Effect": "Allow",
-                                    "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}/*" } ]
+                                    "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*" } ]
                                 },
                                 {
                                     "Effect": "Allow",
