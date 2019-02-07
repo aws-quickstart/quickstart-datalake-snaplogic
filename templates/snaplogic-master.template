@@ -162,10 +162,9 @@
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
         },
 	"SnaplexconfS3KeyPrefix": {
-            "AllowedPattern": "^[0-9a-zA-Z-/]*$",
 	    "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
             "Default": "",
-	    "Description": "S3 key prefix for the Snaplex config assets. Snaplex config key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+	    "Description": "S3 key prefix for the Snaplex config assets. Snaplex key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
 	    "Type": "String"
 	},
         "InstanceType": {
