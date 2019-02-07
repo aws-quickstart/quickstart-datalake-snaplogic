@@ -48,7 +48,7 @@
                         "RedshiftDbName"
                     ]
                 },
-				 {
+				{
                     "Label": {
                         "default": "Snaplogic configuration"
                     },
@@ -74,10 +74,10 @@
                 "QSS3KeyPrefix": {
                     "default": "Quick Start S3 Key Prefix"
                 },
-				 "SnaplogicLicenseBucket": {
+				"SnaplogicLicenseBucket": {
                     "default": "Snaplogic License Bucket"
                 },
-				 "SnaplexconfS3KeyPrefix": {
+				"SnaplexconfS3KeyPrefix": {
                     "default": "Snaplex S3 Key Prefix"
                 },
                 "VpcId": {
@@ -104,14 +104,12 @@
                 "InstanceType": {
                     "default": "Cloudplexserver Instance Type"
                 },
-          
                 "CloudplexserverAutoscaleDesiredCapacity": {
                     "default": "Cloudplexserver Autoscale Desired Capacity"
                 },
                 "CloudplexserverAutoscaleMaxSize": {
                     "default": "Cloudplexserver Autoscale Maximum Capacity"
                 },
-              
                 "RedshiftNodeType": {
                     "default": "Amazon Redshift Node Type"
                 },
@@ -135,23 +133,26 @@
     },
     "Parameters": {
         "QSS3BucketName": {
+		    "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.).",
             "Description": "S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.).",
             "Type": "String"
         },
         "QSS3KeyPrefix": {
+		    "AllowedPattern": "^[0-9a-zA-Z-/]*$",
             "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",            
             "Description": "The S3 key name prefix used to simulate a folder for your copy of Quick Start assets, if you decide to customize or extend the Quick Start for your own use. This prefix can include numbers, lowercase letters, uppercase letters, hyphens, and forward slashes",
             "Default":"quickstart-datalake-snaplogic/",
 			"Type": "String"
         },
-		 "SnaplogicLicenseBucket": {
+		"SnaplogicLicenseBucket": {
             "Description": "Bucket where the Snaplogic license is stored",
             "Type": "String",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
         },
 		"SnaplexconfS3KeyPrefix": {
+		    "AllowedPattern": "^[0-9a-zA-Z-/]*$",
 			"ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
 			"Default": "",
 			"Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
