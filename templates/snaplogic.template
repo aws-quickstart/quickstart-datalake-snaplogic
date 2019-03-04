@@ -327,6 +327,9 @@
 		     },
 		"Parameters" : {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
+		    "QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
+		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
+                    "SnaplogicLicenseBucket": { "Ref": "SnaplogicLicenseBucket" },
                     "StackRoot": { "Fn::Sub": "${AWS::StackName}" }
                 }
             }
