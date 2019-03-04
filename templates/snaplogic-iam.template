@@ -16,6 +16,18 @@
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
             "Type": "String"
         },
+	"SnaplogicLicenseBucket": {
+                    "Description": "Bucket holding Snaplogic license",
+                    "Type": "String",
+                    "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
+                    "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
+        },
+	"SnaplexconfS3KeyPrefix": {
+		    "ConstraintDescription": "Snaplex config key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+		    "Default": "",
+		    "Description": "S3 key prefix for the Snaplex assets. Snaplex key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
+		    "Type": "String"
+	},
         "StackRoot": {
             "Description": "Root of the stack name used to limit Cloud Formation Describe command access",
             "Type": "String"
@@ -45,12 +57,16 @@
                                 {
                                   "Effect": "Allow",
                                   "Action": ["s3:ListBucket"],
-                                  "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}" } ]
+                                  "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}" },
+					        { "Fn::Sub": "arn:aws:s3:::${SnaplogicLicenseBucket}"}
+			         ]
                                 },
                                 {
                                     "Action": [ "s3:GetObject" ],
                                     "Effect": "Allow",
-                                    "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*" } ]
+                                    "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*" },
+                                                  { "Fn::Sub": "arn:aws:s3:::${SnaplogicLicenseBucket}/${SnaplexconfS3KeyPrefix}*" }    
+                		 ]
                                 },
                                 {
                                     "Effect": "Allow",
