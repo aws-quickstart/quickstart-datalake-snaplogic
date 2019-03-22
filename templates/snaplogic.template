@@ -35,7 +35,6 @@
                         "CloudplexserverAutoscaleMaxSize"
                     ]
                 },
-		
                 {
                     "Label": {
                         "default": "Amazon Redshift configuration"
