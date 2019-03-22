@@ -51,7 +51,7 @@
                         "default": "Snaplogic configuration"
                     },
                     "Parameters": [
-                        "SnaplogicLicenseBucket",
+                        "SnapLogicLicenseBucket",
 			"SnaplexconfS3KeyPrefix"
                     ]
                 },
@@ -72,7 +72,7 @@
                 "QSS3KeyPrefix": {
                     "default": "Quick Start S3 Key Prefix"
                 },
-		"SnaplogicLicenseBucket": {
+		"SnapLogicLicenseBucket": {
                     "default": "Snaplogic License Bucket"
                 },
 		"SnaplexconfS3KeyPrefix": {
@@ -137,7 +137,7 @@
             "Default":"quickstart-datalake-snaplogic/",
 	    "Type": "String"
         },
-	"SnaplogicLicenseBucket": {
+	"SnapLogicLicenseBucket": {
             "Description": "Bucket where the Snaplogic license is stored",
             "Type": "String",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
@@ -307,7 +307,7 @@
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
 		    "QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
 		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
-                    "SnaplogicLicenseBucket": { "Ref": "SnaplogicLicenseBucket" },
+                    "SnapLogicLicenseBucket": { "Ref": "SnapLogicLicenseBucket" },
                     "StackRoot": { "Fn::Sub": "${AWS::StackName}" }
                 }
             }
@@ -371,7 +371,7 @@
 		    "QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
 		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
                     "KeyName": { "Ref": "KeyPairName" },
-		    "SnaplogicLicenseBucket":  { "Ref": "SnaplogicLicenseBucket" },
+		    "SnapLogicLicenseBucket":  { "Ref": "SnapLogicLicenseBucket" },
                     "InstanceRole": { "Fn::GetAtt": [ "IamStack", "Outputs.InstanceRole" ] },
                     "InstanceProfile": { "Fn::GetAtt": [ "IamStack", "Outputs.InstanceProfile" ] },
                     "PrivateSubnetId1": { "Ref": "PrivateSubnetId1" },
