@@ -94,13 +94,13 @@
                     "default": "Key Pair Name"
                 },
                 "InstanceType": {
-                    "default": "Cloudplexserver Instance Type"
+                    "default": "CloudplexServerInstance Type"
                 },
                 "CloudplexserverAutoscaleDesiredCapacity": {
-                    "default": "Cloudplexserver Autoscale Desired Capacity"
+                    "default": "CloudplexServerAutoscale Desired Capacity"
                 },
                 "CloudplexserverAutoscaleMaxSize": {
-                    "default": "Cloudplexserver Autoscale Maximum Capacity"
+                    "default": "CloudplexServerAutoscale Maximum Capacity"
                 },
                 "RedshiftNodeType": {
                     "default": "Amazon Redshift Node Type"
@@ -248,14 +248,14 @@
             "Default": "1"
         },
         "CloudplexserverAutoscaleMaxSize": {
-            "Description": "Maximum no. of EC2 instances for Snaplogic Cloudplexserver Auto Scaling  group ",
+            "Description": "Maximum no. of EC2 instances for Snaplogic CloudplexServerAuto Scaling  group ",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
         "CloudplexserverAutoscaleDesiredCapacity": {
-            "Description": "Desired no. of EC2 instances for Snaplogic Cloudplexserver Auto Scaling  group",
+            "Description": "Desired no. of EC2 instances for Snaplogic CloudplexServerAuto Scaling  group",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
