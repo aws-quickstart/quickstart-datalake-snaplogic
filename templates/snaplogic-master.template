@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template uses the Snaplogic Snaplex Server templates with the AWS VPC quickstart.  The AWS VPC creates a multi-AZ, multi-subnet VPC infrastructure with managed NAT gateways in the public subnet for each Availability Zone. The Snaplogic servers are deployed to the public subnet with the exception of the Cloudplexservers which are deployed to the private subnet and Bastion servers to a VPC. **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhnf)",
+    "Description": "This template uses the Snaplogic Snaplex Server templates with the AWS VPC quickstart.  The AWS VPC creates a multi-AZ, multi-subnet VPC infrastructure with managed NAT gateways in the public subnet for each Availability Zone. The Snaplogic servers are deployed to the public subnet with the exception of the CloudplexServers which are deployed to the private subnet and Bastion servers to a VPC. **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhnf)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -159,7 +159,7 @@
 	    "Type": "String"
         },
 	"SnaplogicLicenseBucket": {
-            "Description": "Bucket holding Snaplogiclicense",
+            "Description": "Bucket holding SnapLogic License",
             "Type": "String",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
