@@ -80,6 +80,9 @@
 		"SnaplogicLicenseBucket": {
                     "default": "Snaplogic License Bucket"
                 },
+		"InstanceType":{
+                     "default": "Instance Type"
+		},
 	        "SnaplexconfS3KeyPrefix": {
                     "default": "Snaplex S3 Key Prefix (optional)"
                 },
@@ -210,7 +213,7 @@
             "ConstraintDescription": "must be a valid EC2 instance type."
         },
         "BastionInstanceType": {
-            "Description": "EC2 Instance type for Bastion host",
+            "Description": "EC2 instance type for bastion host",
             "Type": "String",
             "Default": "t2.micro",
             "AllowedValues": [
@@ -229,7 +232,7 @@
             ]
         },
         "RedshiftHost": {
-            "Description": "DNS Name or IP address of the master node of an existing Redshift cluster which you intend to use for the Snaplogic sample jobs. Leave this blank to create a new Redshift cluster.",
+            "Description": "DNS name or IP address of the master node of an existing Redshift cluster which you intend to use for the Snaplogic sample jobs. Leave this blank to create a new redshift cluster.",
             "Type": "String",
             "Default": ""
         },
@@ -269,14 +272,14 @@
             "Default": "1"
         },
         "CloudplexserverAutoscaleMaxSize": {
-            "Description": "Maximum no. of EC2 instances for Snaplogic Cloudplexserver autoscale group",
+            "Description": "Maximum no. of EC2 instances for Snaplogic Cloudplexserver Auto Scaling group",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
         "CloudplexserverAutoscaleDesiredCapacity": {
-            "Description": "Desired no. of EC2 instances for Snaplogic Cloudplexserver autoscale group",
+            "Description": "Desired no. of EC2 instances for Snaplogic Cloudplexserver Auto Scaling group",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
@@ -314,14 +317,14 @@
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.128.0/20",
-            "Description": "CIDR Block for the public DMZ subnet 1 located in Availability Zone 1",
+            "Description": "CIDR block for the public DMZ subnet 1 located in Availability Zone 1",
             "Type": "String"
         },
         "PublicSubnet2CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.144.0/20",
-            "Description": "CIDR Block for the public DMZ subnet 2 located in Availability Zone 2",
+            "Description": "CIDR block for the public DMZ subnet 2 located in Availability Zone 2",
             "Type": "String"
         },
         "RemoteAccessCIDR": {
@@ -334,7 +337,7 @@
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block for the VPC. When you create a VPC, you must specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block. You can also optionally assign an IPv6 CIDR block to your VPC, and assign IPv6 CIDR blocks to your subnets.",
             "Default": "10.0.0.0/16",
-            "Description": "CIDR Block for the VPC",
+            "Description": "CIDR block for the VPC",
             "Type": "String"
         }
     },
