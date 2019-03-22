@@ -43,7 +43,7 @@
                         "default": "Snaplogic configuration"
                     },
                     "Parameters": [
-                        "SnapLogic LicenseBucket",
+                        "SnapLogicLicenseBucket",
 			"SnaplexconfS3KeyPrefix"
                     ]
                 },
@@ -77,8 +77,8 @@
                 "QSS3KeyPrefix": {
                     "default": "Quick Start S3 Key Prefix (optional)"
                 },
-		"SnapLogic LicenseBucket": {
-                    "default": "Snaplogic License Bucket"
+		"SnapLogicLicenseBucket": {
+                    "default": "SnapLogicLicense Bucket"
                 },
 		"InstanceType":{
                      "default": "Instance Type"
@@ -158,8 +158,8 @@
             "Default":"quickstart-datalake-snaplogic/",
 	    "Type": "String"
         },
-	"SnapLogic LicenseBucket": {
-            "Description": "Bucket holding SnapLogic License",
+	"SnapLogicLicenseBucket": {
+            "Description": "Bucket holding SnapLogicLicense",
             "Type": "String",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
@@ -409,7 +409,7 @@
 		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
                     "KeyPairName": { "Ref": "KeyPairName" },
                     "VpcId": { "Fn::GetAtt": [ "VpcStack", "Outputs.VPCID" ] },
-		    "SnapLogic LicenseBucket": { "Ref": "SnapLogic LicenseBucket" },
+		    "SnapLogicLicenseBucket": { "Ref": "SnapLogicLicenseBucket" },
                     "PublicSubnetId1": { "Fn::GetAtt": [ "VpcStack", "Outputs.PublicSubnet1ID"] },
                     "PublicSubnetId2": { "Fn::GetAtt": [ "VpcStack", "Outputs.PublicSubnet2ID"] },
                     "PrivateSubnetId1": { "Fn::GetAtt": [ "VpcStack", "Outputs.PrivateSubnet1AID"] },
