@@ -16,8 +16,8 @@
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
             "Type": "String"
         },
-	"SnapLogicLicenseBucket": {
-                    "Description": "Bucket holding SnapLogicLicense",
+	"SnaplogicLicenseBucket": {
+                    "Description": "Bucket holding Snaplogic license",
                     "Type": "String",
                     "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
                     "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
@@ -58,14 +58,14 @@
                                   "Effect": "Allow",
                                   "Action": ["s3:ListBucket"],
                                   "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}" },
-					        { "Fn::Sub": "arn:aws:s3:::${SnapLogicLicenseBucket}"}
+					        { "Fn::Sub": "arn:aws:s3:::${SnaplogicLicenseBucket}"}
 			         ]
                                 },
                                 {
                                     "Action": [ "s3:GetObject" ],
                                     "Effect": "Allow",
                                     "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*" },
-                                                  { "Fn::Sub": "arn:aws:s3:::${SnapLogicLicenseBucket}/${SnaplexconfS3KeyPrefix}*" }    
+                                                  { "Fn::Sub": "arn:aws:s3:::${SnaplogicLicenseBucket}/${SnaplexconfS3KeyPrefix}*" }    
                 		 ]
                                 },
                                 {
