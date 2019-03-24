@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template deploys Cloudplex Servers, Datasources (Redshift) . Cloudplexservers which are deployed to the private subnet. The Redshift servers are all dpeloyed to the private subnet.  Private subnets must be available in at least two availability zones.  **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhna)",
+    "Description": "This template deploys Cloudplex Servers, Datasources (Redshift) . CloudplexServers which are deployed to the private subnet. The Redshift servers are all dpeloyed to the private subnet.  Private subnets must be available in at least two availability zones.  **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhna)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -9,7 +9,6 @@
                         "default": "Network configuration"
                     },
                     "Parameters": [
-                        "RemoteAccessCIDR",
 			"VpcId",
 		        "PrivateSubnetId1",
 			"PrivateSubnetId2"
@@ -31,8 +30,8 @@
                         "default": "Auto Scaling configuration"
                     },
                     "Parameters": [
-                        "CloudplexserverAutoscaleDesiredCapacity",
-                        "CloudplexserverAutoscaleMaxSize"
+                        "CloudplexServerAutoscaleDesiredCapacity",
+                        "CloudplexServerAutoscaleMaxSize"
                     ]
                 },
                 {
@@ -87,19 +86,16 @@
                 "PrivateSubnetId2": {
                     "default": "Private Subnet 2 ID"
                 },
-                "RemoteAccessCIDR": {
-                    "default": "Remote Access CIDR"
-                },
                 "KeyPairName": {
                     "default": "Key Pair Name"
                 },
                 "InstanceType": {
                     "default": "CloudplexServerInstance Type"
                 },
-                "CloudplexserverAutoscaleDesiredCapacity": {
+                "CloudplexServerAutoscaleDesiredCapacity": {
                     "default": "CloudplexServerAutoscale Desired Capacity"
                 },
-                "CloudplexserverAutoscaleMaxSize": {
+                "CloudplexServerAutoscaleMaxSize": {
                     "default": "CloudplexServerAutoscale Maximum Capacity"
                 },
                 "RedshiftNodeType": {
@@ -166,7 +162,7 @@
             "Type": "AWS::EC2::Subnet::Id"
         },
         "InstanceType": {
-            "Description": "EC2 instance type for Snaplogic Cloudplexservers",
+            "Description": "EC2 instance type for Snaplogic CloudplexServers",
             "Type": "String",
             "Default": "t2.large",
             "AllowedValues": [
@@ -247,14 +243,14 @@
             "Type": "Number",
             "Default": "1"
         },
-        "CloudplexserverAutoscaleMaxSize": {
+        "CloudplexServerAutoscaleMaxSize": {
             "Description": "Maximum no. of EC2 instances for Snaplogic CloudplexServerAuto Scaling  group ",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
-        "CloudplexserverAutoscaleDesiredCapacity": {
+        "CloudplexServerAutoscaleDesiredCapacity": {
             "Description": "Desired no. of EC2 instances for Snaplogic CloudplexServerAuto Scaling  group",
             "Type": "Number",
             "MinValue": "1",
@@ -333,7 +329,7 @@
                             "" 
                         ]
                     },
-                 "CloudplexserverSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicServersStack", "Outputs.CloudplexserverSecurityGroupID" ] }
+                 "CloudplexServerSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicServersStack", "Outputs.CloudplexServerSecurityGroupID" ] }
                 }
             }
         },  
@@ -377,9 +373,9 @@
                     "PrivateSubnetId1": { "Ref": "PrivateSubnetId1" },
                     "PrivateSubnetId2": { "Ref": "PrivateSubnetId2" },
                     "VpcId": { "Ref": "VpcId" },
-                    "CloudplexserverAutoscaleMinSize": "1",
-                    "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
-                    "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
+                    "CloudplexServerAutoscaleMinSize": "1",
+                    "CloudplexServerAutoscaleMaxSize": { "Ref": "CloudplexServerAutoscaleMaxSize" },
+                    "CloudplexServerAutoscaleDesiredCapacity": {  "Ref": "CloudplexServerAutoscaleDesiredCapacity" },
                     "InstanceType": { "Ref": "InstanceType" }					
                 }
             }
