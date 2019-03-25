@@ -114,12 +114,6 @@
 		"PrivateSubnetId2": {
 			"Description": "Snaplogic Server subnet id 2.",
 			"Type": "AWS::EC2::Subnet::Id"
-		},
-		"PrivateSubnet": {
-			"Description": "Is this is a private subnet.",
-			"Type": "String",
-			"Default": "private",
-			"AllowedValues": ["private", "public"]
 		}
 	},
 	"Mappings": {
@@ -313,7 +307,6 @@
                 },
                 "CloudplexServerIngressCloudplexServer": {
                      "Type": "AWS::EC2::SecurityGroupIngress",
-                     "DependsOn": "CloudplexServerSecurityGroup",
                      "Properties": {
                      "GroupId": {
                                  "Ref": "CloudplexServerSecurityGroup"
@@ -328,7 +321,6 @@
                },
                "CloudplexServerIngressCloudplexServerICMP": {
                     "Type": "AWS::EC2::SecurityGroupIngress",
-                    "DependsOn": "CloudplexServerSecurityGroup",
                     "Properties": {
                          "GroupId": {
                               "Ref": "CloudplexServerSecurityGroup"
