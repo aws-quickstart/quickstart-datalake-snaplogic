@@ -356,7 +356,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL":{
-			"Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
+			"Fn::Sub":"https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
 			},
 		    "Parameters": {
                     "AvailabilityZones": {
@@ -377,7 +377,7 @@
             "Condition": "CreateBastionCondition",
             "Properties": {
                 "TemplateURL":{
-		    "Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template"
+		    "Fn::Sub":"https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template"
 	            },
                 "Parameters": {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
@@ -390,7 +390,7 @@
                     "NumBastionHosts": { "Ref": "NumBastionHosts"  },
                     "BastionAMIOS": "Amazon-Linux-HVM",
                     "BastionInstanceType": { "Ref": "BastionInstanceType" },
-                    "BastionBanner": "https://aws-quickstart.s3.amazonaws.com/quickstart-linux-bastion/scripts/banner_message.txt",
+                    "BastionBanner": "httpss://aws-quickstart.s3.amazonaws.com/quickstart-linux-bastion/scripts/banner_message.txt",
                     "EnableBanner": "false",
                     "EnableTCPForwarding": "true",
                     "EnableX11Forwarding": "true"
@@ -401,7 +401,7 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL":{
-		     "Fn::Sub":"http://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic.template"
+		     "Fn::Sub":"https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/snaplogic.template"
 		     },
                 "Parameters": {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
