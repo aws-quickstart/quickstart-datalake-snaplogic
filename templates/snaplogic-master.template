@@ -35,8 +35,7 @@
                         "RedshiftHost",
                         "RedshiftUsername",
                         "RedshiftPassword",
-                        "RedshiftDbName"
-			
+                        "RedshiftDbName"	
                     ]
                 },
                 {
