@@ -347,7 +347,19 @@
                 { "Fn::Equals": [ { "Ref": "NumBastionHosts" }, "0" ] }
             ]
         }
+    }, 
+	"Mappings": {
+        "Datasource": {
+            "Redshift": {
+                "port": "5439"
+            }
+        }
     },
+	"Conditions": {
+        "CreateRedshiftCondition": {
+            "Fn::Equals": [ "", { "Ref": "RedshiftHost" } ]
+        }
+	},
     "Resources": {
         "VpcStack": {
             "Type": "AWS::CloudFormation::Stack",
