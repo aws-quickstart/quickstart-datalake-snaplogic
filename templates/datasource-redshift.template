@@ -107,7 +107,6 @@
         },
     "RedshiftInstance": {
             "Type": "AWS::Redshift::Cluster",
-            "DependsOn": [ "RedshiftSubnetGroup" ],
             "Properties": {
                 "ClusterSubnetGroupName": { "Ref": "RedshiftSubnetGroup" },
                 "ClusterType": {
