@@ -34,7 +34,7 @@
                 { "Condition": "RedshiftCondition" }
             ]
         }
-    },
+   },
     "Resources": {
         "RedshiftIngressCloudplexServer": {
             "Type": "AWS::EC2::SecurityGroupIngress",
