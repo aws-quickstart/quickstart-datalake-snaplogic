@@ -10,8 +10,8 @@
             "Description": "RedShift Port",
             "Type": "String"
         },
-        "CloudplexserverSecurityGroupID": {
-            "Description": "Cloudplexserver Security Group.",
+        "CloudplexServerSecurityGroupID": {
+            "Description": "CloudplexServer Security Group.",
             "Type": "String"
         }
     },
@@ -23,22 +23,22 @@
                 { "Fn::Equals": [ "", { "Ref": "RedshiftSecurityGroupID" } ] }
             ]
         },
-        "CloudplexserverCondition": {
+        "CloudplexServerCondition": {
             "Fn::Not": [
-                { "Fn::Equals": [ "", { "Ref": "CloudplexserverSecurityGroupID" } ] }
+                { "Fn::Equals": [ "", { "Ref": "CloudplexServerSecurityGroupID" } ] }
             ]
         },
-        "CloudplexserverRedshiftCondition": {
+        "CloudplexServerRedshiftCondition": {
             "Fn::And": [
-                { "Condition": "CloudplexserverCondition" },
+                { "Condition": "CloudplexServerCondition" },
                 { "Condition": "RedshiftCondition" }
             ]
         }
     },
     "Resources": {
-        "RedshiftIngressCloudplexserver": {
+        "RedshiftIngressCloudplexServer": {
             "Type": "AWS::EC2::SecurityGroupIngress",
-            "Condition": "CloudplexserverRedshiftCondition",
+            "Condition": "CloudplexServerRedshiftCondition",
             "Properties": {
                 "GroupId": {
                     "Ref": "RedshiftSecurityGroupID"
@@ -47,7 +47,7 @@
                 "FromPort": { "Ref": "RedshiftPort" },
                 "ToPort": { "Ref": "RedshiftPort" },
                 "SourceSecurityGroupId": {
-                    "Ref": "CloudplexserverSecurityGroupID"
+                    "Ref": "CloudplexServerSecurityGroupID"
                 }
             }
         }

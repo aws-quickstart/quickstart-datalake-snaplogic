@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template deploys Cloudplex Servers, Datasources (Redshift) . Cloudplexservers which are deployed to the private subnet. The Redshift servers are all dpeloyed to the private subnet.  Private subnets must be available in at least two availability zones.  **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhna)",
+    "Description": "This template deploys Cloudplex Servers, Datasources (Redshift) . CloudplexServers which are deployed to the private subnet. The Redshift servers are all dpeloyed to the private subnet.  Private subnets must be available in at least two availability zones.  **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhna)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -9,10 +9,7 @@
                         "default": "Network configuration"
                     },
                     "Parameters": [
-                        "RemoteAccessCIDR",
 			"VpcId",
-			"PublicSubnetId1",
-		        "PublicSubnetId2",
 		        "PrivateSubnetId1",
 			"PrivateSubnetId2"
                     ]
@@ -33,8 +30,8 @@
                         "default": "Auto Scaling configuration"
                     },
                     "Parameters": [
-                        "CloudplexserverAutoscaleDesiredCapacity",
-                        "CloudplexserverAutoscaleMaxSize"
+                        "CloudplexServerAutoscaleDesiredCapacity",
+                        "CloudplexServerAutoscaleMaxSize"
                     ]
                 },
                 {
@@ -53,7 +50,7 @@
                         "default": "Snaplogic configuration"
                     },
                     "Parameters": [
-                        "SnaplogicLicenseBucket",
+                        "SnapLogicLicenseBucket",
 			"SnaplexconfS3KeyPrefix"
                     ]
                 },
@@ -74,7 +71,7 @@
                 "QSS3KeyPrefix": {
                     "default": "Quick Start S3 Key Prefix"
                 },
-		"SnaplogicLicenseBucket": {
+		"SnapLogicLicenseBucket": {
                     "default": "Snaplogic License Bucket"
                 },
 		"SnaplexconfS3KeyPrefix": {
@@ -83,32 +80,23 @@
                 "VpcId": {
                     "default": "VPC ID"
                 },
-                "PublicSubnetId1": {
-                    "default": "Public Subnet 1 ID"
-                },
-                "PublicSubnetId2": {
-                    "default": "Public Subnet 2 ID"
-                },
                 "PrivateSubnetId1": {
                     "default": "Private Subnet 1 ID"
                 },
                 "PrivateSubnetId2": {
                     "default": "Private Subnet 2 ID"
                 },
-                "RemoteAccessCIDR": {
-                    "default": "Remote Access CIDR"
-                },
                 "KeyPairName": {
                     "default": "Key Pair Name"
                 },
                 "InstanceType": {
-                    "default": "Cloudplexserver Instance Type"
+                    "default": "CloudplexServerInstance Type"
                 },
-                "CloudplexserverAutoscaleDesiredCapacity": {
-                    "default": "Cloudplexserver Autoscale Desired Capacity"
+                "CloudplexServerAutoscaleDesiredCapacity": {
+                    "default": "CloudplexServerAutoscale Desired Capacity"
                 },
-                "CloudplexserverAutoscaleMaxSize": {
-                    "default": "Cloudplexserver Autoscale Maximum Capacity"
+                "CloudplexServerAutoscaleMaxSize": {
+                    "default": "CloudplexServerAutoscale Maximum Capacity"
                 },
                 "RedshiftNodeType": {
                     "default": "Amazon Redshift Node Type"
@@ -145,7 +133,7 @@
             "Default":"quickstart-datalake-snaplogic/",
 	    "Type": "String"
         },
-	"SnaplogicLicenseBucket": {
+	"SnapLogicLicenseBucket": {
             "Description": "Bucket where the Snaplogic license is stored",
             "Type": "String",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
@@ -165,14 +153,6 @@
             "Description": "ID of the existing VPC where the AWS resources will be deployed through the CloudFormation templates",
             "Type": "AWS::EC2::VPC::Id"
         },
-        "PublicSubnetId1": {
-            "Description": "ID of Public Subnet 1 in the existing VPC",
-            "Type": "AWS::EC2::Subnet::Id"
-        },
-        "PublicSubnetId2": {
-            "Description": "ID of Public Subnet 2 in the existing VPC",
-            "Type": "AWS::EC2::Subnet::Id"
-        },
         "PrivateSubnetId1": {
             "Description": "ID of Private Subnet 1 in the existing VPC",
             "Type": "AWS::EC2::Subnet::Id"
@@ -181,14 +161,8 @@
             "Description": "ID of Private Subnet 2 in the existing VPC",
             "Type": "AWS::EC2::Subnet::Id"
         },
-        "RemoteAccessCIDR": {
-             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
-             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
-             "Description": "The CIDR IP range that is permitted to access the VPC. We recommend that you use a constrained CIDR range to reduce the potential of inbound attacks from unknown IP addresses. For example, if your IPv4 address is 203.0.113.25, specify 203.0.113.25/32 to list this single IPv4 address in CIDR notation. If your company allocates addresses from a range, specify the entire range, such as 203.0.113.0/24. For details, see VPCs and Subnets in the AWS documentation.",
-             "Type": "String"
-        },
         "InstanceType": {
-            "Description": "EC2 Instance type for Snaplogic Cloudplexservers",
+            "Description": "EC2 instance type for Snaplogic CloudplexServers",
             "Type": "String",
             "Default": "t2.large",
             "AllowedValues": [
@@ -230,7 +204,7 @@
             "ConstraintDescription": "must be a valid EC2 instance type."
         },
         "RedshiftHost": {
-            "Description": "DNS Name or IP address of the master node of an existing Redshift cluster which you intend to use for the Snaplogic sample jobs. Leave this blank to create a new Redshift cluster.",
+            "Description": "DNS name or IP address of the master node of an existing Redshift cluster which you intend to use for the Snaplogic sample jobs. Leave this blank to create a new Redshift cluster.",
             "Type": "String",
             "Default": ""
         },
@@ -269,15 +243,15 @@
             "Type": "Number",
             "Default": "1"
         },
-        "CloudplexserverAutoscaleMaxSize": {
-            "Description": "Maximum no. of EC2 instances for Snaplogic Cloudplexserver autoscale group ",
+        "CloudplexServerAutoscaleMaxSize": {
+            "Description": "Maximum no. of EC2 instances for Snaplogic CloudplexServerAuto Scaling  group ",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
-        "CloudplexserverAutoscaleDesiredCapacity": {
-            "Description": "Desired no. of EC2 instances for Snaplogic Cloudplexserver autoscale group",
+        "CloudplexServerAutoscaleDesiredCapacity": {
+            "Description": "Desired no. of EC2 instances for Snaplogic CloudplexServerAuto Scaling  group",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
@@ -329,7 +303,7 @@
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
 		    "QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
 		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
-                    "SnaplogicLicenseBucket": { "Ref": "SnaplogicLicenseBucket" },
+                    "SnapLogicLicenseBucket": { "Ref": "SnapLogicLicenseBucket" },
                     "StackRoot": { "Fn::Sub": "${AWS::StackName}" }
                 }
             }
@@ -355,7 +329,7 @@
                             "" 
                         ]
                     },
-                 "CloudplexserverSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicServersStack", "Outputs.CloudplexserverSecurityGroupID" ] }
+                 "CloudplexServerSecurityGroupID": { "Fn::GetAtt": [ "SnaplogicServersStack", "Outputs.CloudplexServerSecurityGroupID" ] }
                 }
             }
         },  
@@ -393,15 +367,15 @@
 		    "QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
 		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
                     "KeyName": { "Ref": "KeyPairName" },
-		    "SnaplogicLicenseBucket":  { "Ref": "SnaplogicLicenseBucket" },
+		    "SnapLogicLicenseBucket":  { "Ref": "SnapLogicLicenseBucket" },
                     "InstanceRole": { "Fn::GetAtt": [ "IamStack", "Outputs.InstanceRole" ] },
                     "InstanceProfile": { "Fn::GetAtt": [ "IamStack", "Outputs.InstanceProfile" ] },
                     "PrivateSubnetId1": { "Ref": "PrivateSubnetId1" },
                     "PrivateSubnetId2": { "Ref": "PrivateSubnetId2" },
                     "VpcId": { "Ref": "VpcId" },
-                    "CloudplexserverAutoscaleMinSize": "1",
-                    "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
-                    "CloudplexserverAutoscaleDesiredCapacity": {  "Ref": "CloudplexserverAutoscaleDesiredCapacity" },
+                    "CloudplexServerAutoscaleMinSize": "1",
+                    "CloudplexServerAutoscaleMaxSize": { "Ref": "CloudplexServerAutoscaleMaxSize" },
+                    "CloudplexServerAutoscaleDesiredCapacity": {  "Ref": "CloudplexServerAutoscaleDesiredCapacity" },
                     "InstanceType": { "Ref": "InstanceType" }					
                 }
             }

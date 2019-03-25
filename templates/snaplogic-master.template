@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template uses the Snaplogic Snaplex Server templates with the AWS VPC quickstart.  The AWS VPC creates a multi-AZ, multi-subnet VPC infrastructure with managed NAT gateways in the public subnet for each Availability Zone. The Snaplogic servers are deployed to the public subnet with the exception of the Cloudplexservers which are deployed to the private subnet and Bastion servers to a VPC. **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhnf)",
+    "Description": "This template uses the Snaplogic Snaplex Server templates with the AWS VPC quickstart.  The AWS VPC creates a multi-AZ, multi-subnet VPC infrastructure with managed NAT gateways in the public subnet for each Availability Zone. The Snaplogic servers are deployed to the public subnet with the exception of the CloudplexServers which are deployed to the private subnet and Bastion servers to a VPC. **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhnf)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -23,8 +23,8 @@
                         "default": "EC2 Auto Scaling configuration"
                     },
                     "Parameters": [
-                        "CloudplexserverAutoscaleDesiredCapacity",
-                        "CloudplexserverAutoscaleMaxSize"
+                        "CloudplexServerAutoscaleDesiredCapacity",
+                        "CloudplexServerAutoscaleMaxSize"
                     ]
                 },
                 {
@@ -43,7 +43,7 @@
                         "default": "Snaplogic configuration"
                     },
                     "Parameters": [
-                        "SnaplogicLicenseBucket",
+                        "SnapLogicLicenseBucket",
 			"SnaplexconfS3KeyPrefix"
                     ]
                 },
@@ -77,9 +77,12 @@
                 "QSS3KeyPrefix": {
                     "default": "Quick Start S3 Key Prefix (optional)"
                 },
-		"SnaplogicLicenseBucket": {
-                    "default": "Snaplogic License Bucket"
+		"SnapLogicLicenseBucket": {
+                    "default": "SnapLogicLicense Bucket"
                 },
+		"InstanceType":{
+                     "default": "Instance Type"
+		},
 	        "SnaplexconfS3KeyPrefix": {
                     "default": "Snaplex S3 Key Prefix (optional)"
                 },
@@ -107,11 +110,11 @@
                 "KeyPairName": {
                     "default": "Key Pair Name"
                 },
-                "CloudplexserverAutoscaleDesiredCapacity": {
-                    "default": "Cloudplexserver Autoscale Desired Capacity"
+                "CloudplexServerAutoscaleDesiredCapacity": {
+                    "default": "CloudplexServer Autoscale Desired Capacity"
                 },
-                "CloudplexserverAutoscaleMaxSize": {
-                    "default": "Cloudplexserver Autoscale Maximum Capacity"
+                "CloudplexServerAutoscaleMaxSize": {
+                    "default": "CloudplexServer Autoscale Maximum Capacity"
                 },
                 "RedshiftHost": {
                     "default": "Amazon Redshift Host (optional)"
@@ -155,8 +158,8 @@
             "Default":"quickstart-datalake-snaplogic/",
 	    "Type": "String"
         },
-	"SnaplogicLicenseBucket": {
-            "Description": "Bucket holding Snaplogiclicense",
+	"SnapLogicLicenseBucket": {
+            "Description": "Bucket holding SnapLogicLicense",
             "Type": "String",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
@@ -168,7 +171,7 @@
 	    "Type": "String"
 	},
         "InstanceType": {
-            "Description": "EC2 Instance type for Snaplogic Cloudplexservers",
+            "Description": "EC2 Instance type for Snaplogic CloudplexServers",
             "Type": "String",
             "Default": "t2.large",
             "AllowedValues": [
@@ -210,7 +213,7 @@
             "ConstraintDescription": "must be a valid EC2 instance type."
         },
         "BastionInstanceType": {
-            "Description": "EC2 Instance type for Bastion host",
+            "Description": "EC2 instance type for bastion host",
             "Type": "String",
             "Default": "t2.micro",
             "AllowedValues": [
@@ -229,7 +232,7 @@
             ]
         },
         "RedshiftHost": {
-            "Description": "DNS Name or IP address of the master node of an existing Redshift cluster which you intend to use for the Snaplogic sample jobs. Leave this blank to create a new Redshift cluster.",
+            "Description": "DNS name or IP address of the master node of an existing Redshift cluster which you intend to use for the Snaplogic sample jobs. Leave this blank to create a new redshift cluster.",
             "Type": "String",
             "Default": ""
         },
@@ -268,15 +271,15 @@
             "Type": "Number",
             "Default": "1"
         },
-        "CloudplexserverAutoscaleMaxSize": {
-            "Description": "Maximum no. of EC2 instances for Snaplogic Cloudplexserver autoscale group",
+        "CloudplexServerAutoscaleMaxSize": {
+            "Description": "Maximum no. of EC2 instances for Snaplogic CloudplexServer Auto Scaling group",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
-        "CloudplexserverAutoscaleDesiredCapacity": {
-            "Description": "Desired no. of EC2 instances for Snaplogic Cloudplexserver autoscale group",
+        "CloudplexServerAutoscaleDesiredCapacity": {
+            "Description": "Desired no. of EC2 instances for Snaplogic CloudplexServer Auto Scaling group",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
@@ -314,14 +317,14 @@
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.128.0/20",
-            "Description": "CIDR Block for the public DMZ subnet 1 located in Availability Zone 1",
+            "Description": "CIDR block for the public DMZ subnet 1 located in Availability Zone 1",
             "Type": "String"
         },
         "PublicSubnet2CIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/16-28",
             "Default": "10.0.144.0/20",
-            "Description": "CIDR Block for the public DMZ subnet 2 located in Availability Zone 2",
+            "Description": "CIDR block for the public DMZ subnet 2 located in Availability Zone 2",
             "Type": "String"
         },
         "RemoteAccessCIDR": {
@@ -334,7 +337,7 @@
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
             "ConstraintDescription": "CIDR block for the VPC. When you create a VPC, you must specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block. You can also optionally assign an IPv6 CIDR block to your VPC, and assign IPv6 CIDR blocks to your subnets.",
             "Default": "10.0.0.0/16",
-            "Description": "CIDR Block for the VPC",
+            "Description": "CIDR block for the VPC",
             "Type": "String"
         }
     },
@@ -406,12 +409,9 @@
 		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
                     "KeyPairName": { "Ref": "KeyPairName" },
                     "VpcId": { "Fn::GetAtt": [ "VpcStack", "Outputs.VPCID" ] },
-		    "SnaplogicLicenseBucket": { "Ref": "SnaplogicLicenseBucket" },
-                    "PublicSubnetId1": { "Fn::GetAtt": [ "VpcStack", "Outputs.PublicSubnet1ID"] },
-                    "PublicSubnetId2": { "Fn::GetAtt": [ "VpcStack", "Outputs.PublicSubnet2ID"] },
+		    "SnapLogicLicenseBucket": { "Ref": "SnapLogicLicenseBucket" },
                     "PrivateSubnetId1": { "Fn::GetAtt": [ "VpcStack", "Outputs.PrivateSubnet1AID"] },
                     "PrivateSubnetId2": { "Fn::GetAtt": [ "VpcStack", "Outputs.PrivateSubnet2AID"] },
-                    "RemoteAccessCIDR": { "Ref": "RemoteAccessCIDR" },
                     "InstanceType": { "Ref": "InstanceType" },
                     "RedshiftHost": { "Ref": "RedshiftHost" },
                     "RedshiftUsername": { "Ref": "RedshiftUsername" },
@@ -419,8 +419,8 @@
                     "RedshiftDbName": { "Ref": "RedshiftDbName" },
                     "RedshiftNodeType": { "Ref": "RedshiftNodeType" },
                     "RedshiftNumberOfNodes": { "Ref": "RedshiftNumberOfNodes" },
-                    "CloudplexserverAutoscaleMaxSize": { "Ref": "CloudplexserverAutoscaleMaxSize" },
-                    "CloudplexserverAutoscaleDesiredCapacity": { "Ref": "CloudplexserverAutoscaleDesiredCapacity" }
+                    "CloudplexServerAutoscaleMaxSize": { "Ref": "CloudplexServerAutoscaleMaxSize" },
+                    "CloudplexServerAutoscaleDesiredCapacity": { "Ref": "CloudplexServerAutoscaleDesiredCapacity" }
                     }
                 }
             }

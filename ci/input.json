@@ -24,7 +24,7 @@
       "ParameterValue": "$[taskcat_autobucket]"
   },
  {
-      "ParameterKey": "SnaplogicLicenseBucket",
+      "ParameterKey": "SnapLogicLicenseBucket",
       "ParameterValue": "$[taskcat_autobucket]"
   }
 ]

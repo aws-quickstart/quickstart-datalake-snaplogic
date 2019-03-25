@@ -1,6 +1,6 @@
 {
 	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "This template will deploy a Cloudplexserver instance into an existing VPC subnet.  **WARNING** This template creates Amazon EC2 instance and related resources. You will be billed for the AWS resources used if you create a stack from this template. QS(9999)",
+	"Description": "This template will deploy a CloudplexServer instance into an existing VPC subnet.  **WARNING** This template creates Amazon EC2 instance and related resources. You will be billed for the AWS resources used if you create a stack from this template. QS(9999)",
 	"Parameters": {
 		"QSS3BucketName": {
 		    "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$",
@@ -15,8 +15,8 @@
 		    "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
 		    "Type": "String"
 		},
-		"SnaplogicLicenseBucket": {
-                    "Description": "Bucket holding Snaplogic license",
+		"SnapLogicLicenseBucket": {
+                    "Description": "Bucket holding SnapLogicLicense",
                     "Type": "String",
                     "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
                     "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
@@ -39,22 +39,22 @@
 		     "Description": "Snaplogic Server EC2 Instance Profile",
 		     "Type": "String"
 		},
-		"CloudplexserverAutoscaleMinSize": {
-		     "Description": "Snaplogic Cloudplexserver autoscale minimum size",
+		"CloudplexServerAutoscaleMinSize": {
+		     "Description": "Snaplogic CloudplexServer autoscale minimum size",
 		     "Type": "Number",
 		     "MinValue": "1",
 		     "MaxValue": "10",
 		     "Default": "1"
 		},
-		"CloudplexserverAutoscaleMaxSize": {
-		     "Description": "Snaplogic Cloudplexserver autoscale maximum size",
+		"CloudplexServerAutoscaleMaxSize": {
+		     "Description": "Snaplogic CloudplexServer autoscale maximum size",
 		     "Type": "Number",
 		     "MinValue": "1",
 		     "MaxValue": "10",
 		     "Default": "5"
 		},
-		"CloudplexserverAutoscaleDesiredCapacity": {
-		     "Description": "Snaplogic Cloudplexserver autoscale maximum size",
+		"CloudplexServerAutoscaleDesiredCapacity": {
+		     "Description": "Snaplogic CloudplexServer autoscale maximum size",
 		     "Type": "Number",
 		     "MinValue": "1",
 		     "MaxValue": "10",
@@ -175,20 +175,20 @@
 		}
 	},
 	"Resources": {
-		"CloudplexserverAutoscaling": {
+		"CloudplexServerAutoscaling": {
 			"Type": "AWS::AutoScaling::AutoScalingGroup",
 			"Properties": {
 				"LaunchConfigurationName": {
-					"Ref": "CloudplexserverLaunchConfig"
+					"Ref": "CloudplexServerLaunchConfig"
 				},
 				"MinSize": {
-					"Ref": "CloudplexserverAutoscaleMinSize"
+					"Ref": "CloudplexServerAutoscaleMinSize"
 				},
 				"MaxSize": {
-					"Ref": "CloudplexserverAutoscaleMaxSize"
+					"Ref": "CloudplexServerAutoscaleMaxSize"
 				},
 				"DesiredCapacity": {
-					"Ref": "CloudplexserverAutoscaleDesiredCapacity"
+					"Ref": "CloudplexServerAutoscaleDesiredCapacity"
 				},
 				"Tags": [{
 					"Key": "Name",
@@ -203,7 +203,7 @@
 				}]
 			}
 		},
-		"CloudplexserverLaunchConfig": {
+		"CloudplexServerLaunchConfig": {
 			"Type": "AWS::AutoScaling::LaunchConfiguration",
 			"Properties": {
 				"InstanceType": {
@@ -223,7 +223,7 @@
 				},
 				"SecurityGroups": [
 				{
-					"Ref": "CloudplexserverSecurityGroup"
+					"Ref": "CloudplexServerSecurityGroup"
 				}
 				],
 				"IamInstanceProfile": {
@@ -246,7 +246,7 @@
 					         "\n",
 					         "wget https://snaplogic-uxpod-sldb.s3.amazonaws.com/pkgs/snaplogic-sidekick-4.master-4777-x86_64.rpm\n",
                                                  "rpm -ivh snaplogic-sidekick-4.master-4777-x86_64.rpm\n",
-						 { "Fn::Join": [ "", [ "aws s3 cp s3://", { "Ref" : "SnaplogicLicenseBucket" },"/",{ "Ref" : "SnaplexconfS3KeyPrefix" },"  /opt/snaplogic/etc" ]]},
+						 { "Fn::Join": [ "", [ "aws s3 cp s3://", { "Ref" : "SnapLogicLicenseBucket" },"/",{ "Ref" : "SnaplexconfS3KeyPrefix" },"  /opt/snaplogic/etc" ]]},
 					         "\n",
 						 "sudo chown -R snapuser:snapuser /opt/snaplogic/etc/*\n",
 						 "sudo chmod 600 /opt/snaplogic/etc/*\n",
@@ -270,7 +270,7 @@
                                                  {
                                                  "Ref": "AWS::StackName"
                                                  },
-                                                 "         --resource CloudplexserverLaunchConfig ",
+                                                 "         --resource CloudplexServerLaunchConfig ",
                                                  "         --configsets All ",
                                                  "         --region ",
                                                  {
@@ -283,7 +283,7 @@
                                                  {
                                                  "Ref": "AWS::StackName"
                                                  },
-                                                 "         --resource CloudplexserverLaunchConfig ",
+                                                 "         --resource CloudplexServerLaunchConfig ",
                                                  "         --region ",
                                                  {
                                                  "Ref": "AWS::Region"
@@ -296,11 +296,11 @@
 				}
 			}
 		},
-	        "CloudplexserverSecurityGroup": {
+	        "CloudplexServerSecurityGroup": {
                      "Type": "AWS::EC2::SecurityGroup",
                      "Properties": {
                          "VpcId": { "Ref": "VpcId" },
-                         "GroupDescription": "Allow access to Cloudplexserver from TAC on 8000 (command), 8001 (file), and 8888 (monitoring), and ssh from remote access",
+                         "GroupDescription": "Allow access to CloudplexServer from TAC on 8000 (command), 8001 (file), and 8888 (monitoring), and ssh from remote access",
                          "SecurityGroupIngress": [
                              {
                                   "IpProtocol": "tcp",
@@ -311,33 +311,33 @@
                           ]
                        }
                 },
-                "CloudplexserverIngressCloudplexserver": {
+                "CloudplexServerIngressCloudplexServer": {
                      "Type": "AWS::EC2::SecurityGroupIngress",
-                     "DependsOn": "CloudplexserverSecurityGroup",
+                     "DependsOn": "CloudplexServerSecurityGroup",
                      "Properties": {
                      "GroupId": {
-                                 "Ref": "CloudplexserverSecurityGroup"
+                                 "Ref": "CloudplexServerSecurityGroup"
                                 },
                      "IpProtocol": "tcp",
                      "FromPort": "0",
                      "ToPort": "65535",
                      "SourceSecurityGroupId": {
-                    "Ref": "CloudplexserverSecurityGroup"
+                    "Ref": "CloudplexServerSecurityGroup"
                      }
                   }
                },
-               "CloudplexserverIngressCloudplexserverICMP": {
+               "CloudplexServerIngressCloudplexServerICMP": {
                     "Type": "AWS::EC2::SecurityGroupIngress",
-                    "DependsOn": "CloudplexserverSecurityGroup",
+                    "DependsOn": "CloudplexServerSecurityGroup",
                     "Properties": {
                          "GroupId": {
-                              "Ref": "CloudplexserverSecurityGroup"
+                              "Ref": "CloudplexServerSecurityGroup"
                      },
                    "IpProtocol": "icmp",
                    "FromPort": "-1",
                    "ToPort": "-1",
                    "SourceSecurityGroupId": {
-                       "Ref": "CloudplexserverSecurityGroup"
+                       "Ref": "CloudplexServerSecurityGroup"
                                }
                          }
                    }
@@ -353,20 +353,20 @@
 	        }
             },
             "Outputs": {
-                "CloudplexserverSecurityGroupID": {
-                       "Description": "Cloudplexserver security group.",
-                       "Value": { "Ref": "CloudplexserverSecurityGroup" },
-                       "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverSecurityGroupID" } }
+                "CloudplexServerSecurityGroupID": {
+                       "Description": "CloudplexServer security group.",
+                       "Value": { "Ref": "CloudplexServerSecurityGroup" },
+                       "Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexServerSecurityGroupID" } }
                 },
-                "CloudplexserverAutoscaling": {
-	               "Value": { "Ref": "CloudplexserverAutoscaling" },
-	               "Description": "Cloudplexserver Autoscaling resource Id",
-			"Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverAutoscaling" } }
+                "CloudplexServerAutoscaling": {
+	               "Value": { "Ref": "CloudplexServerAutoscaling" },
+	               "Description": "CloudplexServer Autoscaling resource Id",
+			"Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexServerAutoscaling" } }
 	        },
-	        "CloudplexserverLaunchConfig": {
-			"Value": { "Ref": "CloudplexserverLaunchConfig" },
-			"Description": "Cloudplexserver Launch Configuration resource Id",
-			"Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexserverLaunchConfig" } }
+	        "CloudplexServerLaunchConfig": {
+			"Value": { "Ref": "CloudplexServerLaunchConfig" },
+			"Description": "CloudplexServer Launch Configuration resource Id",
+			"Export": { "Name": { "Fn::Sub": "${AWS::StackName}:CloudplexServerLaunchConfig" } }
 		}
 	}
 }

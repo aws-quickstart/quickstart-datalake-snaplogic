@@ -21,7 +21,7 @@
     },
     {
         "ParameterValue": "t2.micro",
-        "ParameterKey": "CloudplexserverInstanceType"
+        "ParameterKey": "InstanceType"
     },
     {
         "ParameterValue": "Snaplex",
@@ -37,19 +37,19 @@
     },
     {
         "ParameterValue": "True",
-        "ParameterKey": "CreateCloudplexserverAutoscaleStack"
+        "ParameterKey": "CreateCloudplexServerAutoscaleStack"
     },
     {
         "ParameterValue": "2",
-        "ParameterKey": "CloudplexserverAutoscaleDesiredCapacity"
+        "ParameterKey": "CloudplexServerAutoscaleDesiredCapacity"
     },
     {
         "ParameterValue": "5",
-        "ParameterKey": "CloudplexserverAutoscaleMaxSize"
+        "ParameterKey": "CloudplexServerAutoscaleMaxSize"
     },	
     {
         "ParameterValue": "1",
-        "ParameterKey": "CloudplexserverAutoscaleMinSize"
+        "ParameterKey": "CloudplexServerAutoscaleMinSize"
     },	
     {
         "ParameterValue": "rsdatabase",
