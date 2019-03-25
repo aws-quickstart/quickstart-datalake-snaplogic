@@ -343,7 +343,6 @@
                 "TimeoutInMinutes": 30,
                 "Parameters": {
 	            "VpcId": { "Ref": "VpcId" },
-                    "CreateRedshift": { "Fn::If": [ "CreateRedshiftCondition", "true", "false" ] },
                     "RedshiftSubnetA": { "Ref": "PrivateSubnetId1" },
                     "RedshiftSubnetB": { "Ref": "PrivateSubnetId2" },
                     "RedshiftUsername": { "Ref": "RedshiftUsername" },

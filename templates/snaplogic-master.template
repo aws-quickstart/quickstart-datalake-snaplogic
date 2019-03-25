@@ -342,9 +342,6 @@
         }
     },
     "Conditions": {
-        "CreateRedshiftCondition": {
-            "Fn::Equals": [ "", { "Ref": "RedshiftHost" } ]
-        },
         "CreateBastionCondition": {
             "Fn::Not": [
                 { "Fn::Equals": [ { "Ref": "NumBastionHosts" }, "0" ] }

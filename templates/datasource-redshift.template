@@ -27,15 +27,6 @@
             "Description": "VPC to which security groups belong",
             "Type": "AWS::EC2::VPC::Id"
         },
-        "CreateRedshift": {
-            "Description": "Create Redshift.",
-            "Type": "String",
-            "Default": "false",
-            "AllowedValues": [
-                "true",
-                "false"
-            ]
-        },
         "RedshiftSubnetA": {
             "Description": "Redshift subnet A",
             "Type": "AWS::EC2::Subnet::Id"
