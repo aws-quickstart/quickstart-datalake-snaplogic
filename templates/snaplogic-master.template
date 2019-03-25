@@ -341,13 +341,6 @@
             "Type": "String"
         }
     },
-    "Conditions": {
-        "CreateBastionCondition": {
-            "Fn::Not": [
-                { "Fn::Equals": [ { "Ref": "NumBastionHosts" }, "0" ] }
-            ]
-        }
-    }, 
 	"Mappings": {
         "Datasource": {
             "Redshift": {
@@ -355,11 +348,16 @@
             }
         }
     },
-	"Conditions": {
-        "CreateRedshiftCondition": {
+    "Conditions": {
+        "CreateBastionCondition": {
+            "Fn::Not": [
+                { "Fn::Equals": [ { "Ref": "NumBastionHosts" }, "0" ] }
+            ]
+        },
+		 "CreateRedshiftCondition": {
             "Fn::Equals": [ "", { "Ref": "RedshiftHost" } ]
         }
-	},
+    }, 
     "Resources": {
         "VpcStack": {
             "Type": "AWS::CloudFormation::Stack",
