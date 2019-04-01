@@ -9,7 +9,7 @@
     },
     {
         "ParameterKey": "KeyPairName",
-        "ParameterValue": "Snaplex"
+        "ParameterValue": "$[taskcat_getkeypair]"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
