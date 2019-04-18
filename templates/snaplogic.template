@@ -16,7 +16,7 @@
                 },
                 {
                     "Label": {
-                        "default": "Sizing configuration"
+                        "default": "Amazon EC2 configuration"
                     },
                     "Parameters": [
                         "KeyPairName",
@@ -27,7 +27,7 @@
                 },
                 {
                     "Label": {
-                        "default": "Auto Scaling configuration"
+                        "default": "EC2 Auto Scaling configuration"
                     },
                     "Parameters": [
                         "CloudplexServerAutoscaleDesiredCapacity",
@@ -47,16 +47,15 @@
                 },
 				{
                     "Label": {
-                        "default": "Snaplogic configuration"
+                        "default": "SnapLogic configuration"
                     },
                     "Parameters": [
-                        "SnapLogicLicenseBucket",
-			"SnaplexconfS3KeyPrefix"
+                        "SnapLogicLicenseBucket"
                     ]
                 },
                 {
                     "Label": {
-                        "default": "Quick Start Configuration"
+                        "default": "AWS Quick Start Configuration"
                     },
                     "Parameters": [
                         "QSS3BucketName",
@@ -66,55 +65,52 @@
             ],
             "ParameterLabels": {
                 "QSS3BucketName": {
-                    "default": "Quick Start S3 Bucket"
+                    "default": "Quick Start S3 bucket name"
                 },
                 "QSS3KeyPrefix": {
-                    "default": "Quick Start S3 Key Prefix"
+                    "default": "Quick Start S3 key prefix (optional)"
                 },
 		"SnapLogicLicenseBucket": {
-                    "default": "Snaplogic License Bucket"
-                },
-		"SnaplexconfS3KeyPrefix": {
-                    "default": "Snaplex S3 Key Prefix"
+                    "default": "SnapLogic license bucket"
                 },
                 "VpcId": {
                     "default": "VPC ID"
                 },
                 "PrivateSubnetId1": {
-                    "default": "Private Subnet 1 ID"
+                    "default": "Private subnet 1 CIDR"
                 },
                 "PrivateSubnetId2": {
-                    "default": "Private Subnet 2 ID"
+                    "default": "Private subnet 2 CIDR"
                 },
                 "KeyPairName": {
-                    "default": "Key Pair Name"
+                    "default": "Key pair name"
                 },
                 "InstanceType": {
-                    "default": "CloudplexServerInstance Type"
+                    "default": "Cloudplex server instance type"
                 },
                 "CloudplexServerAutoscaleDesiredCapacity": {
-                    "default": "CloudplexServerAutoscale Desired Capacity"
+                    "default": "Cloudplex server autoscale desired capacity"
                 },
                 "CloudplexServerAutoscaleMaxSize": {
-                    "default": "CloudplexServerAutoscale Maximum Capacity"
+                    "default": "Cloudplex server autoscale maximum capacity"
                 },
                 "RedshiftNodeType": {
-                    "default": "Amazon Redshift Node Type"
+                    "default": "Amazon Redshift node type"
                 },
                 "RedshiftNumberOfNodes": {
-                    "default": "Number of Amazon Redshift Nodes"
+                    "default": "Number of Amazon Redshift nodes"
                 },
                 "RedshiftHost": {
-                    "default": "Amazon Redshift Host (optional)"
+                    "default": "Amazon Redshift host (optional)"
                 },
                 "RedshiftDbName": {
-                    "default": "Amazon Redshift Database Name"
+                    "default": "Amazon Redshift database name"
                 },
                 "RedshiftUsername": {
-                    "default": "Amazon Redshift Username"
+                    "default": "SnapLogic–username"
                 },
                 "RedshiftPassword": {
-                    "default": "Amazon Redshift Password"
+                    "default": "password"
                 }
             }
         }
@@ -137,14 +133,8 @@
             "Description": "Bucket where the Snaplogic license is stored",
             "Type": "String",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
-            "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
+            "ConstraintDescription": "The Amazon S3 bucket where the SnapLogic license file is stored."
         },
-	"SnaplexconfS3KeyPrefix": {
-	    "ConstraintDescription": "Snaplex config key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
-            "Default": "",
-	    "Description": "S3 key prefix for the Snaplex assets. Snaplex key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
-	    "Type": "String"
-	},
         "KeyPairName": {
             "Description": "Public/private key pair, which allows you to connect securely to your instance after it launches. When you created an AWS account, this is the key pair you created in your preferred region.",
             "Type": "AWS::EC2::KeyPair::KeyName"
@@ -244,14 +234,14 @@
             "Default": "1"
         },
         "CloudplexServerAutoscaleMaxSize": {
-            "Description": "Maximum no. of EC2 instances for Snaplogic CloudplexServerAuto Scaling  group ",
+            "Description": "The maximum number of Cloudplex servers in the Auto Scaling group.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
         "CloudplexServerAutoscaleDesiredCapacity": {
-            "Description": "Desired no. of EC2 instances for Snaplogic CloudplexServerAuto Scaling  group",
+            "Description": "The desired capacity for Cloudplex servers in the Auto Scaling group.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
@@ -302,7 +292,6 @@
 		"Parameters" : {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
 		    "QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
-		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
                     "SnapLogicLicenseBucket": { "Ref": "SnapLogicLicenseBucket" },
                     "StackRoot": { "Fn::Sub": "${AWS::StackName}" }
                 }
@@ -364,7 +353,6 @@
 		    "Parameters" : {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
 		    "QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
-		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
                     "KeyName": { "Ref": "KeyPairName" },
 		    "SnapLogicLicenseBucket":  { "Ref": "SnapLogicLicenseBucket" },
                     "InstanceRole": { "Fn::GetAtt": [ "IamStack", "Outputs.InstanceRole" ] },

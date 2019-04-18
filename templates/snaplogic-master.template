@@ -9,13 +9,20 @@
                         "default": "Network configuration"
                     },
                     "Parameters": [
-                       	"AvailabilityZones",
-		        "VPCCIDR",
+		                "VPCCIDR",
                         "PublicSubnet1CIDR",
                         "PublicSubnet2CIDR",
                         "PrivateSubnet1CIDR",
                         "PrivateSubnet2CIDR",
                         "RemoteAccessCIDR"
+                    ]
+                },
+				 {
+                    "Label": {
+                        "default": "Availability Zone configuration"
+                    },
+                    "Parameters": [
+                        "AvailabilityZones"
                     ]
                 },
                 {
@@ -40,16 +47,15 @@
                 },
                 {
                     "Label": {
-                        "default": "Snaplogic configuration"
+                        "default": "SnapLogic configuration"
                     },
                     "Parameters": [
-                        "SnapLogicLicenseBucket",
-			"SnaplexconfS3KeyPrefix"
+                        "SnapLogicLicenseBucket"
                     ]
                 },
                 {
                     "Label": {
-                        "default": "Sizing configuration"
+                        "default": "Amazon EC2 configuration"
                     },
                     "Parameters": [
                         "KeyPairName",
@@ -62,7 +68,7 @@
                 },
                 {
                     "Label": {
-                        "default": "Quick Start Configuration"
+                        "default": "AWS Quick Start Configuration"
                     },
                     "Parameters": [
                         "QSS3BucketName",
@@ -72,73 +78,70 @@
             ],
             "ParameterLabels": {
                 "QSS3BucketName": {
-                    "default": "Quick Start S3 Bucket"
+                    "default": "Quick Start S3 bucket name"
                 },
                 "QSS3KeyPrefix": {
-                    "default": "Quick Start S3 Key Prefix (optional)"
+                    "default": "Quick Start S3 key prefix (optional)"
                 },
 		"SnapLogicLicenseBucket": {
-                    "default": "SnapLogicLicense Bucket"
+                    "default": "SnapLogic license bucket"
                 },
 		"InstanceType":{
-                     "default": "Instance Type"
+                     "default": "Instance type"
 		},
-	        "SnaplexconfS3KeyPrefix": {
-                    "default": "Snaplex S3 Key Prefix (optional)"
-                },
-                "AvailabilityZones": {
-                    "default": "Availability Zones"
+                "Availability Zones": {
+                    "default": "Number of Availability Zones"
                 },
                 "VPCCIDR": {
                     "default": "VPC CIDR"
                 },
                 "PublicSubnet1CIDR": {
-                    "default": "Public Subnet1 CIDR"
+                    "default": "Public subnet 1 CIDR"
                 },
                 "PublicSubnet2CIDR": {
-                    "default": "Public Subnet2 CIDR"
+                    "default": "Public subnet 2 CIDR"
                 },
                 "PrivateSubnet1CIDR": {
-                    "default": "Private Subnet1 CIDR"
+                    "default": "Private subnet 1 CIDR"
                 },
                 "PrivateSubnet2CIDR": {
-                    "default": "Private Subnet2 CIDR"
+                    "default": "Private subnet 2 CIDR"
                 },
                 "RemoteAccessCIDR": {
-                    "default": "Remote Access CIDR"
+                    "default": "Remote access CIDR"
                 },
                 "KeyPairName": {
-                    "default": "Key Pair Name"
+                    "default": "Key pair name"
                 },
                 "CloudplexServerAutoscaleDesiredCapacity": {
-                    "default": "CloudplexServer Autoscale Desired Capacity"
+                    "default": "Cloudplex server desired capacity"
                 },
                 "CloudplexServerAutoscaleMaxSize": {
-                    "default": "CloudplexServer Autoscale Maximum Capacity"
+                    "default": "Cloudplex server max size"
                 },
                 "RedshiftHost": {
-                    "default": "Amazon Redshift Host (optional)"
+                    "default": "Amazon Redshift host (optional)"
                 },
                 "RedshiftDbName": {
-                    "default": "Amazon Redshift Database Name"
+                    "default": "Amazon Redshift database name"
                 },
                 "RedshiftUsername": {
-                    "default": "Amazon Redshift Username"
+                    "default": "SnapLogic–username"
                 },
                 "RedshiftPassword": {
-                    "default": "Amazon Redshift Password"
+                    "default": "password"
                 },
                 "BastionInstanceType": {
-                    "default": "Bastion Instance Type"
+                    "default": "Bastion instance type"
                 },
                 "NumBastionHosts": {
-                    "default": "Number of Bastion Hosts"
+                    "default": "Number of bastion hosts"
                 },
                 "RedshiftNodeType": {
-                    "default": "Amazon Redshift Node Type"
+                    "default": "Amazon Redshift node type"
                 },
                 "RedshiftNumberOfNodes": {
-                    "default": "Number of Amazon Redshift Nodes"
+                    "default": "Number of Amazon Redshift nodes"
                 }
             }
         }
@@ -162,14 +165,8 @@
             "Description": "Bucket holding SnapLogicLicense",
             "Type": "String",
             "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
-            "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
+            "ConstraintDescription": "The Amazon S3 bucket where the SnapLogic license file is stored."
         },
-	"SnaplexconfS3KeyPrefix": {
-	    "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
-            "Default": "",
-	    "Description": "S3 key prefix for the Snaplex config assets. Snaplex key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
-	    "Type": "String"
-	},
         "InstanceType": {
             "Description": "EC2 Instance type for Snaplogic CloudplexServers",
             "Type": "String",
@@ -272,14 +269,14 @@
             "Default": "1"
         },
         "CloudplexServerAutoscaleMaxSize": {
-            "Description": "Maximum no. of EC2 instances for Snaplogic CloudplexServer Auto Scaling group",
+            "Description": "The maximum number of Cloudplex servers in the Auto Scaling group",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
         "CloudplexServerAutoscaleDesiredCapacity": {
-            "Description": "Desired no. of EC2 instances for Snaplogic CloudplexServer Auto Scaling group",
+            "Description": "The desired capacity for Cloudplex servers in the Auto Scaling group.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
@@ -413,7 +410,6 @@
                 "Parameters": {
                     "QSS3BucketName": { "Ref": "QSS3BucketName" },
                     "QSS3KeyPrefix": { "Ref": "QSS3KeyPrefix" },
-		    "SnaplexconfS3KeyPrefix": { "Ref": "SnaplexconfS3KeyPrefix" },
                     "KeyPairName": { "Ref": "KeyPairName" },
                     "VpcId": { "Fn::GetAtt": [ "VpcStack", "Outputs.VPCID" ] },
 		    "SnapLogicLicenseBucket": { "Ref": "SnapLogicLicenseBucket" },
