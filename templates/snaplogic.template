@@ -132,7 +132,6 @@
 	"SnapLogicLicenseBucket": {
             "Description": "Bucket where the Snaplogic license is stored",
             "Type": "String",
-            "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
             "ConstraintDescription": "The Amazon S3 bucket where the SnapLogic license file is stored."
         },
         "KeyPairName": {

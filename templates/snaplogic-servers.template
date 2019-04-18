@@ -18,7 +18,6 @@
 		"SnapLogicLicenseBucket": {
                     "Description": "Bucket holding SnapLogicLicense",
                     "Type": "String",
-                    "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
                     "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
                 },
 		"VpcId": {
