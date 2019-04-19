@@ -17,7 +17,7 @@
                         "RemoteAccessCIDR"
                     ]
                 },
-				{
+		{
                     "Label": {
                         "default": "Availability Zone configuration"
                     },
