@@ -16,16 +16,16 @@
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
             "Type": "String"
         },
-	"SnapLogicLicenseBucket": {
-                    "Description": "Bucket holding SnapLogicLicense",
-                    "Type": "String",
-                    "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
+        "SnapLogicLicenseBucket": {
+            "Description": "Bucket holding SnapLogicLicense",
+            "Type": "String",
+            "ConstraintDescription": "The Amazon S3 bucket where the SnapLogic license file is stored."
         },
         "StackRoot": {
             "Description": "Root of the stack name used to limit Cloud Formation Describe command access",
             "Type": "String"
         }
-	},
+    },
     "Resources": {
         "InstanceRole": {
             "Type": "AWS::IAM::Role",
@@ -33,10 +33,14 @@
                 "AssumeRolePolicyDocument": {
                     "Statement": [
                         {
-                            "Action": [ "sts:AssumeRole" ],
+                            "Action": [
+                                "sts:AssumeRole"
+                            ],
                             "Effect": "Allow",
                             "Principal": {
-                                "Service": [ "ec2.amazonaws.com" ]
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
                             }
                         }
                     ],
@@ -46,19 +50,34 @@
                     {
                         "PolicyName": "QuickstartBucketAccess",
                         "PolicyDocument": {
-                            "Statement":[
+                            "Statement": [
                                 {
-                                  "Effect": "Allow",
-                                  "Action": ["s3:ListBucket"],
-                                  "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}" },
-					        { "Fn::Sub": "arn:aws:s3:::${SnapLogicLicenseBucket}"}
-			         ]
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "s3:ListBucket"
+                                    ],
+                                    "Resource": [
+                                        {
+                                            "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}"
+                                        },
+                                        {
+                                            "Fn::Sub": "arn:aws:s3:::${SnapLogicLicenseBucket}"
+                                        }
+                                    ]
                                 },
                                 {
-                                    "Action": [ "s3:GetObject" ],
+                                    "Action": [
+                                        "s3:GetObject"
+                                    ],
                                     "Effect": "Allow",
-                                    "Resource": [ { "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*" }   
-                		 ]
+                                    "Resource": [
+                                        {
+                                            "Fn::Sub": "arn:aws:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*"
+                                        },
+                                        {
+                                            "Fn::Sub": "arn:aws:s3:::${SnapLogicLicenseBucket}/*"
+                                        }
+                                    ]
                                 },
                                 {
                                     "Effect": "Allow",
@@ -68,7 +87,9 @@
                                         "cloudformation:Get*",
                                         "cloudformation:SignalResource*"
                                     ],
-                                    "Resource": { "Fn::Sub": "arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${StackRoot}*/*" }
+                                    "Resource": {
+                                        "Fn::Sub": "arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${StackRoot}*/*"
+                                    }
                                 }
                             ]
                         }
@@ -80,28 +101,36 @@
             "Type": "AWS::IAM::InstanceProfile",
             "Properties": {
                 "Path": "/Snaplogic/",
-                "Roles": [ { "Ref": "InstanceRole" } ]
+                "Roles": [
+                    {
+                        "Ref": "InstanceRole"
+                    }
+                ]
             }
         }
     },
     "Outputs": {
         "InstanceRole": {
-            "Value": { "Ref": "InstanceRole" },
+            "Value": {
+                "Ref": "InstanceRole"
+            },
             "Description": "IAM Role for Snaplogic EC2 instances",
-			"Export": {
-				"Name": {
-					"Fn::Sub": "${AWS::StackName}:InstanceRole" 
-				}
-			}
+            "Export": {
+                "Name": {
+                    "Fn::Sub": "${AWS::StackName}:InstanceRole"
+                }
+            }
         },
         "InstanceProfile": {
-            "Value": { "Ref": "InstanceProfile" },
+            "Value": {
+                "Ref": "InstanceProfile"
+            },
             "Description": "Snaplogic Instance Profile",
-			"Export": {
-				"Name": {
+            "Export": {
+                "Name": {
                     "Fn::Sub": "${AWS::StackName}:InstanceProfile"
-				}
-			}
+                }
+            }
         }
     }
 }
