@@ -20,21 +20,39 @@
     "Conditions": {
         "RedshiftCondition": {
             "Fn::Not": [
-                { "Fn::Equals": [ "", { "Ref": "RedshiftSecurityGroupID" } ] }
+                {
+                    "Fn::Equals": [
+                        "",
+                        {
+                            "Ref": "RedshiftSecurityGroupID"
+                        }
+                    ]
+                }
             ]
         },
         "CloudplexServerCondition": {
             "Fn::Not": [
-                { "Fn::Equals": [ "", { "Ref": "CloudplexServerSecurityGroupID" } ] }
+                {
+                    "Fn::Equals": [
+                        "",
+                        {
+                            "Ref": "CloudplexServerSecurityGroupID"
+                        }
+                    ]
+                }
             ]
         },
         "CloudplexServerRedshiftCondition": {
             "Fn::And": [
-                { "Condition": "CloudplexServerCondition" },
-                { "Condition": "RedshiftCondition" }
+                {
+                    "Condition": "CloudplexServerCondition"
+                },
+                {
+                    "Condition": "RedshiftCondition"
+                }
             ]
         }
-   },
+    },
     "Resources": {
         "RedshiftIngressCloudplexServer": {
             "Type": "AWS::EC2::SecurityGroupIngress",
@@ -44,8 +62,12 @@
                     "Ref": "RedshiftSecurityGroupID"
                 },
                 "IpProtocol": "tcp",
-                "FromPort": { "Ref": "RedshiftPort" },
-                "ToPort": { "Ref": "RedshiftPort" },
+                "FromPort": {
+                    "Ref": "RedshiftPort"
+                },
+                "ToPort": {
+                    "Ref": "RedshiftPort"
+                },
                 "SourceSecurityGroupId": {
                     "Ref": "CloudplexServerSecurityGroupID"
                 }
