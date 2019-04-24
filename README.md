@@ -1,2 +1,1 @@
 # quickstart-datalake-snaplogic
-# testsnaplogic

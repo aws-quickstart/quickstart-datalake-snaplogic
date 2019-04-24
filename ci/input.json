@@ -1,0 +1,30 @@
+[
+    {
+        "ParameterKey": "RedshiftPassword",
+        "ParameterValue": "$[taskcat_genpass_16]"
+    },
+    {
+        "ParameterKey": "AvailabilityZones",
+        "ParameterValue": "$[taskcat_genaz_2]"
+    },
+    {
+        "ParameterKey": "KeyPairName",
+        "ParameterValue": "$[taskcat_getkeypair]"
+    },
+    {
+        "ParameterKey": "RemoteAccessCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "RedshiftNodeType",
+        "ParameterValue": "ds2.xlarge"
+    },
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "$[taskcat_autobucket]"
+    },
+    {
+        "ParameterKey": "SnapLogicLicenseBucket",
+        "ParameterValue": "$[taskcat_autobucket]"
+    }
+]
