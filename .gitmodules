@@ -1,8 +1,12 @@
 [submodule "submodules/quickstart-aws-vpc"]
 	path = submodules/quickstart-aws-vpc
-	url = ../../aws-quickstart/quickstart-aws-vpc.git
-	branch = master
+	url = git@github.com:aws-quickstart/quickstart-aws-vpc.git
+	branch = develop
 [submodule "submodules/quickstart-linux-bastion"]
 	path = submodules/quickstart-linux-bastion
-	url = ../../aws-quickstart/quickstart-linux-bastion.git
-	branch = master
+	url = git@github.com:aws-quickstart/quickstart-linux-bastion.git
+	branch = develop
+[submodule "submodules/submodules/quickstart-linux-bastion"]
+	path = submodules/submodules/quickstart-linux-bastion
+	url = git@github.com:aws-quickstart/quickstart-linux-bastion.git
+	branch = develop
