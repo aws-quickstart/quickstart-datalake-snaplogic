@@ -18,18 +18,11 @@
         "SnapLogicLicenseBucket": {
             "Description": "Bucket holding SnapLogicLicense",
             "Type": "String",
-            "AllowedPattern": "^[0-9a-zA-Z]+([0-9a-zA-Z-.]*[0-9a-zA-Z])*$",
-            "ConstraintDescription": "Quick Start bucket name can include numbers, lowercase letters, uppercase letters, periods (.), and hyphens (-). It cannot start or end with a hyphen (-) or period (.)."
+            "ConstraintDescription": "The Amazon S3 bucket where the SnapLogic license file is stored."
         },
         "VpcId": {
             "Description": "VPC to which security groups belong",
             "Type": "AWS::EC2::VPC::Id"
-        },
-        "SnaplexconfS3KeyPrefix": {
-            "ConstraintDescription": "Snaplex config key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
-            "Default": "",
-            "Description": "S3 key prefix for the Snaplex assets. Snaplex key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).  Prefix cannot start with a slash but must end with a slash unless it is the empty string.",
-            "Type": "String"
         },
         "InstanceRole": {
             "Description": "Snaplogic Server EC2 IAM Role",
@@ -47,14 +40,14 @@
             "Default": "1"
         },
         "CloudplexServerAutoscaleMaxSize": {
-            "Description": "Snaplogic CloudplexServer autoscale maximum size",
+            "Description": "The maximum number of Cloudplex servers in the Auto Scaling group.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
         "CloudplexServerAutoscaleDesiredCapacity": {
-            "Description": "Snaplogic CloudplexServer autoscale maximum size",
+            "Description": "The desired capacity for Cloudplex servers in the Auto Scaling group.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
@@ -105,7 +98,7 @@
         "KeyName": {
             "Description": "Name of an EC2 KeyPair to enable SSH access to the Snaplogic Server instance.",
             "Type": "AWS::EC2::KeyPair::KeyName",
-            "ConstraintDescription": "must be the name of an existing EC2 KeyPair."
+            "ConstraintDescription": "Must be the name of an existing EC2 KeyPair."
         },
         "PrivateSubnetId1": {
             "Description": "Snaplogic Server subnet id 1.",
@@ -254,10 +247,6 @@
                                             "aws s3 cp s3://",
                                             {
                                                 "Ref": "SnapLogicLicenseBucket"
-                                            },
-                                            "/",
-                                            {
-                                                "Ref": "SnaplexconfS3KeyPrefix"
                                             },
                                             "  /opt/snaplogic/etc"
                                         ]
