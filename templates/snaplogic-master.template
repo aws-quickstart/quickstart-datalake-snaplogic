@@ -6,7 +6,7 @@
             "ParameterGroups": [
                 {
                     "Label": {
-                        "default": "Network configuration"
+                        "default": "VPC network configuration"
                     },
                     "Parameters": [
                         "VPCCIDR",
