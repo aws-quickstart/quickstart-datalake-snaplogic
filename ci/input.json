@@ -26,5 +26,9 @@
     {
         "ParameterKey": "SnapLogicLicenseBucket",
         "ParameterValue": "$[taskcat_autobucket]"
+    },
+    {
+        "ParameterKey": "SnaplexConfS3Key",
+        "ParameterValue": "snaplogic/Groundplex.slpropz"
     }
 ]
