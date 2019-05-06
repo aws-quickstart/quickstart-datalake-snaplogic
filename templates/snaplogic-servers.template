@@ -16,13 +16,16 @@
             "Type": "String"
         },
         "SnapLogicLicenseBucket": {
-            "Description": "Bucket holding SnapLogicLicense",
-            "Type": "String",
-            "ConstraintDescription": "The Amazon S3 bucket where the SnapLogic license file is stored."
+            "Description": "The Amazon S3 bucket where the SnapLogic license file is stored.",
+            "Type": "String"
         },
         "VpcId": {
             "Description": "VPC to which security groups belong",
             "Type": "AWS::EC2::VPC::Id"
+        },
+        "SnaplexConfS3Key": {
+            "Description": "The path at which SnapLogic configuration has been uploaded to the SnapLogic license S3 bucket.",
+            "Type": "String"
         },
         "InstanceRole": {
             "Description": "Snaplogic Server EC2 IAM Role",
@@ -241,16 +244,7 @@
                                 "wget https://snaplogic-uxpod-sldb.s3.amazonaws.com/pkgs/snaplogic-sidekick-4.master-4777-x86_64.rpm\n",
                                 "rpm -ivh snaplogic-sidekick-4.master-4777-x86_64.rpm\n",
                                 {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "aws s3 cp s3://",
-                                            {
-                                                "Ref": "SnapLogicLicenseBucket"
-                                            },
-                                            "  /opt/snaplogic/etc"
-                                        ]
-                                    ]
+                                    "Fn::Sub": "aws s3 cp s3://${SnapLogicLicenseBucket}/${SnaplexConfS3Key} /opt/snaplogic/etc"
                                 },
                                 "\n",
                                 "sudo chown -R snapuser:snapuser /opt/snaplogic/etc/*\n",
