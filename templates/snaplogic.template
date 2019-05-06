@@ -27,7 +27,7 @@
                 },
                 {
                     "Label": {
-                        "default": "EC2 Auto Scaling configuration"
+                        "default": "Amazon EC2 Auto Scaling configuration"
                     },
                     "Parameters": [
                         "CloudplexServerAutoscaleDesiredCapacity",
