@@ -111,7 +111,7 @@
                     "default": "Redshift database name"
                 },
                 "RedshiftUsername": {
-                    "default": "Redshift username"
+                    "default": "Redshift user name"
                 },
                 "RedshiftPassword": {
                     "default": "Redshift password"
@@ -201,7 +201,7 @@
             "ConstraintDescription": "must be a valid EC2 instance type."
         },
         "RedshiftHost": {
-            "Description": "DNS name or IP address of the master node of an existing Redshift cluster which you intend to use for the SnapLogic jobs. Leave this blank to create a new Redshift cluster.",
+            "Description": "DNS name or IP address of the master node of an existing Redshift cluster that you intend to use for the SnapLogic jobs. Leave this blank to create a new Redshift cluster.",
             "Type": "String",
             "Default": ""
         },
@@ -236,7 +236,7 @@
             ]
         },
         "RedshiftNumberOfNodes": {
-            "Description": "The number of nodes in the redshift cluster.",
+            "Description": "The number of nodes in the Redshift cluster.",
             "Type": "Number",
             "Default": "1"
         },

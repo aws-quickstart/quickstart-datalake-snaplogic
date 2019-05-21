@@ -62,12 +62,12 @@
             ],
             "ConstraintDescription": "must be a valid RedShift node type.",
             "Default": "dc2.large",
-            "Description": "The node type to for the redshift cluster",
+            "Description": "The node type to for the Redshift cluster",
             "Type": "String"
         },
         "RedshiftNumberOfNodes": {
             "Default": "1",
-            "Description": "The number of nodes in the redshift cluster.",
+            "Description": "The number of nodes in the Redshift cluster.",
             "Type": "Number"
         }
     },

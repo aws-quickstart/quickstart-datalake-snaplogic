@@ -11,10 +11,10 @@
                     "Parameters": [
                         "AvailabilityZones",
                         "VPCCIDR",
-                        "PublicSubnet1CIDR",
-                        "PublicSubnet2CIDR",
                         "PrivateSubnet1CIDR",
                         "PrivateSubnet2CIDR",
+                        "PublicSubnet1CIDR",
+                        "PublicSubnet2CIDR",
                         "RemoteAccessCIDR"
                     ]
                 },
@@ -123,7 +123,7 @@
                     "default": "Redshift database name"
                 },
                 "RedshiftUsername": {
-                    "default": "Redshift username"
+                    "default": "Redshift user name"
                 },
                 "RedshiftPassword": {
                     "default": "Redshift password"
@@ -228,7 +228,7 @@
             ]
         },
         "RedshiftHost": {
-            "Description": "DNS name or IP address of the master node of an existing Redshift cluster which you intend to use for the SnapLogic jobs. Leave this blank to create a new redshift cluster.",
+            "Description": "DNS name or IP address of the master node of an existing Redshift cluster that you intend to use for the SnapLogic jobs. Leave this blank to create a new Redshift cluster.",
             "Type": "String",
             "Default": ""
         },
