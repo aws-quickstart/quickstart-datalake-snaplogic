@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template deploys Cloudplex Servers, Datasources (Redshift) . CloudplexServers which are deployed to the private subnet. The Redshift servers are all dpeloyed to the private subnet.  Private subnets must be available in at least two availability zones.  **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhna)",
+    "Description": "This template deploys Groundplex Servers, Datasources (Redshift) . Groundplex servers which are deployed to the private subnet. The Redshift servers are all dpeloyed to the private subnet.  Private subnets must be available in at least two availability zones.  **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1pk2pq5jm)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -90,13 +90,13 @@
                     "default": "Key pair name"
                 },
                 "InstanceType": {
-                    "default": "Cloudplex server instance type"
+                    "default": "Groundplex server instance type"
                 },
                 "CloudplexServerAutoscaleDesiredCapacity": {
-                    "default": "Cloudplex servers desired capacity"
+                    "default": "Groundplex servers desired capacity"
                 },
                 "CloudplexServerAutoscaleMaxSize": {
-                    "default": "Cloudplex servers max size"
+                    "default": "Groundplex servers max size"
                 },
                 "RedshiftNodeType": {
                     "default": "Amazon Redshift node type"
@@ -159,7 +159,7 @@
             "Type": "AWS::EC2::Subnet::Id"
         },
         "InstanceType": {
-            "Description": "The Amazon EC2 instance type for the SnapLogic Cloudplex servers.",
+            "Description": "The Amazon EC2 instance type for the SnapLogic Groundplex servers.",
             "Type": "String",
             "Default": "t2.large",
             "AllowedValues": [
@@ -241,14 +241,14 @@
             "Default": "1"
         },
         "CloudplexServerAutoscaleMaxSize": {
-            "Description": "The maximum number of Cloudplex servers in the Auto Scaling group.",
+            "Description": "The maximum number of Groundplex servers in the Auto Scaling group.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
         "CloudplexServerAutoscaleDesiredCapacity": {
-            "Description": "The desired capacity for Cloudplex servers in the Auto Scaling group.",
+            "Description": "The desired capacity for Groundplex servers in the Auto Scaling group.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",

@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template uses the Snaplogic Snaplex Server templates with the AWS VPC quickstart.  The AWS VPC creates a multi-AZ, multi-subnet VPC infrastructure with managed NAT gateways in the public subnet for each Availability Zone. The Snaplogic servers are deployed to the public subnet with the exception of the CloudplexServers which are deployed to the private subnet and Bastion servers to a VPC. **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1nrlpbhnf)",
+    "Description": "This template uses the Snaplogic Snaplex Server templates with the AWS VPC quickstart.  The AWS VPC creates a multi-AZ, multi-subnet VPC infrastructure with managed NAT gateways in the public subnet for each Availability Zone. The Snaplogic servers are deployed to the public subnet with the exception of the Groundplex servers which are deployed to the private subnet and Bastion servers to a VPC. **WARNING** This template creates AWS resources. You will be billed for the AWS resources used if you create a stack from this template. (qs-1pk2pq5n0)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -84,7 +84,7 @@
                     "default": "SnapLogic configuration path"
                 },
                 "InstanceType": {
-                    "default": "Cloudplex server instance type"
+                    "default": "Groundplex server instance type"
                 },
                 "AvailabilityZones": {
                     "default": "Availability Zones"
@@ -111,10 +111,10 @@
                     "default": "Key pair name"
                 },
                 "CloudplexServerAutoscaleDesiredCapacity": {
-                    "default": "Cloudplex servers desired capacity"
+                    "default": "Groundplex servers desired capacity"
                 },
                 "CloudplexServerAutoscaleMaxSize": {
-                    "default": "Cloudplex servers max size"
+                    "default": "Groundplex servers max size"
                 },
                 "RedshiftHost": {
                     "default": "Amazon Redshift host (optional)"
@@ -167,7 +167,7 @@
             "Type": "String"
         },
         "InstanceType": {
-            "Description": "The Amazon EC2 instance type for the SnapLogic Cloudplex servers.",
+            "Description": "The Amazon EC2 instance type for the SnapLogic Groundplex servers.",
             "Type": "String",
             "Default": "t2.large",
             "AllowedValues": [
@@ -268,14 +268,14 @@
             "Default": "1"
         },
         "CloudplexServerAutoscaleMaxSize": {
-            "Description": "The maximum number of Cloudplex servers in the Auto Scaling group.",
+            "Description": "The maximum number of Groundplex servers in the Auto Scaling group.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
             "Default": "5"
         },
         "CloudplexServerAutoscaleDesiredCapacity": {
-            "Description": "The desired capacity for Cloudplex servers in the Auto Scaling group.",
+            "Description": "The desired capacity for Groundplex servers in the Auto Scaling group.",
             "Type": "Number",
             "MinValue": "1",
             "MaxValue": "10",
