@@ -363,7 +363,6 @@ Resources:
         RemoteAccessCIDR: !Ref 'RemoteAccessCIDR'
         KeyPairName: !Ref 'KeyPairName'
         NumBastionHosts: !Ref 'NumBastionHosts'
-        BastionAMIOS: Amazon-Linux-HVM
         BastionInstanceType: !Ref 'BastionInstanceType'
         BastionBanner: https://aws-quickstart.s3.amazonaws.com/quickstart-linux-bastion/scripts/banner_message.txt
         EnableBanner: 'false'
